@@ -26,7 +26,7 @@ model Salary {
   experience Int      // years of experience
   location   String
   source     String   @default("SELF") // "SELF" or "OTHER"
-  sourceNote String @default("")
+  sourceNote String? // This means it can be `null`
   userId     String
   user       User     @relation(fields: [userId], references: [id])
   createdAt  DateTime @default(now())

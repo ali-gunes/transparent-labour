@@ -43,7 +43,7 @@ export async function GET() {
       orderBy: { createdAt: 'desc' }
     })
 
-    const salariesWithRange = salaries.map((salary: Salary) => ({
+    const salariesWithRange = salaries.map((salary:Salary) => ({
       ...salary,
       sourceNote: salary.sourceNote ?? undefined, // Convert null to undefined
       salaryRange: {

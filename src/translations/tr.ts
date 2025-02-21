@@ -47,7 +47,7 @@ export const tr = {
     sourceNotePlaceholder: 'Örn: Bir arkadaştan, LinkedIn gönderisi, vb.',
     submit: 'Gönder',
     placeholders: {
-      salary: 'Yıllık maaş girin',
+      salary: 'Aylık net maaşınızı girin, sizin için standartlaştıracağız.',
       position: 'Pozisyon girin',
       company: 'Şirket adı girin',
       experience: 'Deneyim yılı girin',

@@ -88,7 +88,8 @@ export default function SubmitSalary() {
               id="amount"
               name="amount"
               required
-              min="1"
+              min="0"
+              max="10000000"
               step="1000"
               onWheel={(e) => e.currentTarget.blur()}
               className={styles.input}

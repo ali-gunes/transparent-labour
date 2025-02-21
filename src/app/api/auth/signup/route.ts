@@ -19,7 +19,7 @@ export async function POST(req: Request) {
 
     const hashedPassword = await hash(password, 10)
 
-    const user = await prisma.user.create({
+    await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
@@ -31,7 +31,8 @@ export async function POST(req: Request) {
       { message: 'User created successfully' },
       { status: 201 }
     )
-  } catch (error) {
+  } catch (err) {
+    console.error('Failed to create user:', err)
     return NextResponse.json(
       { error: 'Something went wrong' },
       { status: 500 }

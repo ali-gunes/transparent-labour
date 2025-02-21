@@ -8,7 +8,7 @@ import { tr } from '@/translations/tr'
 
 export default function SubmitSalary() {
   const router = useRouter()
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const [error, setError] = useState('')
   const [source, setSource] = useState('SELF')
 
@@ -63,7 +63,8 @@ export default function SubmitSalary() {
         const error = await res.json()
         setError(error.message || 'Something went wrong')
       }
-    } catch (error) {
+    } catch (err) {
+      console.error('Failed to submit salary:', err)
       setError('Something went wrong')
     }
   }

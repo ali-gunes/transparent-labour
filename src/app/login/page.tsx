@@ -27,11 +27,13 @@ export default function Login() {
 
       if (result?.error) {
         setError('Invalid email or password')
-      } else {
-        router.push('/')
-        router.refresh()
+        return
       }
-    } catch (error) {
+
+      router.push('/')
+      router.refresh()
+    } catch (err) {
+      console.error('Login failed:', err)
       setError('Something went wrong')
     }
   }

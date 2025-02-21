@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession()
     
-    if (!session) {
+    if (!session?.user?.email) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     }
 
     const user = await prisma.user.findUnique({
-      where: { email: session.user?.email! }
+      where: { email: session.user.email }
     })
 
     if (!user) {

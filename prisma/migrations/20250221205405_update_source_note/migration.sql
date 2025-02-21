@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Salary" ALTER COLUMN "sourceNote" DROP NOT NULL,
+ALTER COLUMN "sourceNote" DROP DEFAULT;

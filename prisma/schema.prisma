@@ -26,7 +26,7 @@ model Salary {
   experience Int      // years of experience
   location   String
   source     String   @default("SELF") // "SELF" or "OTHER"
-  sourceNote String?  // Optional note about the source
+  sourceNote String @default("")
   userId     String
   user       User     @relation(fields: [userId], references: [id])
   createdAt  DateTime @default(now())

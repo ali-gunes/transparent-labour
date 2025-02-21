@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Salary" ADD COLUMN     "source" TEXT NOT NULL DEFAULT 'SELF',
+ADD COLUMN     "sourceNote" TEXT NOT NULL DEFAULT '';

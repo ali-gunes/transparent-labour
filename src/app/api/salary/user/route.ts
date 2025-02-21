@@ -10,7 +10,7 @@ type Salary = {
   experience: number
   location: string
   source: string
-  sourceNote?: string
+  sourceNote?: string | null; // Change here
   createdAt: Date
   updatedAt: Date
   userId: string
@@ -45,11 +45,14 @@ export async function GET() {
 
     const salariesWithRange = salaries.map((salary: Salary) => ({
       ...salary,
+      sourceNote: salary.sourceNote ?? undefined, // Convert null to undefined
       salaryRange: {
         min: salary.amount - 5000,
-        max: salary.amount + 5000
-      }
-    }))
+        max: salary.amount + 5000,
+      },
+    }));
+
+    
 
     return NextResponse.json(salariesWithRange)
   } catch (error) {

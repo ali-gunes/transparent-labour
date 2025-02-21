@@ -87,7 +87,7 @@ export default function Search() {
               </h2>
               <p className={`${styles.textMuted} mb-2`}>{salary.company}</p>
               <p className={`text-lg font-medium ${styles.text}`}>
-                ${salary.salaryRange.min.toLocaleString()} - ${salary.salaryRange.max.toLocaleString()}
+                ₺{salary.salaryRange.min.toLocaleString()} - ₺{salary.salaryRange.max.toLocaleString()}
               </p>
               <div className={styles.textSmall}>
                 <p>{salary.experience} {tr.search.yearsExp}</p>

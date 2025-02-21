@@ -71,7 +71,7 @@ export default function Profile() {
                 </span>
               </div>
               <p className={`text-lg font-medium ${styles.text} mb-2`}>
-                ${salary.salaryRange.min.toLocaleString()} - ${salary.salaryRange.max.toLocaleString()}
+                ₺{salary.salaryRange.min.toLocaleString()} - ₺{salary.salaryRange.max.toLocaleString()}
               </p>
               <div className={styles.textSmall}>
                 <p>{salary.experience} {tr.search.yearsExp}</p>

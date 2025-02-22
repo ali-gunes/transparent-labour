@@ -61,6 +61,9 @@ export default function SignUp() {
               className={styles.input}
               placeholder={tr.auth.signup.namePlaceholder}
             />
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 italic">
+                  {tr.auth.signup.nameNote}
+                </p>
           </div>
           <div>
             <label htmlFor="email" className={styles.label}>
@@ -74,6 +77,9 @@ export default function SignUp() {
               className={styles.input}
               placeholder={tr.auth.signup.emailPlaceholder}
             />
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 italic">
+                  {tr.auth.signup.emailNote}
+                </p>
           </div>
           <div>
             <label htmlFor="password" className={styles.label}>

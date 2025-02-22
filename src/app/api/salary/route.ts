@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       )
     }
 
-    const { amount, position, company, experience, location } = await req.json()
+    const { amount, position, company, experience, location, salaryType, source, sourceNote } = await req.json()
 
     // Basic validation
     if (!amount || !position || !company || !experience || !location) {
@@ -54,7 +54,10 @@ export async function POST(req: Request) {
         company,
         experience,
         location,
-        userId: user.id
+        userId: user.id,
+        source: source || 'SELF',
+        sourceNote: sourceNote || null,
+        salaryType: salaryType || 'net'
       }
     })
 
@@ -78,13 +81,21 @@ export async function GET(req: Request) {
       take: limit,
     })
 
-    const salariesWithRange = salaries.map((salary: Salary) => ({
-      ...salary,
-      salaryRange: {
-        min: salary.amount - 5000,
-        max: salary.amount + 5000
+    const salariesWithRange = salaries.map((salary: Salary) => {
+      // Round to nearest multiple of 5000
+      const roundedAmount = Math.round(salary.amount / 5000) * 5000
+      const randomVariations = [4000, 5000, 6000, 8000]
+      const minVariation = randomVariations[Math.floor(Math.random() * randomVariations.length)]
+      const maxVariation = randomVariations[Math.floor(Math.random() * randomVariations.length)]
+      
+      return {
+        ...salary,
+        salaryRange: {
+          min: roundedAmount - minVariation,
+          max: roundedAmount + maxVariation
+        }
       }
-    }))
+    })
 
     return NextResponse.json(salariesWithRange)
   } catch (error) {

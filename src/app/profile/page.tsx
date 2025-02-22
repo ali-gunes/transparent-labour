@@ -11,6 +11,7 @@ type Salary = {
   position: string
   company: string
   amount: number
+  salaryType: string
   experience: number
   location: string
   source: string
@@ -72,6 +73,7 @@ export default function Profile() {
               </div>
               <p className={`text-lg font-medium ${styles.text} mb-2`}>
                 ₺{salary.salaryRange.min.toLocaleString()} - ₺{salary.salaryRange.max.toLocaleString()}
+                <span className={styles.textSmall}> ({salary.salaryType === 'net' ? tr.submit.salaryTypes.net : tr.submit.salaryTypes.gross})</span>
               </p>
               <div className={styles.textSmall}>
                 <p>{salary.experience} {tr.search.yearsExp}</p>

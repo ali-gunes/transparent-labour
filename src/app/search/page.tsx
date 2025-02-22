@@ -10,6 +10,7 @@ type Salary = {
   position: string
   company: string
   amount: number
+  salaryType: string
   experience: number
   location: string
   salaryRange: {
@@ -88,6 +89,7 @@ export default function Search() {
               <p className={`${styles.textMuted} mb-2`}>{salary.company}</p>
               <p className={`text-lg font-medium ${styles.text}`}>
                 ₺{salary.salaryRange.min.toLocaleString()} - ₺{salary.salaryRange.max.toLocaleString()}
+                <span className={styles.textSmall}> ({salary.salaryType === 'net' ? tr.submit.salaryTypes.net : tr.submit.salaryTypes.gross})</span>
               </p>
               <div className={styles.textSmall}>
                 <p>{salary.experience} {tr.search.yearsExp}</p>

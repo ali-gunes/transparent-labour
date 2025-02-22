@@ -21,6 +21,7 @@ model User {
 model Salary {
   id         String   @id @default(cuid())
   amount     Int
+  salaryType String   @default("net")
   position   String
   company    String
   experience Int      // years of experience

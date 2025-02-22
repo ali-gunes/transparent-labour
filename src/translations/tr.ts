@@ -33,7 +33,13 @@ export const tr = {
   },
   submit: {
     title: 'Maaş Bilgisi Gir',
-    salary: 'Yıllık Maaş (TL)',
+    salary: 'Aylık Maaş (TL)',
+    salaryType: 'Maaş Türü',
+    salaryTypes: {
+      net: 'Net Maaş',
+      gross: 'Brüt Maaş',
+    },
+    salaryNote: 'Not: Maaşınızı standartlaştırarak anonimliğinizi koruyoruz. Girdiğiniz maaş bilgisi asla doğrudan gösterilmeyecektir ya da saklanmayacaktır.',
     position: 'Pozisyon',
     company: 'Şirket',
     experience: 'Deneyim (Yıl)',
@@ -63,6 +69,10 @@ export const tr = {
     source: 'Kaynak',
     sourceSelf: 'Kendi Maaşım',
     sourceOther: 'Başkasından',
+    salaryType: {
+      net: '(Net)',
+      gross: '(Brüt)'
+    }
   },
   auth: {
     login: {
@@ -75,13 +85,15 @@ export const tr = {
     },
     signup: {
       title: 'Kayıt Ol',
-      name: 'İsim',
+      name: 'Kullanıcı Adı',
       email: 'E-posta',
       password: 'Şifre',
       submit: 'Kayıt Ol',
-      namePlaceholder: 'İsminizi girin',
+      namePlaceholder: 'Kullanıcı adınızı girin',
       emailPlaceholder: 'E-posta adresinizi girin',
       passwordPlaceholder: 'Şifre belirleyin',
+      nameNote: 'Not: Lütfen kimliğinizle ilişkilendirilemeyecek bir kullanıcı adı giriniz.',
+      emailNote: 'Not: Mail adresiniz hiçbir yerde açıkça gösterilmeyecektir ve veritabanında hashlenerek saklanacaktır.',
     }
   }
 } 

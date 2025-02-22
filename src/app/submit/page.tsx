@@ -11,6 +11,7 @@ export default function SubmitSalary() {
   const { status } = useSession()
   const [error, setError] = useState('')
   const [source, setSource] = useState('SELF')
+  const [salaryType, setSalaryType] = useState('net')
 
   // Redirect if not authenticated
   if (status === 'unauthenticated') {
@@ -45,6 +46,7 @@ export default function SubmitSalary() {
       location: formData.get('location'),
       source: formData.get('source'),
       sourceNote: formData.get('sourceNote'),
+      salaryType,
     }
 
     try {
@@ -85,18 +87,34 @@ export default function SubmitSalary() {
                 <label htmlFor="amount" className={`${styles.label} text-lg`}>
                   {tr.submit.salary}
                 </label>
-                <input
-                  type="number"
-                  id="amount"
-                  name="amount"
-                  required
-                  min="0"
-                  max="100000000"
-                  step="1000"
-                  onWheel={(e) => e.currentTarget.blur()}
-                  className={`${styles.input} h-12 text-lg`}
-                  placeholder={tr.submit.placeholders.salary}
-                />
+                <div className="flex gap-4 mb-2">
+                  <div className="flex-[1]">
+                    <input
+                      type="number"
+                      id="amount"
+                      name="amount"
+                      required
+                      min="0"
+                      max="10000000"
+                      step="1"
+                      onWheel={(e) => e.currentTarget.blur()}
+                      className={`${styles.input} h-12 text-lg w-full`}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <select
+                      value={salaryType}
+                      onChange={(e) => setSalaryType(e.target.value)}
+                      className={`${styles.select} h-12 text-lg w-full`}
+                    >
+                      <option value="net">{tr.submit.salaryTypes.net}</option>
+                      <option value="gross">{tr.submit.salaryTypes.gross}</option>
+                    </select>
+                  </div>
+                </div>
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 italic">
+                  {tr.submit.salaryNote}
+                </p>
               </div>
               <div>
                 <label htmlFor="position" className={`${styles.label} text-lg`}>

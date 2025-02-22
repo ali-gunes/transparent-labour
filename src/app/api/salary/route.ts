@@ -15,6 +15,20 @@ type Salary = {
   userId: string
 }
 
+type SalaryResponse = {
+  id: string
+  position: string
+  company: string
+  experience: number
+  location: string
+  source: string
+  sourceNote: string | null
+  createdAt: Date
+  salaryType: string
+  rangeMin: number
+  rangeMax: number
+}
+
 export async function POST(req: Request) {
   try {
     const session = await getServerSession()
@@ -47,6 +61,20 @@ export async function POST(req: Request) {
       )
     }
 
+    // Calculate range once during submission
+    let rangeMin, rangeMax
+    if (amount > 22105) {
+      const roundedAmount = Math.round(amount / 5000) * 5000
+      const randomVariations = [4000, 5000, 6000, 7000]
+      const minVariation = randomVariations[Math.floor(Math.random() * randomVariations.length)]
+      const maxVariation = randomVariations[Math.floor(Math.random() * randomVariations.length)]
+      rangeMin = roundedAmount - minVariation
+      rangeMax = roundedAmount + maxVariation
+    } else {
+      rangeMin = amount
+      rangeMax = amount
+    }
+
     const salary = await prisma.salary.create({
       data: {
         amount,
@@ -57,7 +85,9 @@ export async function POST(req: Request) {
         userId: user.id,
         source: source || 'SELF',
         sourceNote: sourceNote || null,
-        salaryType: salaryType || 'net'
+        salaryType: salaryType || 'net',
+        rangeMin,
+        rangeMax
       }
     })
 
@@ -79,32 +109,28 @@ export async function GET(req: Request) {
     const salaries = await prisma.salary.findMany({
       orderBy: { createdAt: 'desc' },
       take: limit,
-    })
-
-    const salariesWithRange = salaries.map((salary: Salary) => {
-      // Round to nearest multiple of 5000
-      if (salary.amount > 2210){
-        const roundedAmount = Math.round(salary.amount / 5000) * 5000
-      const randomVariations = [4000, 5000, 6000, 8000]
-      const minVariation = randomVariations[Math.floor(Math.random() * randomVariations.length)]
-      const maxVariation = randomVariations[Math.floor(Math.random() * randomVariations.length)]
-      } else {
-        roundedAmount = salary.amount
-        const minVariation = 0
-        const maxVariation = 0
-      }
-      
-      
-      return {
-        ...salary,
-        salaryRange: {
-          min: roundedAmount - minVariation,
-          max: roundedAmount + maxVariation
-        }
+      select: {
+        id: true,
+        position: true,
+        company: true,
+        experience: true,
+        location: true,
+        source: true,
+        sourceNote: true,
+        createdAt: true,
+        salaryType: true,
+        rangeMin: true,
+        rangeMax: true,
       }
     })
 
-    return NextResponse.json(salariesWithRange)
+    return NextResponse.json(salaries.map((salary: SalaryResponse) => ({
+      ...salary,
+      salaryRange: {
+        min: salary.rangeMin,
+        max: salary.rangeMax
+      }
+    })))
   } catch (error) {
     console.error('Failed to fetch salaries:', error)
     return NextResponse.json(

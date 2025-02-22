@@ -16,7 +16,7 @@ type Salary = {
   userId: string
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const session = await getServerSession()
     
@@ -40,21 +40,29 @@ export async function GET() {
 
     const salaries = await prisma.salary.findMany({
       where: { userId: user.id },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        position: true,
+        company: true,
+        experience: true,
+        location: true,
+        source: true,
+        sourceNote: true,
+        createdAt: true,
+        salaryType: true,
+        rangeMin: true,
+        rangeMax: true,
+      }
     })
 
-    const salariesWithRange = salaries.map((salary:Salary) => ({
+    return NextResponse.json(salaries.map((salary: SalaryResponse) => ({
       ...salary,
-      sourceNote: salary.sourceNote ?? undefined, // Convert null to undefined
       salaryRange: {
-        min: salary.amount - 5000,
-        max: salary.amount + 5000,
-      },
-    }));
-
-    
-
-    return NextResponse.json(salariesWithRange)
+        min: salary.rangeMin,
+        max: salary.rangeMax
+      }
+    })))
   } catch (error) {
     console.error('Failed to fetch user salaries:', error)
     return NextResponse.json(

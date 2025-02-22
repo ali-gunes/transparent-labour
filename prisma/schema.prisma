@@ -28,6 +28,8 @@ model Salary {
   location   String
   source     String   @default("SELF") // "SELF" or "OTHER"
   sourceNote String? // This means it can be `null`
+  rangeMin   Int
+  rangeMax   Int
   userId     String
   user       User     @relation(fields: [userId], references: [id])
   createdAt  DateTime @default(now())

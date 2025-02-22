@@ -17,25 +17,18 @@ const handler = NextAuth({
       async authorize(credentials) {
         try {
           if (!credentials?.username || !credentials?.password) {
-            console.log('Missing credentials')
             throw new Error('Missing credentials')
           }
-
-          console.log('Looking for user:', credentials.username)
 
           const user = await prisma.user.findUnique({
             where: { username: credentials.username }
           })
-
-          console.log('Found user:', user ? 'yes' : 'no')
 
           if (!user) {
             throw new Error('User not found')
           }
 
           const hashedPassword = hashPassword(credentials.password)
-          console.log('Password match:', hashedPassword === user.password)
-
           if (hashedPassword !== user.password) {
             throw new Error('Invalid password')
           }

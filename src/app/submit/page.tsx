@@ -8,16 +8,21 @@ import { tr } from '@/translations/tr'
 
 export default function SubmitSalary() {
   const router = useRouter()
-  const { status } = useSession()
+  const { data: session } = useSession()
   const [error, setError] = useState('')
   const [source, setSource] = useState('SELF')
   const [salaryType, setSalaryType] = useState('net')
 
   // Redirect if not authenticated
-  if (status === 'unauthenticated') {
+  if (session === null) {
     router.push('/login')
     return null
   }
+
+  // Add source info
+  const sourceNote = session?.user.username 
+    ? `Submitted by ${session.user.username}`
+    : undefined
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -44,8 +49,8 @@ export default function SubmitSalary() {
       company: formData.get('company'),
       experience,
       location: formData.get('location'),
-      source: formData.get('source'),
-      sourceNote: formData.get('sourceNote'),
+      source: 'SELF',
+      sourceNote,
       salaryType,
     }
 

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
+import { hashEmail, hashPassword } from '@/lib/hash'
 
 export default function SignUp() {
   const router = useRouter()
@@ -15,9 +16,9 @@ export default function SignUp() {
 
     const formData = new FormData(event.currentTarget)
     const data = {
-      email: formData.get('email'),
-      password: formData.get('password'),
-      name: formData.get('name')
+      email: hashEmail(formData.get('email') as string),
+      username: formData.get('username') as string,
+      password: hashPassword(formData.get('password') as string),
     }
 
     try {
@@ -50,20 +51,20 @@ export default function SignUp() {
       <div className={styles.formCard}>
         <form onSubmit={onSubmit} className={styles.formBody}>
           <div>
-            <label htmlFor="name" className={styles.label}>
-              {tr.auth.signup.name}
+            <label htmlFor="username" className={styles.label}>
+              {tr.auth.signup.username}
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="username"
+              name="username"
               required
               className={styles.input}
-              placeholder={tr.auth.signup.namePlaceholder}
+              placeholder={tr.auth.signup.usernamePlaceholder}
             />
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 italic">
-                  {tr.auth.signup.nameNote}
-                </p>
+              {tr.auth.signup.usernameNote}
+            </p>
           </div>
           <div>
             <label htmlFor="email" className={styles.label}>
@@ -78,8 +79,8 @@ export default function SignUp() {
               placeholder={tr.auth.signup.emailPlaceholder}
             />
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 italic">
-                  {tr.auth.signup.emailNote}
-                </p>
+              {tr.auth.signup.emailNote}
+            </p>
           </div>
           <div>
             <label htmlFor="password" className={styles.label}>

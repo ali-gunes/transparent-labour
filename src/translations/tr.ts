@@ -65,7 +65,7 @@ export const tr = {
     }
   },
   profile: {
-    title: 'Paylaşımlarım',
+    title: 'Paylaşımları',
     source: 'Kaynak',
     sourceSelf: 'Kendi Maaşım',
     sourceOther: 'Başkasından',
@@ -77,23 +77,27 @@ export const tr = {
   auth: {
     login: {
       title: 'Giriş Yap',
+      username: 'Kullanıcı Adı',
+      usernamePlaceholder: 'Kullanıcı adınızı girin',
       email: 'E-posta',
       password: 'Şifre',
       submit: 'Giriş Yap',
-      emailPlaceholder: 'E-posta adresinizi girin',
-      passwordPlaceholder: 'Şifrenizi girin',
     },
     signup: {
       title: 'Kayıt Ol',
-      name: 'Kullanıcı Adı',
+      username: 'Kullanıcı Adı',
+      usernamePlaceholder: 'Kullanıcı adınızı girin',
+      usernameNote: 'Not: Lütfen kimliğinizle ilişkilendirilemeyecek bir kullanıcı adı giriniz.',
       email: 'E-posta',
-      password: 'Şifre',
-      submit: 'Kayıt Ol',
-      namePlaceholder: 'Kullanıcı adınızı girin',
       emailPlaceholder: 'E-posta adresinizi girin',
+      emailNote: 'E-posta adresiniz hash\'lenerek saklanacak',
+      password: 'Şifre',
       passwordPlaceholder: 'Şifre belirleyin',
-      nameNote: 'Not: Lütfen kimliğinizle ilişkilendirilemeyecek bir kullanıcı adı giriniz.',
-      emailNote: 'Not: Mail adresiniz hiçbir yerde açıkça gösterilmeyecektir ve veritabanında hashlenerek saklanacaktır.',
+      submit: 'Kayıt Ol',
+    },
+    errors: {
+      userExists: 'Bu kullanıcı adı veya e-posta zaten kullanımda',
+      invalidCredentials: 'Geçersiz kullanıcı adı veya şifre',
     }
   }
 } 

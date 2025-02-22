@@ -13,10 +13,5 @@ export function hashPassword(password: string): string {
     .update(password)
     .digest('hex')
   
-  console.log('Hashing password:', {
-    original: password,
-    hashed: hashed.substring(0, 10) + '...' // Only log first 10 chars for security
-  })
-  
   return hashed
 } 

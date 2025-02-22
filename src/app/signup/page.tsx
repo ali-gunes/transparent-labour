@@ -10,16 +10,20 @@ export default function SignUp() {
   const router = useRouter()
   const [error, setError] = useState('')
 
-  function validateForm(data: { username: string, password: string, email: string }) {
-    if (data.password.length < 8) {
+  function validateForm(formData: FormData) {
+    const username = formData.get('username') as string
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+
+    if (password.length < 8) {
       return tr.auth.errors.weakPassword
     }
 
-    if (!/^[a-zA-Z0-9_]+$/.test(data.username)) {
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
       return tr.auth.errors.invalidUsername
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return tr.auth.errors.invalidEmail
     }
 
@@ -31,16 +35,17 @@ export default function SignUp() {
     setError('')
 
     const formData = new FormData(event.currentTarget)
+    
+    const validationError = validateForm(formData)
+    if (validationError) {
+      setError(validationError)
+      return
+    }
+
     const data = {
       email: hashEmail(formData.get('email') as string),
       username: formData.get('username') as string,
       password: hashPassword(formData.get('password') as string),
-    }
-
-    const validationError = validateForm(data)
-    if (validationError) {
-      setError(validationError)
-      return
     }
 
     try {
@@ -55,14 +60,14 @@ export default function SignUp() {
       const result = await res.json()
 
       if (!res.ok) {
-        setError(result.error || 'Something went wrong')
+        setError(result.error || tr.common.error)
         return
       }
 
       router.push('/login')
     } catch (err) {
       console.error('Signup failed:', err)
-      setError('Something went wrong')
+      setError(tr.common.error)
     }
   }
 

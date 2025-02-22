@@ -2,19 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 
-// Add type for salary
-type Salary = {
-  id: string
-  amount: number
-  position: string
-  company: string
-  experience: number
-  location: string
-  createdAt: Date
-  updatedAt: Date
-  userId: string
-}
-
+// Remove unused Salary type and keep only SalaryResponse
 type SalaryResponse = {
   id: string
   position: string

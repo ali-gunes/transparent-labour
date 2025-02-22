@@ -24,7 +24,6 @@ type Salary = {
 
 export default function Search() {
   const [salaries, setSalaries] = useState<Salary[]>([])
-  const [filteredSalaries, setFilteredSalaries] = useState<Salary[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -36,7 +35,6 @@ export default function Search() {
       const res = await fetch('/api/salary')
       const data = await res.json()
       setSalaries(data)
-      setFilteredSalaries(data)
     } catch (error) {
       console.error('Failed to fetch salaries:', error)
     } finally {
@@ -63,15 +61,15 @@ export default function Search() {
 
     if (filters.minSalary) {
       const minAmount = parseInt(filters.minSalary)
-      filtered = filtered.filter((salary) => salary.amount >= minAmount)
+      filtered = filtered.filter((salary) => salary.salaryRange.min >= minAmount)
     }
 
     if (filters.maxSalary) {
       const maxAmount = parseInt(filters.maxSalary)
-      filtered = filtered.filter((salary) => salary.amount <= maxAmount)
+      filtered = filtered.filter((salary) => salary.salaryRange.max <= maxAmount)
     }
 
-    setFilteredSalaries(filtered)
+    setSalaries(filtered)
   }
 
   if (loading) {

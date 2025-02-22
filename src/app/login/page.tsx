@@ -64,6 +64,7 @@ export default function Login() {
               placeholder={tr.auth.login.usernamePlaceholder}
             />
           </div>
+          <br />
           <div>
             <label htmlFor="password" className={styles.label}>
               {tr.auth.login.password}
@@ -77,6 +78,7 @@ export default function Login() {
               placeholder={tr.auth.login.passwordPlaceholder}
             />
           </div>
+          <br />
           <button 
             type="submit" 
             className={`${styles.button} ${loading ? styles.buttonLoading : ''}`}

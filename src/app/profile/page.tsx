@@ -56,7 +56,7 @@ export default function Profile() {
   return (
     <div className={styles.pageContainer}>
       <h1 className={styles.pageTitle}>
-        {session?.user.username}'nin {tr.profile.title}
+        {session?.user.username}&apos;nin {tr.profile.title}
       </h1>
       <div className="grid gap-4">
         {salaries.map((salary) => (

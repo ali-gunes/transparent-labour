@@ -10,6 +10,22 @@ export default function SignUp() {
   const router = useRouter()
   const [error, setError] = useState('')
 
+  function validateForm(data: { username: string, password: string, email: string }) {
+    if (data.password.length < 8) {
+      return tr.auth.errors.weakPassword
+    }
+
+    if (!/^[a-zA-Z0-9_]+$/.test(data.username)) {
+      return tr.auth.errors.invalidUsername
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      return tr.auth.errors.invalidEmail
+    }
+
+    return null
+  }
+
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError('')
@@ -19,6 +35,12 @@ export default function SignUp() {
       email: hashEmail(formData.get('email') as string),
       username: formData.get('username') as string,
       password: hashPassword(formData.get('password') as string),
+    }
+
+    const validationError = validateForm(data)
+    if (validationError) {
+      setError(validationError)
+      return
     }
 
     try {

@@ -2,15 +2,17 @@ export const tr = {
   common: {
     loading: 'Yükleniyor...',
     error: 'Bir hata oluştu',
+    submitting: 'Gönderiliyor...',
+    saving: 'Kaydediliyor...',
   },
   nav: {
     home: 'Saydam Emek',
-    search: 'Ara',
-    submitSalary: 'Maaş Bildir',
-    profile: 'Profil',
-    login: 'Giriş Yap',
-    signup: 'Kayıt Ol',
-    logout: 'Çıkış Yap',
+    search: 'Maaşları Ara',
+    submitSalary: 'Maaş Paylaş',
+    profile: 'Profilim',
+    login: 'Giriş',
+    signup: 'Kayıt',
+    logout: 'Çıkış',
   },
   home: {
     welcome: 'Saydam Emek\'e Hoş Geldiniz',
@@ -66,9 +68,11 @@ export const tr = {
   },
   profile: {
     title: 'Paylaşımları',
+    noSalaries: 'Henüz maaş paylaşımı yapmamışsınız',
     source: 'Kaynak',
     sourceSelf: 'Kendi Maaşım',
-    sourceOther: 'Başkasından',
+    sourceOther: 'Başka Kaynak',
+    deleteConfirm: 'Bu paylaşımı silmek istediğinize emin misiniz?',
     salaryType: {
       net: '(Net)',
       gross: '(Brüt)'
@@ -79,25 +83,30 @@ export const tr = {
       title: 'Giriş Yap',
       username: 'Kullanıcı Adı',
       usernamePlaceholder: 'Kullanıcı adınızı girin',
-      email: 'E-posta',
       password: 'Şifre',
+      passwordPlaceholder: 'Şifrenizi girin',
       submit: 'Giriş Yap',
+      loading: 'Giriş yapılıyor...',
     },
     signup: {
       title: 'Kayıt Ol',
       username: 'Kullanıcı Adı',
       usernamePlaceholder: 'Kullanıcı adınızı girin',
-      usernameNote: 'Not: Lütfen kimliğinizle ilişkilendirilemeyecek bir kullanıcı adı giriniz.',
+      usernameNote: 'Önemli: Kimliğinizi açık etmeyecek bir kullanıcı adı seçin',
       email: 'E-posta',
       emailPlaceholder: 'E-posta adresinizi girin',
-      emailNote: 'E-posta adresiniz hash\'lenerek saklanacak',
+      emailNote: 'E-posta adresiniz güvenli bir şekilde şifrelenerek saklanacak',
       password: 'Şifre',
-      passwordPlaceholder: 'Şifre belirleyin',
+      passwordPlaceholder: 'En az 8 karakterli güçlü bir şifre belirleyin',
       submit: 'Kayıt Ol',
+      loading: 'Kayıt yapılıyor...',
     },
     errors: {
       userExists: 'Bu kullanıcı adı veya e-posta zaten kullanımda',
-      invalidCredentials: 'Geçersiz kullanıcı adı veya şifre',
+      invalidCredentials: 'Kullanıcı adı veya şifre hatalı',
+      weakPassword: 'Şifre en az 8 karakter olmalı',
+      invalidUsername: 'Kullanıcı adı sadece harf, rakam ve alt çizgi içerebilir',
+      invalidEmail: 'Geçerli bir e-posta adresi girin',
     }
   }
 } 

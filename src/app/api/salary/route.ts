@@ -1,22 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
+import type { SalaryResponse } from '@/types/salary'
 
 // Remove unused Salary type and keep only SalaryResponse
-type SalaryResponse = {
-  id: string
-  position: string
-  company: string
-  experience: number
-  location: string
-  source: string
-  sourceNote: string | null
-  createdAt: Date
-  salaryType: string
-  rangeMin: number
-  rangeMax: number
-}
-
 export async function POST(req: Request) {
   try {
     const session = await getServerSession()

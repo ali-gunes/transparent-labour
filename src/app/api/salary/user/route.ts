@@ -2,20 +2,6 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 
-type SalaryResponse = {
-  id: string
-  position: string
-  company: string
-  experience: number
-  location: string
-  source: string
-  sourceNote: string | null
-  createdAt: Date
-  salaryType: string
-  rangeMin: number
-  rangeMax: number
-}
-
 export async function GET() {
   try {
     const session = await getServerSession()

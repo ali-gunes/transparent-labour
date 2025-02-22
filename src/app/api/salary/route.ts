@@ -83,10 +83,17 @@ export async function GET(req: Request) {
 
     const salariesWithRange = salaries.map((salary: Salary) => {
       // Round to nearest multiple of 5000
-      const roundedAmount = Math.round(salary.amount / 5000) * 5000
+      if (salary.amount > 2210){
+        const roundedAmount = Math.round(salary.amount / 5000) * 5000
       const randomVariations = [4000, 5000, 6000, 8000]
       const minVariation = randomVariations[Math.floor(Math.random() * randomVariations.length)]
       const maxVariation = randomVariations[Math.floor(Math.random() * randomVariations.length)]
+      } else {
+        roundedAmount = salary.amount
+        const minVariation = 0
+        const maxVariation = 0
+      }
+      
       
       return {
         ...salary,

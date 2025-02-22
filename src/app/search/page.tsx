@@ -13,6 +13,9 @@ type Salary = {
   salaryType: string
   experience: number
   location: string
+  source: string
+  sourceNote?: string
+  createdAt: string
   salaryRange: {
     min: number
     max: number
@@ -80,20 +83,33 @@ export default function Search() {
       <h1 className={styles.pageTitle}>{tr.search.title}</h1>
       <SearchFilters onFilterChange={handleFilterChange} />
       <div className="grid gap-4">
-        {filteredSalaries.map((salary) => (
+        {salaries.map((salary) => (
           <div key={salary.id} className={styles.card}>
             <div className={styles.cardBody}>
-              <h2 className={`text-xl font-semibold mb-2 ${styles.text}`}>
-                {salary.position}
-              </h2>
-              <p className={`${styles.textMuted} mb-2`}>{salary.company}</p>
-              <p className={`text-lg font-medium ${styles.text}`}>
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h2 className={`text-xl font-semibold ${styles.text}`}>
+                    {salary.position}
+                  </h2>
+                  <p className={styles.textMuted}>{salary.company}</p>
+                </div>
+                <span className={styles.textSmall}>
+                  {new Date(salary.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+              <p className={`text-lg font-medium ${styles.text} mb-2`}>
                 ₺{salary.salaryRange.min.toLocaleString()} - ₺{salary.salaryRange.max.toLocaleString()}
                 <span className={styles.textSmall}> ({salary.salaryType === 'net' ? tr.submit.salaryTypes.net : tr.submit.salaryTypes.gross})</span>
               </p>
               <div className={styles.textSmall}>
                 <p>{salary.experience} {tr.search.yearsExp}</p>
                 <p>{salary.location}</p>
+                <p className="mt-2">
+                  {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : tr.profile.sourceOther}
+                  {salary.sourceNote && (
+                    <span className="block italic mt-1">{salary.sourceNote}</span>
+                  )}
+                </p>
               </div>
             </div>
           </div>

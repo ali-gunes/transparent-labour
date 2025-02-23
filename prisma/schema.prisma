@@ -16,6 +16,7 @@ model User {
   role      Role     @default(USER)
   username  String   @unique
   salaries  Salary[]
+  votes     Vote[]
 }
 
 model Salary {
@@ -34,7 +35,21 @@ model Salary {
   rangeMax    Int
   rangeMin    Int
   submittedBy String
+  voteCount   Int      @default(0)
   user        User     @relation(fields: [userId], references: [id])
+  votes       Vote[]
+}
+
+model Vote {
+  id        String   @id @default(cuid())
+  value     Int
+  userId    String
+  salaryId  String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  salary    Salary   @relation(fields: [salaryId], references: [id])
+
+  @@unique([userId, salaryId])
 }
 
 enum Role {

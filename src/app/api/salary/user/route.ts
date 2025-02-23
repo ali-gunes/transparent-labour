@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
+import { authOptions } from '@/lib/auth'
 import type { SalaryResponse } from '@/types/salary'
 
 export async function GET() {
   try {
-    const session = await getServerSession()
+    const session = await getServerSession(authOptions)
     
-    if (!session?.user?.email) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -40,7 +41,12 @@ export async function GET() {
         salaryType: true,
         rangeMin: true,
         rangeMax: true,
-        submittedBy: true
+        submittedBy: true,
+        voteCount: true,
+        votes: {
+          where: { userId: session.user.id },
+          select: { value: true }
+        }
       }
     })
 
@@ -49,7 +55,8 @@ export async function GET() {
       salaryRange: {
         min: salary.rangeMin,
         max: salary.rangeMax
-      }
+      },
+      userVote: Array.isArray(salary.votes) ? salary.votes[0]?.value : undefined
     })))
   } catch (error) {
     console.error('Failed to fetch user salaries:', error)

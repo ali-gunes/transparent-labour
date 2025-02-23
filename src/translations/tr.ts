@@ -32,6 +32,13 @@ export const tr = {
     minSalary: 'Minimum Maaş',
     maxSalary: 'Maksimum Maaş',
     yearsExp: 'yıl deneyim',
+    sort: {
+      newest: 'En Yeni',
+      maxSalary: 'En Yüksek Maaş',
+      minSalary: 'En Düşük Maaş',
+      mostVoted: 'En Çok Oylanan',
+    },
+    noResults: 'Sonuç bulunamadı',
   },
   submit: {
     title: 'Maaş Bilgisi Gir',
@@ -109,5 +116,9 @@ export const tr = {
       invalidUsername: 'Kullanıcı adı sadece harf, rakam ve alt çizgi içerebilir',
       invalidEmail: 'Geçerli bir e-posta adresi girin',
     }
+  },
+  salary: {
+    upvote: 'Güvenilir',
+    downvote: 'Şüpheli',
   }
 } 

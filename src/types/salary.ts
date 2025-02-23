@@ -10,4 +10,7 @@ export type SalaryResponse = {
   salaryType: string
   rangeMin: number
   rangeMax: number
+  submittedBy: string
+  voteCount: number
+  votes: { value: number }[] | false
 } 

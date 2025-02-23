@@ -47,7 +47,8 @@ export async function POST(req: Request) {
         rangeMin: range.min,
         rangeMax: range.max,
         submittedBy: data.submittedBy,
-        userId: user.id  // Use userId directly instead of connect
+        voteCount: 0,
+        userId: session.user.id
       }
     })
 
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
     return NextResponse.json(salary)
 
   } catch (error: any) {
-    console.error('Salary creation error:', error)
+    console.error('Server error in POST /api/salary:', error)
     return NextResponse.json(
       { error: `Failed to create salary: ${error.message}` },
       { status: 500 }
@@ -70,14 +71,34 @@ function calculateSalaryRange(amount: number) {
   return { min, max }
 }
 
+type SalaryFromDB = {
+  id: string
+  position: string
+  company: string
+  experience: number
+  location: string
+  source: string
+  sourceNote: string | null
+  createdAt: Date
+  salaryType: string
+  rangeMin: number
+  rangeMax: number
+  submittedBy: string
+  voteCount: number
+  votes: { value: number }[] | false
+}
+
 export async function GET(req: Request) {
   try {
+    const session = await getServerSession(authOptions)
     const { searchParams } = new URL(req.url)
     const limit = Number(searchParams.get('limit')) || 50
 
+    console.log('Fetching salaries with session:', session?.user?.id)
+
     const salaries = await prisma.salary.findMany({
-      orderBy: { createdAt: 'desc' },
       take: limit,
+      orderBy: { createdAt: 'desc' },
       select: {
         id: true,
         position: true,
@@ -90,19 +111,33 @@ export async function GET(req: Request) {
         salaryType: true,
         rangeMin: true,
         rangeMax: true,
-        submittedBy: true
+        submittedBy: true,
+        voteCount: true,
+        votes: session?.user ? {
+          where: {
+            userId: session.user.id
+          },
+          select: {
+            value: true
+          }
+        } : false
       }
     })
 
-    return NextResponse.json(salaries.map((salary: SalaryResponse) => ({
+    console.log('Found salaries:', salaries.length)
+
+    const formattedSalaries = salaries.map((salary: SalaryFromDB) => ({
       ...salary,
       salaryRange: {
         min: salary.rangeMin,
         max: salary.rangeMax
-      }
-    })))
+      },
+      userVote: Array.isArray(salary.votes) ? salary.votes[0]?.value : undefined
+    }))
+
+    return NextResponse.json(formattedSalaries)
   } catch (error) {
-    console.error('Failed to fetch salaries:', error)
+    console.error('Server error in GET /api/salary:', error)
     return NextResponse.json(
       { error: 'Failed to fetch salaries' },
       { status: 500 }

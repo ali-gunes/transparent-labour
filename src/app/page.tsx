@@ -26,6 +26,45 @@ type Salary = {
   userVote?: number
 }
 
+function FAQItem({ title, content }: { title: string; content: string }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+      <button
+        className="w-full p-6 text-left flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <h3 className="text-xl font-semibold">{title}</h3>
+        <svg
+          className={`w-6 h-6 transform transition-transform duration-200 ${
+            isOpen ? 'rotate-180' : ''
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
+      <div
+        className={`transition-all duration-200 ${
+          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        } overflow-hidden`}
+      >
+        <p className="px-6 pb-6 text-gray-600 dark:text-gray-300">
+          {content}
+        </p>
+      </div>
+    </div>
+  )
+}
+
 export default function Home() {
   const { data: session } = useSession()
   const [latestSalaries, setLatestSalaries] = useState<Salary[]>([])
@@ -143,25 +182,19 @@ export default function Home() {
         {/* FAQ Section */}
         <section className="max-w-6xl mx-auto mt-16 px-4 mb-16">
           <h2 className="text-3xl font-bold text-center mb-8">{tr.home.faq}</h2>
-          <div className="space-y-6">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-2">{tr.home.anonymousTitle}</h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {tr.home.anonymousDesc}
-              </p>
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-2">{tr.home.dataVerificationTitle}</h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {tr.home.dataVerificationDesc}
-              </p>
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-2">{tr.home.updateFrequencyTitle}</h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {tr.home.updateFrequencyDesc}
-              </p>
-            </div>
+          <div className="space-y-4">
+            <FAQItem
+              title={tr.home.anonymousTitle}
+              content={tr.home.anonymousDesc}
+            />
+            <FAQItem
+              title={tr.home.dataVerificationTitle}
+              content={tr.home.dataVerificationDesc}
+            />
+            <FAQItem
+              title={tr.home.updateFrequencyTitle}
+              content={tr.home.updateFrequencyDesc}
+            />
           </div>
         </section>
       </div>

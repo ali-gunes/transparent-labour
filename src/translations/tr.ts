@@ -33,7 +33,7 @@ export const tr = {
     fightingInequalityDesc: "Maaş bilgilerini açıkça paylaşarak, cinsiyet, etnik köken veya ücretleri etkilememesi gereken diğer faktörlere dayalı maaş farklılıklarını belirlemeye ve ele almaya yardımcı oluyoruz.",
     ourGoals: "Hedeflerimiz",
     dataPointsTitle: "100.000 Maaş Verisi",
-    dataPointsDesc: "Sektördeki en kapsamlı teknoloji maaş veritabanını oluşturmak için 100.000 maaş verisi toplamayı ve doğrulamayı hedefliyoruz.",
+    dataPointsDesc: "Türkiye'deki en kapsamlı maaş veritabanını oluşturmak için 100.000 maaş verisi toplamayı ve doğrulamayı hedefliyoruz.",
     empowerTitle: "İş Arayanları Güçlendirmek",
     empowerDesc: "Türkiye'deki emekçilere doğru ve güncel piyasa verileri sağlayarak daha iyi maaş pazarlığı yapmalarına yardımcı olmak istiyoruz.",
     faq: "Sıkça Sorulan Sorular",

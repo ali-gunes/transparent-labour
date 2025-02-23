@@ -4,10 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import type { PrismaClient } from '@prisma/client'
 
-export async function POST(
-  request: Request,
-  context: { params: { id: string } } 
-) {
+export async function POST(request: Request, { params }: { params: { id: string } }) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) {
@@ -15,7 +12,7 @@ export async function POST(
     }
 
     const { value } = await request.json() // value should be 1 or -1
-    const id = context.params?.id
+    const id = params?.id
 
     if (!id) {
       return NextResponse.json({ error: 'Missing salary ID' }, { status: 400 })

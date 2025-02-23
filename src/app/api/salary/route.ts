@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
-import type { SalaryResponse } from '@/types/salary'
+// import type { SalaryResponse } from '@/types/salary'
 import { authOptions } from '@/lib/auth'
 
 // Remove unused Salary type and keep only SalaryResponse
@@ -55,10 +55,10 @@ export async function POST(req: Request) {
     console.log('Created salary:', salary)
     return NextResponse.json(salary)
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Server error in POST /api/salary:', error)
     return NextResponse.json(
-      { error: `Failed to create salary: ${error.message}` },
+      { error: `Failed to create salary: ${error instanceof Error ? error.message : 'Unknown error'}` },
       { status: 500 }
     )
   }

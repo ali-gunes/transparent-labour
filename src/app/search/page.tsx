@@ -139,7 +139,7 @@ export default function Search() {
                   <p className="mt-2">
                     {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : tr.profile.sourceOther}
                     {salary.sourceNote && (
-                      <span className="block italic mt-1">"{salary.sourceNote}"</span>
+                      <span className="block italic mt-1">&quot;{salary.sourceNote}&quot;</span>
                     )}
                   </p>
                   <p className="mt-1 text-gray-500 dark:text-gray-400">

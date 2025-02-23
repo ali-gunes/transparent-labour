@@ -78,10 +78,10 @@ export async function POST(
     })
 
     return NextResponse.json(result)
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Vote error:', error)
     return NextResponse.json(
-      { error: `Failed to vote: ${error.message}` },
+      { error: `Failed to vote: ${error instanceof Error ? error.message : 'Unknown error'}` },
       { status: 500 }
     )
   }

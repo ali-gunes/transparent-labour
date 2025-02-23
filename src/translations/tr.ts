@@ -67,11 +67,11 @@ export const tr = {
     }
   },
   profile: {
-    title: 'Paylaşımları',
+    title: 'Emek Paylaşımları',
     noSalaries: 'Henüz maaş paylaşımı yapmamışsınız',
     source: 'Kaynak',
     sourceSelf: 'Kendi Maaşım',
-    sourceOther: 'Başka Kaynak',
+    sourceOther: 'Başka Birinden',
     deleteConfirm: 'Bu paylaşımı silmek istediğinize emin misiniz?',
     salaryType: {
       net: '(Net)',
@@ -95,7 +95,7 @@ export const tr = {
       usernameNote: 'Önemli: Lütfen kimliğinizle ilişkilendirilemeyecek bir kullanıcı adı seçin.',
       email: 'E-posta',
       emailPlaceholder: 'E-posta adresinizi girin',
-      emailNote: 'Not: E-posta adresiniz asla açıkça bir şekilde gösterilmeyecektir ve hashlenerek saklanacaktır. Şifre yenilemek istediğinizde, e-posta adresiniz hash ile eşleşirse şifre sıfırlama linki gönderilecektir.',
+      emailNote: 'Not: E-posta adresiniz uygulamanın hiçbir yerinde gösterilmez ve hashlenerek saklanır. Saydam Emek ekibi ya da bir kullanıcı mail adresinizi göremez.',
       password: 'Şifre',
       passwordPlaceholder: 'En az 8 karakterli güçlü bir şifre belirleyin',
       submit: 'Kayıt Ol',

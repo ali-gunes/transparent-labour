@@ -13,6 +13,7 @@ export const tr = {
     login: 'Giriş',
     signup: 'Kayıt',
     logout: 'Çıkış',
+    settings: 'Ayarlar',
   },
   home: {
     welcome: 'Saydam Emek\'e Hoş Geldiniz',
@@ -139,5 +140,15 @@ export const tr = {
   salary: {
     upvote: 'Güvenilir',
     downvote: 'Şüpheli',
-  }
+  },
+  settings: {
+    title: 'Ayarlar',
+    currentPassword: 'Mevcut Şifre',
+    newPassword: 'Yeni Şifre',
+    confirmPassword: 'Yeni Şifre (Tekrar)',
+    changePassword: 'Şifreyi Değiştir',
+    passwordChangeSuccess: 'Şifreniz başarıyla güncellendi',
+    passwordChangeError: 'Şifre değiştirme işlemi başarısız oldu',
+    passwordMismatch: 'Yeni şifreler eşleşmiyor',
+  },
 } 

@@ -93,7 +93,6 @@ export default function SignUp() {
               {tr.auth.signup.usernameNote}
             </p>
           </div>
-          <br />
           <div>
             <label htmlFor="email" className={styles.label}>
               {tr.auth.signup.email}
@@ -110,7 +109,6 @@ export default function SignUp() {
               {tr.auth.signup.emailNote}
             </p>
           </div>
-          <br />
           <div>
             <label htmlFor="password" className={styles.label}>
               {tr.auth.signup.password}
@@ -124,7 +122,6 @@ export default function SignUp() {
               placeholder={tr.auth.signup.passwordPlaceholder}
             />
           </div>
-          <br />
           <button type="submit" className={styles.button}>
             {tr.auth.signup.submit}
           </button>

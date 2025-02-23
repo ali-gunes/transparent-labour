@@ -26,6 +26,9 @@ export default function Navbar() {
               <Link href="/profile" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
                 {tr.nav.profile}
               </Link>
+              <Link href="/settings" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                  {tr.nav.settings}
+                </Link>
               {/* <span className="text-sm text-gray-600 dark:text-gray-400">
                 {session.user.username}
               </span> */}

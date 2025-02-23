@@ -20,3 +20,4 @@
 - Predefined roles, companies, locations, experience levels
 - Input validation and capitalization
 + Seperation of dev and prod branches
++ Add submitted by info

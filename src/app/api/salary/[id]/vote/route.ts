@@ -6,7 +6,7 @@ import { PrismaClient } from '@prisma/client'
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -15,13 +15,14 @@ export async function POST(
     }
 
     const { value } = await req.json() // value should be 1 or -1
+    const { id } = context.params
 
     // Find existing vote
     const existingVote = await prisma.vote.findUnique({
       where: {
         userId_salaryId: {
           userId: session.user.id,
-          salaryId: params.id
+          salaryId: id
         }
       }
     })
@@ -37,7 +38,7 @@ export async function POST(
           
           // Update salary vote count
           await tx.salary.update({
-            where: { id: params.id },
+            where: { id: id },
             data: { voteCount: { decrement: value } }
           })
           
@@ -51,7 +52,7 @@ export async function POST(
           
           // Update salary vote count (double the value since we're changing from -1 to 1 or vice versa)
           await tx.salary.update({
-            where: { id: params.id },
+            where: { id: id },
             data: { voteCount: { increment: value * 2 } }
           })
           
@@ -63,13 +64,13 @@ export async function POST(
           data: {
             value,
             userId: session.user.id,
-            salaryId: params.id
+            salaryId: id
           }
         })
         
         // Update salary vote count
         await tx.salary.update({
-          where: { id: params.id },
+          where: { id: id },
           data: { voteCount: { increment: value } }
         })
         

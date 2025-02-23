@@ -4,15 +4,10 @@ import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import type { PrismaClient } from '@prisma/client'
 
-interface RequestContext {
-  params: {
-    id: string
-  }
-}
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } } // Corrected type
+  context: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -21,7 +16,7 @@ export async function POST(
     }
 
     const { value } = await request.json() // value should be 1 or -1
-    const { id } = params
+    const { id } = context.params
 
     // Find existing vote
     const existingVote = await prisma.vote.findUnique({
@@ -92,4 +87,4 @@ export async function POST(
       { status: 500 }
     )
   }
-} 
+}

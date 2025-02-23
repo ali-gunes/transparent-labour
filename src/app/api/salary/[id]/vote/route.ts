@@ -12,7 +12,7 @@ interface RequestContext {
 
 export async function POST(
   request: Request,
-  { params }: RequestContext
+  { params }: { params: { id: string } } // Corrected type
 ) {
   try {
     const session = await getServerSession(authOptions)

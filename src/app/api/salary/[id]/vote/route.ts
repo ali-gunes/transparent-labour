@@ -1,18 +1,21 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import type { PrismaClient } from '@prisma/client'
 
-export async function POST(request: Request, { params }: { params: { id: string } }) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { value } = await request.json() // value should be 1 or -1
-    const id = params?.id
+    const { value } = await req.json() // value should be 1 or -1
+    const { id } = params
 
     if (!id) {
       return NextResponse.json({ error: 'Missing salary ID' }, { status: 400 })

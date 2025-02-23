@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
-import type { PrismaClient } from '@prisma/client'
+import type { Prisma, PrismaClient } from '@prisma/client'
 
 export async function POST(
   req: NextRequest,
@@ -33,7 +33,7 @@ export async function POST(
     })
 
     // Start a transaction
-    const result = await prisma.$transaction(async (tx: Omit<PrismaClient, '$transaction'>) => {
+    const result = await prisma.$transaction(async (tx: Omit<PrismaClient, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) => {
       if (existingVote) {
         if (existingVote.value === value) {
           // Remove vote if clicking same button

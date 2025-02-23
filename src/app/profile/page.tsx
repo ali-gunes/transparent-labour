@@ -81,7 +81,7 @@ export default function Profile() {
                 <p>{salary.experience} {tr.search.yearsExp}</p>
                 <p>{salary.location}</p>
                 <p className="mt-2">
-                  {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : tr.profile.sourceOther}
+                  {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : (tr.profile.sourceOther + (salary.sourceNote ? ` (${salary.sourceNote})` : ''))}
                   {salary.sourceNote && (
                     <span className="block italic mt-1">{salary.sourceNote}</span>
                   )}

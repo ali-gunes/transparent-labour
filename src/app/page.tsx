@@ -52,7 +52,7 @@ export default function Home() {
 
   if (!session) {
     return (
-      <div className="space-y-6">
+      <div className="min-h-screen p-4 md:p-8">
         <section className="text-center py-12">
           <h1 className="text-4xl font-bold mb-4 text-gray-800 dark:text-white">
             {tr.home.welcome}
@@ -78,6 +78,89 @@ export default function Home() {
             <div>
               <h3 className="font-semibold mb-2 text-gray-800 dark:text-white">{tr.home.step3}</h3>
               <p className="text-gray-600 dark:text-gray-300">{tr.home.step3Desc}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Why We Do It Section */}
+        <section className="max-w-6xl mx-auto mt-16 px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">{tr.home.whyWeDoIt}</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold mb-4">{tr.home.salaryTransparencyTitle}</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                {tr.home.salaryTransparencyDesc}
+              </p>
+            </div>
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold mb-4">{tr.home.communityDrivenTitle}</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                {tr.home.communityDrivenDesc}
+              </p>
+            </div>
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold mb-4">{tr.home.fightingInequalityTitle}</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                {tr.home.fightingInequalityDesc}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Our Goals Section */}
+        <section className="max-w-6xl mx-auto mt-16 px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">{tr.home.ourGoals}</h2>
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full">
+                <svg className="w-6 h-6 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold">{tr.home.dataPointsTitle}</h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {tr.home.dataPointsDesc}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full">
+                <svg className="w-6 h-6 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold">{tr.home.empowerTitle}</h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {tr.home.empowerDesc}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="max-w-6xl mx-auto mt-16 px-4 mb-16">
+          <h2 className="text-3xl font-bold text-center mb-8">{tr.home.faq}</h2>
+          <div className="space-y-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold mb-2">{tr.home.anonymousTitle}</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                {tr.home.anonymousDesc}
+              </p>
+            </div>
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold mb-2">{tr.home.dataVerificationTitle}</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                {tr.home.dataVerificationDesc}
+              </p>
+            </div>
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold mb-2">{tr.home.updateFrequencyTitle}</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                {tr.home.updateFrequencyDesc}
+              </p>
             </div>
           </div>
         </section>

@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
-import { PrismaClient } from '@prisma/client'
+import type { PrismaClient } from '@prisma/client'
 
-type RouteParams = {
+interface RequestContext {
   params: {
     id: string
   }
@@ -12,7 +12,7 @@ type RouteParams = {
 
 export async function POST(
   request: Request,
-  { params }: RouteParams
+  { params }: RequestContext
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -34,7 +34,7 @@ export async function POST(
     })
 
     // Start a transaction
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: Omit<PrismaClient, '$transaction'>) => {
       if (existingVote) {
         if (existingVote.value === value) {
           // Remove vote if clicking same button

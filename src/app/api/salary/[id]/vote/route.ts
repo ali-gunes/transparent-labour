@@ -6,7 +6,7 @@ import type { PrismaClient } from '@prisma/client'
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -15,6 +15,7 @@ export async function POST(
     }
 
     const { value } = await req.json() // value should be 1 or -1
+    const params = await context.params
     const { id } = params
 
     if (!id) {

@@ -40,6 +40,7 @@ export async function GET() {
         salaryType: true,
         rangeMin: true,
         rangeMax: true,
+        submittedBy: true
       }
     })
 

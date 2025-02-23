@@ -43,18 +43,26 @@ export default function SubmitSalary() {
       return
     }
 
-    const data = {
-      amount,
-      position: formData.get('position'),
-      company: formData.get('company'),
-      experience,
-      location: formData.get('location'),
-      source: 'SELF',
-      sourceNote,
-      salaryType,
-    }
+    const source = formData.get('source') as string
+    const sourceNote = source === 'OTHER' 
+      ? formData.get('sourceNote') as string 
+      : undefined
 
     try {
+      const data = {
+        amount,
+        position: formData.get('position') as string,
+        company: formData.get('company') as string,
+        experience,
+        location: formData.get('location') as string,
+        source,
+        sourceNote,
+        submittedBy: session?.user?.username || '',  // Add fallback
+        salaryType,
+      }
+
+      console.log('Submitting salary data:', data) // Debug log
+
       const res = await fetch('/api/salary', {
         method: 'POST',
         headers: {
@@ -63,16 +71,19 @@ export default function SubmitSalary() {
         body: JSON.stringify(data),
       })
 
-      if (res.ok) {
-        router.push('/search')
-        router.refresh()
-      } else {
-        const error = await res.json()
-        setError(error.message || 'Something went wrong')
+      const result = await res.json()
+
+      if (!res.ok) {
+        console.error('Submission error:', result) // Debug log
+        setError(result.error || tr.common.error)
+        return
       }
+
+      router.push('/search')
+      router.refresh()
     } catch (err) {
       console.error('Failed to submit salary:', err)
-      setError('Something went wrong')
+      setError(tr.common.error)
     }
   }
 

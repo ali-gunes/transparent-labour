@@ -72,6 +72,7 @@ export const tr = {
     source: 'Kaynak',
     sourceSelf: 'Kendi Maaşım',
     sourceOther: 'Başka Birinden',
+    submittedBy: 'Paylaşan',
     deleteConfirm: 'Bu paylaşımı silmek istediğinize emin misiniz?',
     salaryType: {
       net: '(Net)',

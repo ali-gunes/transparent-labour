@@ -8,35 +8,36 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(cuid())
-  email         String   @unique  // Will be hashed
-  username      String   @unique
-  password      String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  salaries      Salary[]
-  role          Role     @default(USER)
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role      Role     @default(USER)
+  username  String   @unique
+  salaries  Salary[]
 }
 
 model Salary {
-  id         String   @id @default(cuid())
-  amount     Int
-  salaryType String   @default("net")
-  position   String
-  company    String
-  experience Int      // years of experience
-  location   String
-  source     String   @default("SELF") // "SELF" or "OTHER"
-  sourceNote String? // This means it can be `null`
-  rangeMin   Int
-  rangeMax   Int
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String   @id @default(cuid())
+  amount      Int
+  position    String
+  company     String
+  experience  Int
+  location    String
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  source      String   @default("SELF")
+  sourceNote  String?
+  salaryType  String   @default("net")
+  rangeMax    Int
+  rangeMin    Int
+  submittedBy String
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 enum Role {
   USER
   ADMIN
-} 
+}

@@ -2,78 +2,72 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 import type { SalaryResponse } from '@/types/salary'
+import { authOptions } from '@/lib/auth'
 
 // Remove unused Salary type and keep only SalaryResponse
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession()
-    
-    if (!session?.user?.email) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
+    const session = await getServerSession(authOptions)
+    //console.log('Full session:', JSON.stringify(session, null, 2))
+
+    if (!session?.user) {
+      console.log('No session or user')
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { amount, position, company, experience, location, salaryType, source, sourceNote } = await req.json()
+    console.log('Session user:', JSON.stringify(session.user, null, 2))
 
-    // Basic validation
-    if (!amount || !position || !company || !experience || !location) {
-      return NextResponse.json(
-        { error: 'All fields are required' },
-        { status: 400 }
-      )
-    }
-
+    // Instead of finding by username, let's find by id since we know it's required
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email }
+      where: { id: session.user.id }
     })
 
     if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      )
+      console.log('User not found with id:', session.user.id)
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
-    // Calculate range once during submission
-    let rangeMin, rangeMax
-    if (amount > 22105) {
-      const roundedAmount = Math.round(amount / 5000) * 5000
-      const randomVariations = [4000, 5000, 6000, 7000]
-      const minVariation = randomVariations[Math.floor(Math.random() * randomVariations.length)]
-      const maxVariation = randomVariations[Math.floor(Math.random() * randomVariations.length)]
-      rangeMin = roundedAmount - minVariation
-      rangeMax = roundedAmount + maxVariation
-    } else {
-      rangeMin = amount
-      rangeMax = amount
-    }
+    const data = await req.json()
+    //console.log('Received salary data:', data)
+    //console.log('User found:', user)
+
+    // Calculate salary range
+    const range = calculateSalaryRange(data.amount)
 
     const salary = await prisma.salary.create({
       data: {
-        amount,
-        position,
-        company,
-        experience,
-        location,
-        userId: user.id,
-        source: source || 'SELF',
-        sourceNote: sourceNote || null,
-        salaryType: salaryType || 'net',
-        rangeMin,
-        rangeMax
+        amount: data.amount,
+        position: data.position,
+        company: data.company,
+        experience: data.experience,
+        location: data.location,
+        source: data.source,
+        sourceNote: data.sourceNote,
+        salaryType: data.salaryType,
+        rangeMin: range.min,
+        rangeMax: range.max,
+        submittedBy: data.submittedBy,
+        userId: user.id  // Use userId directly instead of connect
       }
     })
 
-    return NextResponse.json(salary, { status: 201 })
-  } catch (error) {
-    console.error('Salary submission error:', error)
+    console.log('Created salary:', salary)
+    return NextResponse.json(salary)
+
+  } catch (error: any) {
+    console.error('Salary creation error:', error)
     return NextResponse.json(
-      { error: 'Something went wrong' },
+      { error: `Failed to create salary: ${error.message}` },
       { status: 500 }
     )
   }
+}
+
+function calculateSalaryRange(amount: number) {
+  const variance = 0.1 // 10% variance
+  const min = Math.floor(amount * (1 - variance))
+  const max = Math.ceil(amount * (1 + variance))
+  return { min, max }
 }
 
 export async function GET(req: Request) {
@@ -96,6 +90,7 @@ export async function GET(req: Request) {
         salaryType: true,
         rangeMin: true,
         rangeMax: true,
+        submittedBy: true
       }
     })
 

@@ -20,6 +20,7 @@ type Salary = {
     min: number
     max: number
   }
+  submittedBy: string
 }
 
 export default function Search() {
@@ -103,10 +104,13 @@ export default function Search() {
                 <p>{salary.experience} {tr.search.yearsExp}</p>
                 <p>{salary.location}</p>
                 <p className="mt-2">
-                  {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : (tr.profile.sourceOther + (salary.sourceNote ? ` (${salary.sourceNote})` : ''))}
+                  {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : tr.profile.sourceOther}
                   {salary.sourceNote && (
-                    <span className="block italic mt-1">{salary.sourceNote}</span>
+                    <span className="block italic mt-1">"{salary.sourceNote}"</span>
                   )}
+                </p>
+                <p className="mt-1 text-gray-500 dark:text-gray-400">
+                  {tr.profile.submittedBy}: {salary.submittedBy}
                 </p>
               </div>
             </div>

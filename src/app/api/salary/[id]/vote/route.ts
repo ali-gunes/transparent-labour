@@ -4,9 +4,15 @@ import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import { PrismaClient } from '@prisma/client'
 
+type RouteParams = {
+  params: {
+    id: string
+  }
+}
+
 export async function POST(
-  req: Request,
-  context: { params: { id: string } }
+  request: Request,
+  { params }: RouteParams
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -14,8 +20,8 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { value } = await req.json() // value should be 1 or -1
-    const { id } = context.params
+    const { value } = await request.json() // value should be 1 or -1
+    const { id } = params
 
     // Find existing vote
     const existingVote = await prisma.vote.findUnique({
@@ -28,7 +34,7 @@ export async function POST(
     })
 
     // Start a transaction
-    const result = await prisma.$transaction(async (tx: PrismaClient) => {
+    const result = await prisma.$transaction(async (tx) => {
       if (existingVote) {
         if (existingVote.value === value) {
           // Remove vote if clicking same button
@@ -38,7 +44,7 @@ export async function POST(
           
           // Update salary vote count
           await tx.salary.update({
-            where: { id: id },
+            where: { id },
             data: { voteCount: { decrement: value } }
           })
           
@@ -52,7 +58,7 @@ export async function POST(
           
           // Update salary vote count (double the value since we're changing from -1 to 1 or vice versa)
           await tx.salary.update({
-            where: { id: id },
+            where: { id },
             data: { voteCount: { increment: value * 2 } }
           })
           
@@ -70,7 +76,7 @@ export async function POST(
         
         // Update salary vote count
         await tx.salary.update({
-          where: { id: id },
+          where: { id },
           data: { voteCount: { increment: value } }
         })
         

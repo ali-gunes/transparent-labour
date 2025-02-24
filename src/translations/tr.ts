@@ -164,6 +164,10 @@ export const tr = {
       submit: 'Şifremi Güncelle',
       success: 'Şifreniz başarıyla güncellendi',
     },
+    verify: {
+      title: 'Email Doğrulama',
+      success: 'Email adresiniz başarıyla doğrulandı. Giriş sayfasına yönlendiriliyorsunuz...',
+    },
   },
   salary: {
     upvote: 'Güvenilir',

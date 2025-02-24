@@ -24,7 +24,7 @@ export async function sendVerificationEmail(email: string, token: string) {
                 
                 <!-- Hosted SVG Logo -->
                 <div style="text-align: center; margin-bottom: 20px;">
-                  <img src="https://saydamemek.com/logo.svg" alt="Saydam Emek Logo" width="150" height="150" style="display: block; margin: 0 auto;">
+                  <img src="https://saydamemek.com/logo.png" alt="Saydam Emek Logo" width="150" height="150" style="display: block; margin: 0 auto;">
                 </div>
 
                 <h1 style="color: #333; font-size: 24px; margin-bottom: 20px;">Saydam Emek'e Hoş Geldiniz!</h1>
@@ -96,7 +96,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
                 
                 <!-- Hosted SVG Logo -->
                 <div style="text-align: center; margin-bottom: 20px;">
-                  <img src="https://saydamemek.com/logo.svg" alt="Saydam Emek Logo" width="150" height="150" style="display: block; margin: 0 auto;">
+                  <img src="https://saydamemek.com/logo.png" alt="Saydam Emek Logo" width="150" height="150" style="display: block; margin: 0 auto;">
                 </div>
 
                 <h1 style="color: #333; font-size: 24px; margin-bottom: 20px;">Şifrenizi Sıfırlayın</h1>

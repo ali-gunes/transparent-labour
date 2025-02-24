@@ -6,7 +6,7 @@ import { tr } from '@/translations/tr'
 
 export default function VerificationContent() {
   const [status, setStatus] = useState<'verifying' | 'success' | 'error'>('verifying')
-  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
   const router = useRouter()
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
@@ -14,44 +14,57 @@ export default function VerificationContent() {
   useEffect(() => {
     if (!token) {
       setStatus('error')
-      setMessage('Geçersiz doğrulama bağlantısı')
+      setError('Geçersiz doğrulama bağlantısı')
       return
     }
 
     async function verifyEmail() {
       try {
         const res = await fetch(`/api/verify-email?token=${token}`)
-        const data = await res.json()
+        
+        if (res.redirected) {
+          setStatus('success')
+          setTimeout(() => {
+            router.push('/login?verified=true')
+          }, 2000)
+          return
+        }
 
+        const data = await res.json()
         if (!res.ok) {
           throw new Error(data.error)
         }
 
         setStatus('success')
-        setMessage('Email adresiniz başarıyla doğrulandı')
         setTimeout(() => {
           router.push('/login?verified=true')
         }, 2000)
-      } catch (error) {
+      } catch (err) {
         setStatus('error')
-        setMessage(error instanceof Error ? error.message : 'Doğrulama başarısız oldu')
+        setError(err instanceof Error ? err.message : 'Doğrulama işlemi başarısız oldu')
       }
     }
 
     verifyEmail()
   }, [token, router])
 
+  if (status === 'verifying') {
+    return <p>{tr.common.loading}</p>
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
+        <p className="text-red-600 dark:text-red-400">{error}</p>
+      </div>
+    )
+  }
+
   return (
-    <>
-      {status === 'verifying' && (
-        <p className="text-gray-600 dark:text-gray-300">Email adresiniz doğrulanıyor...</p>
-      )}
-      {status === 'success' && (
-        <p className="text-green-600 dark:text-green-400">{message}</p>
-      )}
-      {status === 'error' && (
-        <p className="text-red-600 dark:text-red-400">{message}</p>
-      )}
-    </>
+    <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+      <p className="text-green-600 dark:text-green-400">
+        {tr.auth.verify.success}
+      </p>
+    </div>
   )
 } 

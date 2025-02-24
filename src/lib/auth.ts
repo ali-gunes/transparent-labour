@@ -3,12 +3,20 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { prisma } from '@/lib/prisma'
 import { hashPassword } from '@/lib/hash'
 import { tr } from '@/translations/tr'
+import { Role } from '@prisma/client'
 
 declare module 'next-auth' {
   interface User extends DefaultUser {
     emailVerified: boolean
     username: string
-    role: string
+    role: Role
+  }
+
+  interface JWT {
+    id: string
+    email: string
+    username: string
+    role: Role
   }
 }
 

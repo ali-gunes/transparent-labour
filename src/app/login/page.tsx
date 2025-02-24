@@ -29,17 +29,17 @@ export default function Login() {
         redirect: false,
       })
 
-      //console.log('Login result:', result)
+      console.log('Login result:', result)
 
       if (result?.error) {
-        setError(tr.auth.errors.invalidCredentials)
+        setError(result.error)
         return
       }
 
       router.push('/')
     } catch (err) {
       console.error('Login failed:', err)
-      setError(tr.auth.errors.invalidCredentials)
+      setError(tr.auth.errors.unexpectedError)
     } finally {
       setLoading(false)
     }

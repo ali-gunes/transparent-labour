@@ -17,6 +17,9 @@ model User {
   username  String   @unique
   salaries  Salary[]
   votes     Vote[]
+  emailVerified    Boolean   @default(false)
+  verificationToken String?  @unique
+  verificationTokenExpiry DateTime?
 }
 
 model Salary {

@@ -104,6 +104,15 @@ export const tr = {
     salaryType: {
       net: '(Net)',
       gross: '(Brüt)'
+    },
+    emailStatus: {
+      verified: 'Doğrulanmış',
+      notVerified: 'Doğrulanmamış',
+      resend: 'Doğrulama Emaili Gönder',
+      sending: 'Gönderiliyor...',
+      success: 'Doğrulama emaili gönderildi',
+      error: 'Doğrulama emaili gönderilemedi',
+      tooManyAttempts: 'Çok fazla deneme yaptınız. Lütfen bir saat sonra tekrar deneyin.'
     }
   },
   auth: {
@@ -132,9 +141,11 @@ export const tr = {
     errors: {
       userExists: 'Bu kullanıcı adı veya e-posta zaten kullanımda',
       invalidCredentials: 'Kullanıcı adı veya şifre hatalı',
+      verifyEmail: 'Lütfen önce email adresinizi doğrulayın',
       weakPassword: 'Şifre en az 8 karakter olmalı',
       invalidUsername: 'Kullanıcı adı sadece harf, rakam ve alt çizgi içerebilir',
       invalidEmail: 'Geçerli bir e-posta adresi girin',
+      unexpectedError: 'Bir hata oluştu, lütfen daha sonra tekrar deneyin.',
     }
   },
   salary: {

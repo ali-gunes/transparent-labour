@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
-import { hashEmail, hashPassword } from '@/lib/hash'
+import { hashPassword } from '@/lib/hash'
 
 export default function SignUp() {
   const router = useRouter()
@@ -43,7 +43,7 @@ export default function SignUp() {
     }
 
     const data = {
-      email: hashEmail(formData.get('email') as string),
+      email: formData.get('email') as string,
       username: formData.get('username') as string,
       password: hashPassword(formData.get('password') as string),
     }

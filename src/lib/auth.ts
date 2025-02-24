@@ -1,7 +1,16 @@
-import { AuthOptions } from 'next-auth'
+import { AuthOptions, DefaultUser } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { prisma } from '@/lib/prisma'
 import { hashPassword } from '@/lib/hash'
+import { tr } from '@/translations/tr'
+
+declare module 'next-auth' {
+  interface User extends DefaultUser {
+    emailVerified: boolean
+    username: string
+    role: string
+  }
+}
 
 export const authOptions: AuthOptions = {
   session: {
@@ -17,31 +26,44 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         try {
           if (!credentials?.username || !credentials?.password) {
-            throw new Error('Missing credentials')
+            throw new Error(tr.auth.errors.invalidCredentials)
           }
 
           const user = await prisma.user.findUnique({
-            where: { username: credentials.username }
+            where: { username: credentials.username },
+            select: {
+              id: true,
+              email: true,
+              username: true,
+              role: true,
+              password: true,
+              emailVerified: true
+            }
           })
 
           if (!user) {
-            throw new Error('User not found')
+            throw new Error(tr.auth.errors.invalidCredentials)
           }
 
           const hashedPassword = hashPassword(credentials.password)
           if (hashedPassword !== user.password) {
-            throw new Error('Invalid password')
+            throw new Error(tr.auth.errors.invalidCredentials)
+          }
+
+          if (!user.emailVerified) {
+            throw new Error(tr.auth.errors.verifyEmail)
           }
 
           return {
             id: user.id,
             email: user.email,
             username: user.username,
-            role: user.role
+            role: user.role,
+            emailVerified: user.emailVerified
           }
         } catch (error) {
           console.error('Auth error:', error)
-          return null
+          throw error
         }
       }
     })

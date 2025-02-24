@@ -4,14 +4,11 @@ import { useState } from 'react'
 import { tr } from '@/translations/tr'
 
 interface VerificationStatusProps {
-  isVerified: boolean | undefined
+  isVerified: boolean
   email: string
 }
 
-export default function VerificationStatus({ 
-  isVerified = false,
-  email 
-}: VerificationStatusProps) {
+export default function VerificationStatus({ isVerified, email }: VerificationStatusProps) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')

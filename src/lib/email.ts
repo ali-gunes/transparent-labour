@@ -10,16 +10,73 @@ export async function sendVerificationEmail(email: string, token: string) {
 
   try {
     const verificationUrl = `${process.env.NEXTAUTH_URL}/verify-email?token=${token}`
-    
+
     const { data, error } = await resend.emails.send({
       from: 'Saydam Emek <noreply@saydamemek.com>',
       to: email,
       subject: 'Email Adresinizi Doğrulayın',
       html: `
-        <h1>Email Doğrulama</h1>
-        <p>Email adresinizi doğrulamak için aşağıdaki bağlantıya tıklayın:</p>
-        <a href="${verificationUrl}">Email Adresimi Doğrula</a>
-        <p>Bu bağlantı 24 saat içinde geçerliliğini yitirecektir.</p>
+        <!DOCTYPE html>
+        <html>
+          <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+            <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+              <div style="background-color: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                
+                <!-- Inline SVG Logo -->
+                <div style="text-align: center; margin-bottom: 20px;">
+                  <svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none">
+                    <circle cx="100" cy="100" r="80" fill="url(#grad1)" opacity="0.6"/>
+                    <circle cx="80" cy="80" r="50" fill="url(#grad2)" opacity="0.7"/>
+                    <circle cx="120" cy="120" r="50" fill="url(#grad3)" opacity="0.7"/>
+                    <defs>
+                      <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#6EC6FF; stop-opacity:1"/>
+                        <stop offset="100%" style="stop-color:#1E90FF; stop-opacity:1"/>
+                      </linearGradient>
+                      <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ADD8E6; stop-opacity:1"/>
+                        <stop offset="100%" style="stop-color:#4682B4; stop-opacity:1"/>
+                      </linearGradient>
+                      <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#87CEFA; stop-opacity:1"/>
+                        <stop offset="100%" style="stop-color:#4682B4; stop-opacity:1"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+
+                <h1 style="color: #333; font-size: 24px; margin-bottom: 20px;">Saydam Emek'e Hoş Geldiniz!</h1>
+                <p style="color: #666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                  Merhaba,<br><br>
+                  Türkiye'de maaş şeffaflığına katkıda bulunmak istediğiniz için teşekkür ederiz. Sizin gibi değerli kullanıcılarımız sayesinde, iş arayanlar ve çalışanlar daha bilinçli kariyer kararları alabiliyorlar.
+                </p>
+                <p style="color: #666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                  Platformumuza katılarak:<br>
+                  • Sektörünüzdeki maaş aralıklarını görebilecek<br>
+                  • Kendi deneyimlerinizi paylaşabilecek<br>
+                  • Türkiye'deki maaş haksızlıklarının önüne geçmede katkıda bulunabileceksiniz
+                </p>
+                <div style="text-align: center; margin: 30px 0;">
+                  <a href="${verificationUrl}" 
+                    style="background-color: #007bff; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                    Email Adresimi Doğrula
+                  </a>
+                </div>
+                <p style="color: #666; font-size: 14px; margin-top: 20px;">
+                  Bu bağlantı 24 saat içinde geçerliliğini yitirecektir. Eğer bu emaili siz talep etmediyseniz, lütfen dikkate almayın.
+                </p>
+                <p style="color: #666; font-size: 14px; margin-top: 20px;">
+                  Saydam Emek projesindeki desteğiniz, iş dünyasında daha adil ve şeffaf bir ortam yaratmamıza yardımcı oluyor. Katkınız için tekrar teşekkür ederiz.
+                </p>
+                <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+                <p style="color: #999; font-size: 12px; text-align: center;">
+                  Bu email otomatik olarak gönderilmiştir. Lütfen yanıtlamayınız.<br>
+                  Gizlilik ve güvenliğiniz bizim için önemlidir.
+                </p>
+              </div>
+            </div>
+          </body>
+        </html>
       `
     })
 
@@ -31,6 +88,95 @@ export async function sendVerificationEmail(email: string, token: string) {
     console.log('Email sent successfully:', data)
   } catch (error) {
     console.error('Failed to send email:', error)
+    throw error
+  }
+}
+
+export async function sendPasswordResetEmail(email: string, token: string) {
+  if (!process.env.RESEND_API_KEY) {
+    console.error('Missing RESEND_API_KEY environment variable')
+    throw new Error('Email service not configured')
+  }
+
+  try {
+    const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}`
+
+    const { data, error } = await resend.emails.send({
+      from: 'Saydam Emek <noreply@saydamemek.com>',
+      to: email,
+      subject: 'Şifre Sıfırlama',
+      html: `
+        <!DOCTYPE html>
+        <html>
+          <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+            <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+              <div style="background-color: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                
+                <!-- Inline SVG Logo -->
+                <div style="text-align: center; margin-bottom: 20px;">
+                  <svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none">
+                    <circle cx="100" cy="100" r="80" fill="url(#grad1)" opacity="0.6"/>
+                    <circle cx="80" cy="80" r="50" fill="url(#grad2)" opacity="0.7"/>
+                    <circle cx="120" cy="120" r="50" fill="url(#grad3)" opacity="0.7"/>
+                    <defs>
+                      <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#6EC6FF; stop-opacity:1"/>
+                        <stop offset="100%" style="stop-color:#1E90FF; stop-opacity:1"/>
+                      </linearGradient>
+                      <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ADD8E6; stop-opacity:1"/>
+                        <stop offset="100%" style="stop-color:#4682B4; stop-opacity:1"/>
+                      </linearGradient>
+                      <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#87CEFA; stop-opacity:1"/>
+                        <stop offset="100%" style="stop-color:#4682B4; stop-opacity:1"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+
+                <h1 style="color: #333; font-size: 24px; margin-bottom: 20px;">Şifrenizi Sıfırlayın</h1>
+                <p style="color: #666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                  Merhaba,<br><br>
+                  Saydam Emek hesabınız için bir şifre sıfırlama isteğinde bulundunuz. Yeni bir şifre belirlemek için aşağıdaki butona tıklayın:
+                </p>
+
+                <div style="text-align: center; margin: 30px 0;">
+                  <a href="${resetUrl}" 
+                    style="background-color: #007bff; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                    Şifremi Sıfırla
+                  </a>
+                </div>
+
+                <p style="color: #666; font-size: 14px; margin-top: 20px;">
+                  Bu bağlantı 24 saat içinde geçerliliğini yitirecektir. Eğer bu isteği siz yapmadıysanız, lütfen bu e-postayı dikkate almayın.
+                </p>
+
+                <p style="color: #666; font-size: 14px; margin-top: 20px;">
+                  Hesabınızı güvende tutmak için güçlü bir şifre oluşturduğunuzdan emin olun. Destek ekibimizle iletişime geçmek için bizimle <a href="mailto:destek@saydamemek.com" style="color: #007bff; text-decoration: none;">iletişime geçin</a>.
+                </p>
+
+                <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+
+                <p style="color: #999; font-size: 12px; text-align: center;">
+                  Bu email otomatik olarak gönderilmiştir. Lütfen yanıtlamayınız.<br>
+                  Gizlilik ve güvenliğiniz bizim için önemlidir.
+                </p>
+              </div>
+            </div>
+          </body>
+        </html>
+      `
+    })
+
+    if (error) {
+      console.error('Resend API error:', error)
+      throw error
+    }
+
+    console.log('Password reset email sent successfully:', data)
+  } catch (error) {
+    console.error('Failed to send password reset email:', error)
     throw error
   }
 } 

@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
+import Link from 'next/link'
 
 export default function Login() {
   const router = useRouter()
@@ -76,6 +77,14 @@ export default function Login() {
               className={styles.input}
               placeholder={tr.auth.login.passwordPlaceholder}
             />
+            <div className="mt-2 text-sm">
+              <Link 
+                href="/forgot-password" 
+                className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+              >
+                {tr.auth.login.forgotPassword}
+              </Link>
+            </div>
           </div>
           <button 
             type="submit" 

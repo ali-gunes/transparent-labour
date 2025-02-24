@@ -124,6 +124,7 @@ export const tr = {
       passwordPlaceholder: 'Şifrenizi girin',
       submit: 'Giriş Yap',
       loading: 'Giriş yapılıyor...',
+      forgotPassword: 'Şifrenizi mi unuttunuz?',
     },
     signup: {
       title: 'Kayıt Ol',
@@ -146,7 +147,23 @@ export const tr = {
       invalidUsername: 'Kullanıcı adı sadece harf, rakam ve alt çizgi içerebilir',
       invalidEmail: 'Geçerli bir e-posta adresi girin',
       unexpectedError: 'Bir hata oluştu, lütfen daha sonra tekrar deneyin.',
-    }
+    },
+    forgotPassword: {
+      title: 'Şifre Sıfırlama',
+      email: 'E-posta',
+      emailPlaceholder: 'E-posta adresinizi girin',
+      submit: 'Sıfırlama Bağlantısı Gönder',
+      checkEmail: 'Eğer hesabınız varsa, şifre sıfırlama bağlantısı e-posta adresinize gönderildi.',
+    },
+    resetPassword: {
+      title: 'Şifre Sıfırlama',
+      newPassword: 'Yeni Şifre',
+      newPasswordPlaceholder: 'En az 8 karakterli yeni şifrenizi girin',
+      confirmPassword: 'Yeni Şifre (Tekrar)',
+      confirmPasswordPlaceholder: 'Yeni şifrenizi tekrar girin',
+      submit: 'Şifremi Güncelle',
+      success: 'Şifreniz başarıyla güncellendi',
+    },
   },
   salary: {
     upvote: 'Güvenilir',

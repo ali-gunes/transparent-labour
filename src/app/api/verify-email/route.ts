@@ -31,7 +31,7 @@ export async function GET(req: Request) {
       }
     })
 
-    return NextResponse.json({ message: 'Email başarıyla doğrulandı' })
+    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/login?verified=true`)
   } catch (error) {
     console.error('Email verification error:', error)
     return NextResponse.json({ error: 'Doğrulama işlemi başarısız oldu' }, { status: 500 })

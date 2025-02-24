@@ -3,6 +3,11 @@ import { Resend } from 'resend' // or your preferred email service
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function sendVerificationEmail(email: string, token: string) {
+  if (!process.env.RESEND_API_KEY) {
+    console.error('Missing RESEND_API_KEY environment variable')
+    throw new Error('Email service not configured')
+  }
+
   try {
     const verificationUrl = `${process.env.NEXTAUTH_URL}/verify-email?token=${token}`
     

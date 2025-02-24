@@ -220,7 +220,11 @@ export default function Home() {
                   <p className={styles.textMuted}>{salary.company}</p>
                 </div>
                 <span className={styles.textSmall}>
-                  {new Date(salary.createdAt).toLocaleDateString()}
+                  {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
                 </span>
               </div>
               <p className={`text-lg font-medium ${styles.text} mb-2`}>

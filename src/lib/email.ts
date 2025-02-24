@@ -22,27 +22,9 @@ export async function sendVerificationEmail(email: string, token: string) {
             <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
               <div style="background-color: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                 
-                <!-- Inline SVG Logo -->
+                <!-- Hosted SVG Logo -->
                 <div style="text-align: center; margin-bottom: 20px;">
-                  <svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none">
-                    <circle cx="100" cy="100" r="80" fill="url(#grad1)" opacity="0.6"/>
-                    <circle cx="80" cy="80" r="50" fill="url(#grad2)" opacity="0.7"/>
-                    <circle cx="120" cy="120" r="50" fill="url(#grad3)" opacity="0.7"/>
-                    <defs>
-                      <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#6EC6FF; stop-opacity:1"/>
-                        <stop offset="100%" style="stop-color:#1E90FF; stop-opacity:1"/>
-                      </linearGradient>
-                      <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#ADD8E6; stop-opacity:1"/>
-                        <stop offset="100%" style="stop-color:#4682B4; stop-opacity:1"/>
-                      </linearGradient>
-                      <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#87CEFA; stop-opacity:1"/>
-                        <stop offset="100%" style="stop-color:#4682B4; stop-opacity:1"/>
-                      </linearGradient>
-                    </defs>
-                  </svg>
+                  <img src="https://saydamemek.com/logo.svg" alt="Saydam Emek Logo" width="150" height="150" style="display: block; margin: 0 auto;">
                 </div>
 
                 <h1 style="color: #333; font-size: 24px; margin-bottom: 20px;">Saydam Emek'e Hoş Geldiniz!</h1>
@@ -51,7 +33,7 @@ export async function sendVerificationEmail(email: string, token: string) {
                   Türkiye'de maaş şeffaflığına katkıda bulunmak istediğiniz için teşekkür ederiz. Sizin gibi değerli kullanıcılarımız sayesinde, iş arayanlar ve çalışanlar daha bilinçli kariyer kararları alabiliyorlar.
                 </p>
                 <p style="color: #666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
-                  Platformumuza katılarak:<br>
+                  Platforma katılarak:<br>
                   • Sektörünüzdeki maaş aralıklarını görebilecek<br>
                   • Kendi deneyimlerinizi paylaşabilecek<br>
                   • Türkiye'deki maaş haksızlıklarının önüne geçmede katkıda bulunabileceksiniz
@@ -112,27 +94,9 @@ export async function sendPasswordResetEmail(email: string, token: string) {
             <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
               <div style="background-color: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                 
-                <!-- Inline SVG Logo -->
+                <!-- Hosted SVG Logo -->
                 <div style="text-align: center; margin-bottom: 20px;">
-                  <svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none">
-                    <circle cx="100" cy="100" r="80" fill="url(#grad1)" opacity="0.6"/>
-                    <circle cx="80" cy="80" r="50" fill="url(#grad2)" opacity="0.7"/>
-                    <circle cx="120" cy="120" r="50" fill="url(#grad3)" opacity="0.7"/>
-                    <defs>
-                      <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#6EC6FF; stop-opacity:1"/>
-                        <stop offset="100%" style="stop-color:#1E90FF; stop-opacity:1"/>
-                      </linearGradient>
-                      <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#ADD8E6; stop-opacity:1"/>
-                        <stop offset="100%" style="stop-color:#4682B4; stop-opacity:1"/>
-                      </linearGradient>
-                      <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#87CEFA; stop-opacity:1"/>
-                        <stop offset="100%" style="stop-color:#4682B4; stop-opacity:1"/>
-                      </linearGradient>
-                    </defs>
-                  </svg>
+                  <img src="https://saydamemek.com/logo.svg" alt="Saydam Emek Logo" width="150" height="150" style="display: block; margin: 0 auto;">
                 </div>
 
                 <h1 style="color: #333; font-size: 24px; margin-bottom: 20px;">Şifrenizi Sıfırlayın</h1>
@@ -153,7 +117,8 @@ export async function sendPasswordResetEmail(email: string, token: string) {
                 </p>
 
                 <p style="color: #666; font-size: 14px; margin-top: 20px;">
-                  Hesabınızı güvende tutmak için güçlü bir şifre oluşturduğunuzdan emin olun. Destek ekibimizle iletişime geçmek için bizimle <a href="mailto:destek@saydamemek.com" style="color: #007bff; text-decoration: none;">iletişime geçin</a>.
+                  Hesabınızı güvende tutmak için güçlü bir şifre oluşturduğunuzdan emin olun. Destek ekibimizle iletişime geçmek için bizimle 
+                  <a href="mailto:destek@saydamemek.com" style="color: #007bff; text-decoration: none;">iletişime geçin</a>.
                 </p>
 
                 <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
@@ -166,6 +131,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
             </div>
           </body>
         </html>
+
       `
     })
 

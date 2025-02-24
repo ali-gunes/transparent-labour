@@ -55,38 +55,43 @@ export default function ProfilePage() {
         </h2>
         
         <div className="grid gap-4">
-          {profile.salaries.length > 0 ? (
-            profile.salaries.map((salary) => (
-              <div key={salary.id} className="border rounded-lg p-4">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-semibold">{salary.position}</h3>
-                    <p className="text-gray-600">{salary.company}</p>
-                  </div>
-                  <span className="text-sm text-gray-500">
-                    {new Date(salary.createdAt).toLocaleDateString()}
-                  </span>
+        {Array.isArray(profile.salaries) && profile.salaries.map((salary) => (
+          <div key={salary.id} className={styles.card}>
+            <div className={styles.cardBody}>
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h2 className={`text-xl font-semibold ${styles.text}`}>
+                    {salary.position}
+                  </h2>
+                  <p className={styles.textMuted}>{salary.company}</p>
                 </div>
-                
-                <p className="text-lg font-medium mb-2">
-                  ₺{salary.rangeMin.toLocaleString()} - ₺{salary.rangeMax.toLocaleString()}
-                  <span className="text-sm text-gray-600">
-                    {' '}({salary.salaryType === 'net' ? tr.submit.salaryTypes.net : tr.submit.salaryTypes.gross})
-                  </span>
-                </p>
-
-                <div className="text-sm text-gray-600">
+                <span className={styles.textSmall}>
+                {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </span>
+              </div>
+              <p className={`text-lg font-medium ${styles.text} mb-2`}>
+                ₺{salary.rangeMin.toLocaleString()} - ₺{salary.rangeMax.toLocaleString()}
+                <span className={styles.textSmall}> ({salary.salaryType === 'net' ? tr.submit.salaryTypes.net : tr.submit.salaryTypes.gross})</span>
+              </p>
+              <div className="relative">
+                <div className={styles.textSmall}>
                   <p>{salary.experience} {tr.search.yearsExp}</p>
                   <p>{salary.location}</p>
                   <p className="mt-2">
                     {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : tr.profile.sourceOther}
                     {salary.sourceNote && (
-                      <span className="block italic mt-1">"{salary.sourceNote}"</span>
+                      <span className="block italic mt-1">&quot;{salary.sourceNote}&quot;</span>
                     )}
                   </p>
+                  <p className="mt-1 text-gray-500 dark:text-gray-400">
+                    {tr.profile.submittedBy}: {salary.submittedBy}
+                  </p>
                 </div>
-
-                <div className="mt-4">
+                <div className="absolute bottom-0 right-0">
                   <VoteButtons
                     salaryId={salary.id}
                     initialVoteCount={salary.voteCount}
@@ -94,11 +99,13 @@ export default function ProfilePage() {
                   />
                 </div>
               </div>
-            ))
-          ) : (
-            <p className="text-gray-500">{tr.profile.noSalaries}</p>
-          )}
-        </div>
+            </div>
+          </div>
+        ))}
+        {profile.salaries.length === 0 && (
+          <p className={styles.textMuted}>{tr.search.noResults}</p>
+        )}
+      </div>
       </div>
     </div>
   )

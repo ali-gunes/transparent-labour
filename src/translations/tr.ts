@@ -94,7 +94,7 @@ export const tr = {
     }
   },
   profile: {
-    title: 'Emek Paylaşımları',
+    title: 'Paylaşımları',
     noSalaries: 'Henüz maaş paylaşımı yapmamışsınız',
     source: 'Kaynak',
     sourceSelf: 'Kendi Maaşım',

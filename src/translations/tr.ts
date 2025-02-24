@@ -91,7 +91,10 @@ export const tr = {
     validation: {
       invalidSalary: 'Lütfen geçerli bir maaş girin',
       invalidExperience: 'Lütfen geçerli bir deneyim yılı girin',
-    }
+    },
+    workLifeBalance: "İş-yaşam dengenizi nasıl değerlendirirsiniz?",
+    compensationSatisfaction: "Şirketin sunduğu yan haklardan ne kadar memnunsunuz?",
+    salarySatisfaction: "Aldığınız maaştan ne kadar memnunsunuz?"
   },
   profile: {
     title: 'Paylaşımları',

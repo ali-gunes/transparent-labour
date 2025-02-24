@@ -59,6 +59,12 @@ export default function SubmitSalary() {
         sourceNote,
         submittedBy: session?.user?.username || '',  // Add fallback
         salaryType,
+        // Add new fields when source is SELF
+        ...(source === 'SELF' && {
+          workLifeBalance: Number(formData.get('workLifeBalance')),
+          compensationSatisfaction: Number(formData.get('compensationSatisfaction')),
+          salarySatisfaction: Number(formData.get('salarySatisfaction')),
+        })
       }
 
       console.log('Submitting salary data:', data) // Debug log
@@ -86,6 +92,30 @@ export default function SubmitSalary() {
       setError(tr.common.error)
     }
   }
+
+  const workLifeBalanceTexts = [
+    "İşim, özel hayatıma hiç zaman bırakmıyor.",
+    "Bazen iş ve özel hayatı dengelemekte zorlanıyorum.",
+    "İş-yaşam dengesini genellikle koruyabiliyorum.",
+    "İşim, özel hayatıma yeterince zaman ayırmama izin veriyor.",
+    "İş ve özel hayatım mükemmel bir dengede."
+  ];
+  
+  const compensationSatisfactionTexts = [
+    "Yan haklarım çok yetersiz ve ihtiyacımı karşılamıyor.",
+    "Yan haklarım sınırlı ve önemli eksiklikler var.",
+    "Yan haklarım temel seviyede ve kabul edilebilir.",
+    "Yan haklarım iyi ve çoğu ihtiyacımı karşılıyor.",
+    "Yan haklarım oldukça kapsamlı ve beklentilerimi fazlasıyla karşılıyor."
+  ];
+
+  const salarySatisfactionTexts = [
+    "Maaşım, emeğimin ve becerilerimin karşılığını vermiyor.",
+    "Maaşım fena değil ama daha adil olabileceğini düşünüyorum.",
+    "Maaşımın sektör ortalamasına yakın olduğunu düşünüyorum.",
+    "Maaşım, yaşam standartlarımı rahatça karşılamama yetiyor.",
+    "Maaşım beklentilerimi tamamen karşılıyor ve beni motive ediyor."
+  ]
 
   return (
     <div className={styles.formContainer}>
@@ -221,6 +251,67 @@ export default function SubmitSalary() {
                   maxLength={500}
                   rows={4}
                 />
+              </div>
+            )}
+
+            {source === 'SELF' && (
+              <div className="space-y-6 mt-6">
+                <div>
+                  <label htmlFor="workLifeBalance" className={`${styles.label} text-lg`}>
+                    {tr.submit.workLifeBalance}
+                  </label>
+                  <select
+                    id="workLifeBalance"
+                    name="workLifeBalance"
+                    required
+                    className={`${styles.select} h-12 text-lg`}
+                  >
+                    <option value="">Lütfen seçiniz</option>
+                    {workLifeBalanceTexts.map((text, index) => (
+                    <option key={index + 1} value={index + 1}>
+                      {text}
+                    </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="compensationSatisfaction" className={`${styles.label} text-lg`}>
+                    {tr.submit.compensationSatisfaction}
+                  </label>
+                  <select
+                  id="compensationSatisfaction"
+                  name="compensationSatisfaction"
+                  required
+                  className={`${styles.select} h-12 text-lg`}
+                >
+                  <option value="">Lütfen seçiniz</option>
+                  {compensationSatisfactionTexts.map((text, index) => (
+                    <option key={index + 1} value={index + 1}>
+                      {text}
+                    </option>
+                  ))}
+                </select>
+                </div>
+
+                <div>
+                  <label htmlFor="salarySatisfaction" className={`${styles.label} text-lg`}>
+                    {tr.submit.salarySatisfaction}
+                  </label>
+                  <select
+                    id="salarySatisfaction"
+                    name="salarySatisfaction"
+                    required
+                    className={`${styles.select} h-12 text-lg`}
+                  >
+                    <option value="">Lütfen seçiniz</option>
+                  {salarySatisfactionTexts.map((text, index) => (
+                    <option key={index + 1} value={index + 1}>
+                      {text}
+                    </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             )}
 

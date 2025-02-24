@@ -41,6 +41,9 @@ model Salary {
   rangeMin    Int
   submittedBy String
   voteCount   Int      @default(0)
+  workLifeBalance Int?
+  compensationSatisfaction Int?
+  salarySatisfaction Int?
   user        User     @relation(fields: [userId], references: [id])
   votes       Vote[]
 }

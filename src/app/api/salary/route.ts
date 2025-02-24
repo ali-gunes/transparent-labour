@@ -48,7 +48,13 @@ export async function POST(req: Request) {
         rangeMax: range.max,
         submittedBy: data.submittedBy,
         voteCount: 0,
-        userId: session.user.id
+        userId: session.user.id,
+        // Add new fields conditionally
+        ...(data.source === 'SELF' ? {
+          workLifeBalance: parseInt(data.workLifeBalance),
+          compensationSatisfaction: parseInt(data.compensationSatisfaction),
+          salarySatisfaction: parseInt(data.salarySatisfaction),
+        } : {})
       }
     })
 

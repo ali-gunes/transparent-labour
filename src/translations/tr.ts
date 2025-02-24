@@ -165,8 +165,11 @@ export const tr = {
       success: 'Şifreniz başarıyla güncellendi',
     },
     verify: {
-      title: 'Email Doğrulama',
+      title: 'Email Adresi Doğrulama',
       success: 'Email adresiniz başarıyla doğrulandı. Giriş sayfasına yönlendiriliyorsunuz...',
+      checkEmail: 'Email Adresinizi Doğrulamanız Gerekli',
+      checkEmailDesc: 'Sizin gerçek bir kişi olduğunuzu doğrulamak ve platformdaki veri güvenliğini sağlamak için mail adresinizi doğrulamanızı rica ediyoruz.Doğrulama bağlantısı {email} adresinize gönderildi. Lütfen email adresinizi kontrol ediniz. Bu sekmeyi kapatabilirsiniz.',
+      spamNote: 'Email gelmediyse spam/gereksiz klasörünü kontrol etmeyi unutmayın.',
     },
   },
   salary: {

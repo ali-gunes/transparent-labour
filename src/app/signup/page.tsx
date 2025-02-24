@@ -64,7 +64,7 @@ export default function SignUp() {
         return
       }
 
-      router.push('/login')
+      router.push('/verify-notice')
     } catch (err) {
       console.error('Signup failed:', err)
       setError(tr.common.error)

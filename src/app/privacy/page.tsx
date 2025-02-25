@@ -91,7 +91,7 @@ export default function PrivacyPolicy() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">İletişim</h2>
           <p className="mb-4">
-            Gizlilik politikamız hakkında herhangi bir sorunuz varsa, bizimle şu adres üzerinden iletişime geçebilirsiniz: iletisim@saydamemek.com
+            Gizlilik politikamız hakkında herhangi bir sorunuz varsa, Saydam Emek ekibine <a href="/contact" style={{color: "white", textDecoration: "underline"}}>İletişim Sayfası</a> aracılığıyla mesaj bırakabilirsiniz.
           </p>
         </section>
       </div>

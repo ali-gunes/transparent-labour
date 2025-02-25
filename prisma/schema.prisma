@@ -23,6 +23,9 @@ model User {
   verificationTokenExpiry DateTime?
   resetToken          String?   @unique
   resetTokenExpiry    DateTime?
+  contactToken          String?   @unique
+  contactTokenExpiry    DateTime?
+  anonymousMessages    AnonymousMessage[]
 }
 
 model Salary {
@@ -72,6 +75,19 @@ model ContactMessage {
   updatedAt DateTime @updatedAt
 
   @@map("contact_messages")
+}
+
+model AnonymousMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  subject   String
+  message   String   @db.Text
+  status    ContactMessageStatus @default(UNREAD)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("anonymous_messages")
 }
 
 enum Role {

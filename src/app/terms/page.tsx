@@ -7,72 +7,70 @@ export default function TermsOfService() {
         <p className="text-gray-600 dark:text-gray-400 mb-8">Son güncellenme: 25 Şubat 2025</p>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">1. Hizmet Kullanım Şartları</h2>
           <p className="mb-4">
-            Saydam Emek platformunu kullanarak aşağıdaki koşulları kabul etmiş olursunuz:
+            Bu Hizmet Şartları ("Şartlar"), Saydam Emek ("Platform", "Biz", "Bize" veya "Bizim") hizmetlerini kullanan bireyler ("Kullanıcı", "Siz" veya "Sizin") için geçerlidir. Platformumuzu kullanarak bu Şartları kabul etmiş olursunuz.
           </p>
+        </section>
+
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold mb-4">1. Hizmetin Kapsamı</h2>
+          <p className="mb-4">
+            Saydam Emek, kullanıcıların maaş verilerini anonim olarak paylaşmalarına ve sektörel maaş trendleri hakkında bilgi edinmelerine olanak tanıyan bir platformdur. Kullanıcılar, hesap oluşturarak ve içerik paylaşarak bu Şartlara uymayı kabul ederler.
+          </p>
+        </section>
+
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold mb-4">2. Kullanıcı Hesabı ve Güvenliği</h2>
           <ul className="list-disc pl-6 space-y-2">
-            <li>18 yaşından büyük olduğunuzu</li>
-            <li>Paylaştığınız bilgilerin doğru olduğunu</li>
-            <li>Platformu yasal amaçlar için kullanacağınızı</li>
+            <li>Platformu kullanmak için bir hesap oluşturmanız gerekmektedir.</li>
+            <li>E-posta adresiniz ve şifreniz şifrelenerek saklanır, ancak güvenliğiniz için güçlü bir şifre kullanmanızı öneririz.</li>
+            <li>Hesabınızın güvenliğinden siz sorumlusunuz. Hesabınızın yetkisiz kullanımı halinde derhal bizimle iletişime geçmelisiniz.</li>
           </ul>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">2. Kullanıcı Sorumlulukları</h2>
+          <h2 className="text-2xl font-semibold mb-4">3. Kullanıcı İçeriği ve Sorumluluklar</h2>
+          <ul className="list-disc pl-6 space-y-2 mb-4">
+            <li>Platformda yalnızca gerçek ve doğru bilgiler paylaşmalısınız.</li>
+            <li>Paylaşılan maaş bilgileri anonim olarak görüntülenir, ancak kullanıcı adınız görünür olabilir. Bu sebeple gerçek kimliğinizle bağdaştırılamayacak bir kullanıcı adı seçmelisiniz.</li>
+            <li>Şirketler veya üçüncü şahıslar hakkında yanıltıcı, hakaret içeren veya yanlış bilgiler paylaşmak yasaktır.</li>
+            <li>Yasadışı, spam veya reklam niteliğinde içerik paylaşmak yasaktır.</li>
+          </ul>
           <p className="mb-4">
-            Platform kullanıcıları:
+            Eğer bir içeriğin bu kurallara aykırı olduğunu tespit edersek, içeriği kaldırma ve kullanıcı hesabını askıya alma hakkını saklı tutarız.
           </p>
+        </section>
+
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold mb-4">4. Verilerin Kullanımı ve Gizlilik</h2>
           <ul className="list-disc pl-6 space-y-2">
-            <li>Doğru ve güncel bilgi paylaşmakla</li>
-            <li>Başkalarının haklarına saygı göstermekle</li>
-            <li>Platform kurallarına uymakla</li>
-            <li>Hesap güvenliğini korumakla</li>
-            <li>Yasadışı içerik paylaşmamakla</li>
+            <li>E-posta adresiniz sadece hesap doğrulama ve şifre sıfırlama için kullanılır ve üçüncü taraflarla paylaşılmaz.</li>
+            <li>Paylaşılan maaş verileri anonimleştirilir ve istatistiksel amaçlarla analiz edilebilir.</li>
+            <li>Verilerinizin işlenmesiyle ilgili ayrıntılar için <a href="/privacy" className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300">Gizlilik Politikamızı</a> okuyabilirsiniz.</li>
           </ul>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">3. Fikri Mülkiyet</h2>
-          <p className="mb-4">
-            Platform üzerindeki tüm içerik, tasarım ve yazılım Saydam Emek'e aittir. 
-            Kullanıcılar, içerikleri kişisel kullanım dışında çoğaltamaz ve dağıtamaz.
-          </p>
+          <h2 className="text-2xl font-semibold mb-4">5. Hizmetin Kullanılabilirliği ve Sınırlamaları</h2>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Platformun kesintisiz ve hatasız çalışacağını garanti etmiyoruz.</li>
+            <li>Zaman zaman teknik güncellemeler, bakım veya beklenmedik kesintiler yaşanabilir.</li>
+            <li>Platformdaki içeriklerden veya kullanıcılar arasında gerçekleşen etkileşimlerden kaynaklanan hiçbir doğrudan veya dolaylı zarardan sorumlu değiliz.</li>
+          </ul>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">4. Hizmet Değişiklikleri</h2>
+          <h2 className="text-2xl font-semibold mb-4">6. Hizmet Şartlarında Değişiklikler</h2>
           <p className="mb-4">
-            Saydam Emek, sunduğu hizmetlerde değişiklik yapma, hizmetleri askıya alma veya 
-            sonlandırma hakkını saklı tutar. Bu değişiklikler öncesinde kullanıcılara bildirim yapılır.
-          </p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">5. Hesap Sonlandırma</h2>
-          <p className="mb-4">
-            Kullanıcılar kendi hesaplarını istedikleri zaman sonlandırabilir. Ayrıca, platform kurallarının 
-            ihlali durumunda Saydam Emek hesapları sonlandırma hakkına sahiptir.
-          </p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">6. Sorumluluk Reddi</h2>
-          <p className="mb-4">
-            Platform üzerinde paylaşılan bilgilerin doğruluğu konusunda Saydam Emek garanti vermez. 
-            Kullanıcılar, platformu kendi sorumluluklarında kullanır.
+            Bu Şartlar zaman zaman güncellenebilir. Güncellemeler hakkında sizi bilgilendireceğiz ve en son sürümü bu sayfada yayınlayacağız.
           </p>
         </section>
 
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">7. İletişim</h2>
           <p className="mb-4">
-            Bu kullanım koşulları hakkında sorularınız için:
+            Bu Hizmet Şartları ile ilgili herhangi bir sorunuz varsa, Saydam Emek ekibine <a href="/contact" className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300">İletişim Sayfası</a> aracılığıyla mesaj bırakabilirsiniz.
           </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>E-posta: iletisim@saydamemek.com</li>
-            <li>İletişim formu üzerinden</li>
-          </ul>
         </section>
       </div>
     </article>

@@ -9,6 +9,7 @@ import VerificationStatus from '@/components/VerificationStatus'
 import VoteButtons from '@/components/VoteButtons'
 import { commonStyles as styles } from '@/styles/common'
 import type { UserProfile } from '@/types/user'
+import ContactTokenGenerator from '@/components/ContactTokenGenerator'
 
 export default function ProfilePage() {
   const { data: session, status } = useSession()
@@ -47,6 +48,10 @@ export default function ProfilePage() {
           isVerified={profile.emailVerified}
           email={session!.user.email}
         />
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-8">
+        <ContactTokenGenerator />
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">

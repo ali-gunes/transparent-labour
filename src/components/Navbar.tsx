@@ -23,7 +23,7 @@ export default function Navbar() {
               height={24}
             />
             <Link href="/" className="text-xl font-bold text-gray-800 dark:text-white">
-              Saydam Emek
+              Saydam Emek [Beta]
             </Link>
           </div>
 

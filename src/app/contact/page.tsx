@@ -81,13 +81,21 @@ export default function Contact() {
         {formType === 'anonymous' ? (
           <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-900/50 rounded-lg p-4 mb-8">
             <p className="text-yellow-800 dark:text-yellow-200">
-              📌 Bu form üye iletişimi içindir. Profilinizden tek kullanımlık iletişim kodu oluşturarak gizliliğinizi koruyarak bizimle iletişime geçebilirsiniz.
+              📌 Bu form üye iletişimi içindir. <br /><br /> Anonim kalma hakkınızı önemsiyoruz. Profilinizden tek kullanımlık iletişim kodu oluşturarak bizimle iletişime geçebilirsiniz.
             </p>
           </div>
         ) : (
-          <p className="text-gray-600 dark:text-gray-400 mb-8">
-            Herhangi bir soru, öneri veya geri bildiriminiz için aşağıdaki formu kullanabilirsiniz.
-          </p>
+          <div>
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-900/50 rounded-lg p-4 mb-8">
+            <p className="text-yellow-800 dark:text-yellow-200">
+              📌 Eğer Saydam Emek üyeyiyseniz lütfen Üye İletişim formunu kullanın.
+            </p>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400 mb-8">
+              Herhangi bir soru, öneri veya geri bildiriminiz için aşağıdaki formu kullanabilirsiniz.
+            </p>
+          </div>
+          
         )}
 
         <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">

@@ -40,9 +40,7 @@ export default function Navbar() {
                 <Link href="/profile" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
                   {tr.nav.profile}
                 </Link>
-                <Link href="/settings" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                  {tr.nav.settings}
-                </Link>
+                
                 <button
                   onClick={() => signOut()}
                   className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
@@ -109,13 +107,7 @@ export default function Navbar() {
                 >
                   {tr.nav.profile}
                 </Link>
-                <Link 
-                  href="/settings" 
-                  className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {tr.nav.settings}
-                </Link>
+                
                 <button
                   onClick={() => {
                     setIsMenuOpen(false)

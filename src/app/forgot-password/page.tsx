@@ -51,10 +51,6 @@ export default function ForgotPasswordPage() {
         </p>
         <br />
         <p className="text-gray-600 dark:text-gray-300 mb-4">
-          {tr.auth.forgotPassword.resetMailSent}
-        </p>
-        <br />
-        <p className="text-gray-600 dark:text-gray-300 mb-4">
           {tr.auth.verify.closeThisTab}
         </p>
         <div className="text-sm text-gray-500 dark:text-gray-400 mt-6">

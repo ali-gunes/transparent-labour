@@ -156,7 +156,9 @@ export const tr = {
       email: 'E-posta',
       emailPlaceholder: 'E-posta adresinizi girin',
       submit: 'Sıfırlama Bağlantısı Gönder',
-      checkEmail: 'Eğer hesabınız varsa, şifre sıfırlama bağlantısı e-posta adresinize gönderildi.',
+      checkEmail: 'Eğer girdiğiniz mail adresi şifrelenmiş adresiniz ile eşleşirse, şifre sıfırlama bağlantısı e-posta adresinize gönderilecektir.',
+      resetMailSent: 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen kontrol ediniz.',
+      closeThisTab: 'Bu sekmeyi kapatabilirsiniz.',
     },
     resetPassword: {
       title: 'Şifre Sıfırlama',

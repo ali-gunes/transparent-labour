@@ -45,11 +45,22 @@ export default function ForgotPasswordPage() {
       <h1 className={styles.pageTitle}>{tr.auth.forgotPassword.title}</h1>
       {error && <div className={styles.error}>{error}</div>}
       {success ? (
-        <div className={styles.formCard}>
-          <p className="text-green-600 dark:text-green-400">
-            {tr.auth.forgotPassword.checkEmail}
-          </p>
+        <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
+          {tr.auth.forgotPassword.checkEmail}
+        </p>
+        <br />
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
+          {tr.auth.forgotPassword.resetMailSent}
+        </p>
+        <br />
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
+          {tr.auth.verify.closeThisTab}
+        </p>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-6">
+          <p>{tr.auth.verify.spamNote}</p>
         </div>
+      </div>
       ) : (
         <div className={styles.formCard}>
           <form onSubmit={onSubmit} className={styles.formBody}>

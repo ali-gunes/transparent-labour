@@ -4,6 +4,27 @@ import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import type { SalaryResponse } from '@/types/salary'
 
+// Add type for database salary
+type DBSalary = {
+  id: string
+  createdAt: Date
+  votes: { value: number }[]
+  position: string
+  company: string
+  experience: number
+  location: string
+  source: string
+  sourceNote: string | null
+  salaryType: string
+  rangeMax: number
+  rangeMin: number
+  submittedBy: string
+  voteCount: number
+  startDate: Date | null
+  endDate: Date | null
+  isCurrent: boolean
+}
+
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
@@ -50,7 +71,7 @@ export async function GET() {
       }
     })
 
-    return NextResponse.json(salaries.map((salary: SalaryResponse) => ({
+    return NextResponse.json(salaries.map((salary: DBSalary) => ({
       ...salary,
       salaryRange: {
         min: salary.rangeMin,

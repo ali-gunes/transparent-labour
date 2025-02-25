@@ -16,5 +16,9 @@ export type UserProfile = {
     submittedBy: string
     voteCount: number
     userVote?: number
+    workLifeBalance?: number
+    compensationSatisfaction?: number
+    salarySatisfaction?: number
   }>
+  totalVotes: number
 } 

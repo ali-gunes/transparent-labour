@@ -10,6 +10,7 @@ import VoteButtons from '@/components/VoteButtons'
 import { commonStyles as styles } from '@/styles/common'
 import type { UserProfile } from '@/types/user'
 import ContactTokenGenerator from '@/components/ContactTokenGenerator'
+import UserBadge from '@/components/UserBadge'
 
 export default function ProfilePage() {
   const { data: session, status } = useSession()
@@ -25,6 +26,7 @@ export default function ProfilePage() {
 
     if (session) {
       getUserProfile().then(data => {
+        
         setProfile(data)
         setLoading(false)
       })
@@ -41,13 +43,33 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8">
-      <h1 className="text-2xl font-bold mb-8">Merhaba {profile.username}</h1>
+      <h1 className="text-2xl font-bold mb-8">Merhaba, {profile.username}</h1>
       
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-8">
-        <VerificationStatus 
-          isVerified={profile.emailVerified}
-          email={session!.user.email}
-        />
+        <div className="flex flex-col gap-4">
+          <VerificationStatus 
+            isVerified={profile.emailVerified}
+            email={session!.user.email}
+          />
+          <div className="flex items-center gap-2">
+            <span className="text-gray-600 dark:text-gray-400">
+              Profil Durumu:
+            </span>
+            <span className="font-semibold text-gray-900 dark:text-white">
+            <UserBadge voteCount={profile.totalVotes} />
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-gray-600 dark:text-gray-400">
+              Toplam Katkı Puanı:
+            </span>
+            <span className="font-semibold text-gray-900 dark:text-white">
+              {profile.totalVotes}
+            </span>
+          </div>
+          
+          
+        </div>
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-8">
@@ -78,14 +100,56 @@ export default function ProfilePage() {
                   })}
                 </span>
               </div>
+              <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
               <p className={`text-lg font-medium ${styles.text} mb-2`}>
                 ₺{salary.rangeMin.toLocaleString()} - ₺{salary.rangeMax.toLocaleString()}
                 <span className={styles.textSmall}> ({salary.salaryType === 'net' ? tr.submit.salaryTypes.net : tr.submit.salaryTypes.gross})</span>
               </p>
               <div className="relative">
                 <div className={styles.textSmall}>
-                  <p>{salary.experience} {tr.search.yearsExp}</p>
-                  <p>{salary.location}</p>
+                  <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} {tr.search.yearsExp}</p>
+                  <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
+                  {salary.source === 'SELF' && (
+                    <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                      <div className="grid gap-2">
+                        <div className="flex items-center justify-between">
+                          <span className={`text-sm font-medium ${styles.text} mb-2`}>İş-Yaşam Dengesi:</span>
+                          <div className="flex gap-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <span key={star} className={star <= (salary.workLifeBalance || 0) ? "text-yellow-400" : "text-gray-300"}>
+                                ★
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className={`text-sm font-medium ${styles.text} mb-2`}>Yan Haklar:</span>
+                          <div className="flex gap-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <span key={star} className={star <= (salary.compensationSatisfaction || 0) ? "text-yellow-400" : "text-gray-300"}>
+                                ★
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className={`text-sm font-medium ${styles.text} mb-2`}>Maaş Memnuniyeti:</span>
+                          <div className="flex gap-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <span key={star} className={star <= (salary.salarySatisfaction || 0) ? "text-yellow-400" : "text-gray-300"}>
+                                ★
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        
+                      </div>
+                      
+                    </div>
+                    
+                  )}
+                  <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
+                  
                   <p className="mt-2">
                     {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : tr.profile.sourceOther}
                     {salary.sourceNote && (
@@ -94,9 +158,13 @@ export default function ProfilePage() {
                   </p>
                   <p className="mt-1 text-gray-500 dark:text-gray-400">
                     {tr.profile.submittedBy}: {salary.submittedBy}
+                    <UserBadge voteCount={profile.totalVotes} />
                   </p>
+                  
+                  
                 </div>
-                <div className="absolute bottom-0 right-0">
+                <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
+                <div className="mt-4 flex justify-center">
                   <VoteButtons
                     salaryId={salary.id}
                     initialVoteCount={salary.voteCount}
@@ -110,7 +178,7 @@ export default function ProfilePage() {
         {profile.salaries.length === 0 && (
           <p className={styles.textMuted}>{tr.search.noResults}</p>
         )}
-      </div>
+        </div>
       </div>
     </div>
   )

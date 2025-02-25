@@ -14,6 +14,7 @@ export async function getUserProfile() {
     select: {
       emailVerified: true,
       username: true,
+      totalVotes: true,
       salaries: {
         select: {
           id: true,
@@ -29,6 +30,9 @@ export async function getUserProfile() {
           createdAt: true,
           submittedBy: true,
           voteCount: true,
+          workLifeBalance: true,
+          compensationSatisfaction: true,
+          salarySatisfaction: true,
           votes: {
             where: { userId: session.user.id },
             select: { value: true }

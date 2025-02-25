@@ -153,7 +153,7 @@ export default function Search() {
                     <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                       <div className="grid gap-2">
                         <div className="flex items-center justify-between">
-                          <span>İş-Yaşam Dengesi:</span>
+                          <span className={`text-sm font-medium ${styles.text} mb-2`}>İş-Yaşam Dengesi:</span>
                           <div className="flex gap-1">
                             {[1, 2, 3, 4, 5].map((star) => (
                               <span key={star} className={star <= (salary.workLifeBalance || 0) ? "text-yellow-400" : "text-gray-300"}>
@@ -163,7 +163,7 @@ export default function Search() {
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span>Yan Haklar:</span>
+                          <span className={`text-sm font-medium ${styles.text} mb-2`}>Yan Haklar:</span>
                           <div className="flex gap-1">
                             {[1, 2, 3, 4, 5].map((star) => (
                               <span key={star} className={star <= (salary.compensationSatisfaction || 0) ? "text-yellow-400" : "text-gray-300"}>
@@ -173,7 +173,7 @@ export default function Search() {
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span>Maaş Memnuniyeti:</span>
+                          <span className={`text-sm font-medium ${styles.text} mb-2`}>Maaş Memnuniyeti:</span>
                           <div className="flex gap-1">
                             {[1, 2, 3, 4, 5].map((star) => (
                               <span key={star} className={star <= (salary.salarySatisfaction || 0) ? "text-yellow-400" : "text-gray-300"}>
@@ -198,7 +198,7 @@ export default function Search() {
                   </p>
                   <p className="mt-1 text-gray-500 dark:text-gray-400">
                     {tr.profile.submittedBy}: {salary.submittedBy}
-                    <UserBadge totalVotes={salary.user.totalVotes} />
+                    <UserBadge voteCount={salary.user.totalVotes} />
                   </p>
                   
                   

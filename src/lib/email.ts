@@ -8,7 +8,7 @@ export async function sendVerificationEmail(email: string, token: string) {
     throw new Error('Email service not configured')
   }
 
-  const confirmLink = `${process.env.NEXTAUTH_URL}/api/auth/verify?token=${token}`
+  const verificationUrl = `${process.env.NEXTAUTH_URL}/verify-email?token=${token}`
   // Not directly to /login?verified=true
 
   try {
@@ -17,10 +17,50 @@ export async function sendVerificationEmail(email: string, token: string) {
       to: email,
       subject: 'E-posta Adresinizi Doğrulayın',
       html: `
-        <p>Merhaba,</p>
-        <p>E-posta adresinizi doğrulamak için aşağıdaki bağlantıya tıklayın:</p>
-        <a href="${confirmLink}">E-posta Adresimi Doğrula</a>
-        <p>Bu bağlantı 24 saat içinde sona erecektir.</p>
+        <!DOCTYPE html>
+<html>
+  <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+      <div style="background-color: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        
+        <!-- Hosted SVG Logo -->
+        <div style="text-align: center; margin-bottom: 20px;">
+          <img src="https://saydamemek.com/logo.svg" alt="Saydam Emek Logo" width="150" height="150" style="display: block; margin: 0 auto;">
+        </div>
+
+        <h1 style="color: #333; font-size: 24px; margin-bottom: 20px;">Saydam Emek'e Hoş Geldiniz!</h1>
+        <p style="color: #666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+          Merhaba,<br><br>
+          Türkiye'de maaş şeffaflığına katkıda bulunmak istediğiniz için teşekkür ederiz. Sizin gibi değerli kullanıcılarımız sayesinde, iş arayanlar ve çalışanlar daha bilinçli kariyer kararları alabiliyorlar.
+        </p>
+        <p style="color: #666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+          Platforma katılarak:<br>
+          • Sektörünüzdeki maaş aralıklarını görebilecek<br>
+          • Kendi deneyimlerinizi paylaşabilecek<br>
+          • Türkiye'deki maaş haksızlıklarının önüne geçmede katkıda bulunabileceksiniz
+        </p>
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${verificationUrl}" 
+            style="background-color: #007bff; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+            Email Adresimi Doğrula
+          </a>
+        </div>
+        <p style="color: #666; font-size: 14px; margin-top: 20px;">
+          Bu bağlantı 24 saat içinde geçerliliğini yitirecektir. Eğer bu emaili siz talep etmediyseniz, lütfen dikkate almayın.
+        </p>
+        <p style="color: #666; font-size: 14px; margin-top: 20px;">
+          Saydam Emek projesindeki desteğiniz, iş dünyasında daha adil ve şeffaf bir ortam yaratmamıza yardımcı oluyor. Katkınız için tekrar teşekkür ederiz.
+        </p>
+        <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+        <p style="color: #999; font-size: 12px; text-align: center;">
+          Bu email otomatik olarak gönderilmiştir. Lütfen yanıtlamayınız.<br>
+          Gizlilik ve güvenliğiniz bizim için önemlidir.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+
       `
     })
 

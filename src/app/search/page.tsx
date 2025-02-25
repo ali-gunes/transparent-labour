@@ -6,6 +6,7 @@ import SearchFilters from '@/components/SearchFilters'
 import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
 import VoteButtons from '@/components/VoteButtons'
+import UserBadge from '@/components/UserBadge'
 
 type Salary = {
   id: string
@@ -28,6 +29,9 @@ type Salary = {
   workLifeBalance?: number
   compensationSatisfaction?: number
   salarySatisfaction?: number
+  user: {
+    totalVotes: number
+  }
 }
 
 export default function Search() {
@@ -194,6 +198,7 @@ export default function Search() {
                   </p>
                   <p className="mt-1 text-gray-500 dark:text-gray-400">
                     {tr.profile.submittedBy}: {salary.submittedBy}
+                    <UserBadge totalVotes={salary.user.totalVotes} />
                   </p>
                   
                   

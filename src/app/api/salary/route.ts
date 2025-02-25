@@ -134,7 +134,12 @@ export async function GET(req: Request) {
     const salaries = await prisma.salary.findMany({
       take: limit,
       orderBy: { createdAt: 'desc' },
-      include: {  // Use include instead of select
+      include: {
+        user: {
+          select: {
+            totalVotes: true
+          }
+        },
         votes: session?.user ? {
           where: { userId: session.user.id },
           select: { value: true }

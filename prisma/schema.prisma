@@ -15,6 +15,7 @@ model User {
   updatedAt DateTime @updatedAt
   role      Role     @default(USER)
   username  String   @unique
+  totalVotes Int     @default(0)
   salaries  Salary[]
   votes     Vote[]
   emailVerified    Boolean   @default(false)

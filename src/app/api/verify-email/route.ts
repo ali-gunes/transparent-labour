@@ -31,7 +31,13 @@ export async function GET(req: Request) {
       }
     })
 
-    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/login?verified=true`)
+    return NextResponse.redirect('/login?verified=true', {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      }
+    })
   } catch (error) {
     console.error('Email verification error:', error)
     return NextResponse.json({ error: 'Doğrulama işlemi başarısız oldu' }, { status: 500 })

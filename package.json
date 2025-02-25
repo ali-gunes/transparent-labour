@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.4.1",
+    "add": "^2.0.6",
     "bcryptjs": "^3.0.2",
     "framer-motion": "^12.4.7",
     "next": "^15.1.7",
@@ -19,10 +20,14 @@
     "prisma": "^6.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "resend": "^4.1.2"
+    "react-hot-toast": "^2.5.2",
+    "resend": "^4.1.2",
+    "shadcn-ui": "^0.9.4",
+    "toast": "^0.5.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",

@@ -4,6 +4,8 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import { AuthProvider } from '@/components/AuthProvider'
 import { ThemeProvider } from '@/context/ThemeContext'
+import Footer from '@/components/Footer'
+import { Toaster } from 'react-hot-toast'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,6 +28,8 @@ export default function RootLayout({
             <main className="max-w-6xl mx-auto px-4 py-8">
               {children}
             </main>
+            <Footer />
+            <Toaster position="bottom-right" />
           </AuthProvider>
         </ThemeProvider>
       </body>

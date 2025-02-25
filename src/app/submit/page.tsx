@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 export default function SubmitSalary() {
   const router = useRouter()
@@ -12,6 +14,9 @@ export default function SubmitSalary() {
   const [error, setError] = useState('')
   const [source, setSource] = useState('SELF')
   const [salaryType, setSalaryType] = useState('net')
+  const [startDate, setStartDate] = useState<Date | null>(null)
+  const [endDate, setEndDate] = useState<Date | null>(null)
+  const [isCurrent, setIsCurrent] = useState(true)
 
   // Redirect if not authenticated
   if (session === null) {
@@ -59,6 +64,9 @@ export default function SubmitSalary() {
         sourceNote,
         submittedBy: session?.user?.username || '',  // Add fallback
         salaryType,
+        startDate,
+        endDate: !isCurrent ? endDate : null,
+        isCurrent,
         // Add new fields when source is SELF
         ...(source === 'SELF' && {
           workLifeBalance: Number(formData.get('workLifeBalance')),
@@ -220,6 +228,63 @@ export default function SubmitSalary() {
                   className={`${styles.input} h-12 text-lg`}
                   placeholder={tr.submit.placeholders.location}
                 />
+              </div>
+              <div>
+                <label className={`${styles.label} text-lg`}>
+                  Çalışma Süresi
+                </label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
+                      Başlangıç Tarihi
+                    </label>
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      dateFormat="MM/yyyy"
+                      showMonthYearPicker
+                      className={`${styles.input} h-12 text-lg w-full`}
+                      placeholderText="Ay/Yıl seçin"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
+                      Bitiş Tarihi
+                    </label>
+                    <div className="flex flex-col gap-2">
+                      <DatePicker
+                        selected={isCurrent ? null : endDate}
+                        onChange={(date) => setEndDate(date)}
+                        dateFormat="MM/yyyy"
+                        showMonthYearPicker
+                        className={`${styles.input} h-12 text-lg w-full ${isCurrent ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                        placeholderText="Devam ediyor"
+                        minDate={startDate || undefined}
+                        disabled={isCurrent}
+                      />
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id="isCurrent"
+                          checked={isCurrent}
+                          onChange={(e) => {
+                            setIsCurrent(e.target.checked)
+                            if (e.target.checked) {
+                              setEndDate(null)
+                            }
+                          }}
+                          className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                        />
+                        <label htmlFor="isCurrent" className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                          Halen bu pozisyonda çalışıyorum
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
               </div>
               <div>
                 <label htmlFor="source" className={`${styles.label} text-lg`}>

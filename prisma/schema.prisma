@@ -50,6 +50,9 @@ model Salary {
   salarySatisfaction Int?
   user        User     @relation(fields: [userId], references: [id])
   votes       Vote[]
+  startDate   DateTime?
+  endDate     DateTime?
+  isCurrent   Boolean   @default(true)
 }
 
 model Vote {

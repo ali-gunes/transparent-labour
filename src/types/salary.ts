@@ -13,4 +13,7 @@ export type SalaryResponse = {
   submittedBy: string
   voteCount: number
   votes: { value: number }[] | false
+  startDate: Date | null
+  endDate: Date | null
+  isCurrent: boolean
 } 

@@ -50,6 +50,9 @@ export async function POST(req: Request) {
         submittedBy: data.submittedBy,
         voteCount: 0,
         userId: session.user.id,
+        startDate: data.startDate ? new Date(data.startDate) : null,
+        endDate: data.endDate ? new Date(data.endDate) : null,
+        isCurrent: data.isCurrent,
         // Add new fields conditionally
         ...(data.source === 'SELF' ? {
           workLifeBalance: parseInt(data.workLifeBalance),

@@ -117,6 +117,16 @@ export default function ProfilePage() {
                       <div className={styles.textSmall}>
                         <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} {tr.search.yearsExp}</p>
                         <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
+                        <p className={`text-sm font-medium ${styles.text} mb-2`}>
+                          {salary.startDate ? new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' }) : ''}
+                          {' - '}
+                          {salary.isCurrent 
+                            ? 'Devam ediyor'
+                            : salary.endDate 
+                              ? new Date(salary.endDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })
+                              : ''
+                          }
+                        </p>
                         {salary.source === 'SELF' && (
                           <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                             <div className="grid gap-2">

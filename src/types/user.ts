@@ -19,6 +19,9 @@ export type UserProfile = {
     workLifeBalance?: number
     compensationSatisfaction?: number
     salarySatisfaction?: number
+    startDate: Date | null
+    endDate: Date | null
+    isCurrent: boolean
   }>
   totalVotes: number
 } 

@@ -64,6 +64,9 @@ export async function GET() {
         rangeMax: true,
         submittedBy: true,
         voteCount: true,
+        startDate: true,
+        endDate: true,
+        isCurrent: true,
         votes: {
           where: { userId: session.user.id },
           select: { value: true }

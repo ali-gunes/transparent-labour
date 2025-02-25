@@ -186,6 +186,7 @@ export const tr = {
   settings: {
     title: 'Ayarlar',
     currentPassword: 'Mevcut Şifre',
+    passwordChangeDesc: 'Şifrenizi değiştirmek için mevcut şifrenizle birlikte yeni şifrenizi girin. Eğer şifrenizi unuttuysanız, giriş sayfasındaki şifre sıfırlama işlemini kullanabilirsiniz.',
     newPassword: 'Yeni Şifre',
     confirmPassword: 'Yeni Şifre (Tekrar)',
     changePassword: 'Şifreyi Değiştir',

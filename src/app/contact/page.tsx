@@ -81,7 +81,7 @@ export default function Contact() {
         {formType === 'anonymous' ? (
           <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-900/50 rounded-lg p-4 mb-8">
             <p className="text-yellow-800 dark:text-yellow-200">
-              📌 Bu form üye iletişimi içindir. <br /><br /> Anonim kalma hakkınızı önemsiyoruz. Profilinizden tek kullanımlık iletişim kodu oluşturarak bizimle iletişime geçebilirsiniz.
+              📌 Bu form üye iletişimi içindir. <br /><br /> Anonim kalma hakkınızı önemsiyoruz. Profilinizden anonim iletişim kodu oluşturarak kişisel bilgilerinizi paylaşmak zorunda kalmadan bizimle iletişime geçebilirsiniz.
             </p>
           </div>
         ) : (
@@ -137,7 +137,7 @@ export default function Contact() {
                 id="token"
                 name="token"
                 required
-                placeholder="Profilinizden oluşturduğunuz tek kullanımlık kod"
+                placeholder="Profilinizden oluşturduğunuz iletişim kodu"
                 className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700"
               />
             </div>

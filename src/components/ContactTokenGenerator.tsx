@@ -92,7 +92,7 @@ export default function ContactTokenGenerator() {
         </div>
       ) : (
         <p className="text-gray-600 dark:text-gray-400">
-          Bizimle anonim olarak iletişime geçmek için tek kullanımlık kod oluşturabilirsin.
+          Bizimle anonim olarak iletişime geçmek için iletişim kodu oluşturabilirsin.
         </p>
       )}
 

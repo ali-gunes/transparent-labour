@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
 
 export default function PasswordChangeForm() {
@@ -53,9 +54,12 @@ export default function PasswordChangeForm() {
   }
 
   return (
-    <div className="w-full max-w-xl mx-auto">
+    <div className="w-full">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4">
+          <p className={`text-base ${styles.text} mb-4`}>
+            {tr.settings.passwordChangeDesc}
+          </p>    
           <div>
             <label htmlFor="currentPassword" className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-200">
               {tr.settings.currentPassword}

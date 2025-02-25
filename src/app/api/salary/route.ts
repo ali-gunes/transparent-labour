@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 // import type { SalaryResponse } from '@/types/salary'
 import { authOptions } from '@/lib/auth'
+import { Prisma } from '@prisma/client'
 
 // Remove unused Salary type and keep only SalaryResponse
 export async function POST(req: Request) {
@@ -118,6 +119,9 @@ type SalaryFromDB = {
   rangeMax: number
   submittedBy: string
   voteCount: number
+  workLifeBalance: number | null
+  compensationSatisfaction: number | null
+  salarySatisfaction: number | null
   votes: { value: number }[] | false
 }
 
@@ -127,39 +131,18 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url)
     const limit = Number(searchParams.get('limit')) || 50
 
-    console.log('Fetching salaries with session:', session?.user?.id)
-
     const salaries = await prisma.salary.findMany({
       take: limit,
       orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        position: true,
-        company: true,
-        experience: true,
-        location: true,
-        source: true,
-        sourceNote: true,
-        createdAt: true,
-        salaryType: true,
-        rangeMin: true,
-        rangeMax: true,
-        submittedBy: true,
-        voteCount: true,
+      include: {  // Use include instead of select
         votes: session?.user ? {
-          where: {
-            userId: session.user.id
-          },
-          select: {
-            value: true
-          }
+          where: { userId: session.user.id },
+          select: { value: true }
         } : false
       }
     })
 
-    console.log('Found salaries:', salaries.length)
-
-    const formattedSalaries = salaries.map((salary: SalaryFromDB) => ({
+    const formattedSalaries = salaries.map((salary) => ({
       ...salary,
       salaryRange: {
         min: salary.rangeMin,
@@ -171,9 +154,6 @@ export async function GET(req: Request) {
     return NextResponse.json(formattedSalaries)
   } catch (error) {
     console.error('Server error in GET /api/salary:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch salaries' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch salaries' }, { status: 500 })
   }
 } 

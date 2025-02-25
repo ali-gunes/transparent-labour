@@ -31,13 +31,7 @@ export async function GET(req: Request) {
       }
     })
 
-    return NextResponse.redirect('/login?verified=true', {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Headers': 'Content-Type'
-      }
-    })
+    return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Email verification error:', error)
     return NextResponse.json({ error: 'Doğrulama işlemi başarısız oldu' }, { status: 500 })

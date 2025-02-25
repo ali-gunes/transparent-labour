@@ -41,7 +41,7 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8">
-      <h1 className="text-2xl font-bold mb-8">{tr.profile.title}</h1>
+      <h1 className="text-2xl font-bold mb-8">Merhaba {profile.username}</h1>
       
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-8">
         <VerificationStatus 
@@ -56,7 +56,7 @@ export default function ProfilePage() {
 
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
         <h2 className="text-xl font-bold mb-6">
-          {profile.username}&apos;nin {tr.profile.title}
+          {tr.profile.title}
         </h2>
         
         <div className="grid gap-4">

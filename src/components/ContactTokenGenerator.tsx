@@ -92,13 +92,13 @@ export default function ContactTokenGenerator() {
         </div>
       ) : (
         <p className="text-gray-600 dark:text-gray-400">
-          Bizimle anonim olarak iletişime geçmek için tek kullanımlık kod oluşturun.
+          Bizimle anonim olarak iletişime geçmek için tek kullanımlık kod oluşturabilirsin.
         </p>
       )}
 
       <button
         onClick={generateToken}
-        disabled={isGenerating || (token && timeLeft !== null)}
+        disabled={isGenerating || Boolean(token && timeLeft !== null)}
         className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
       >
         {isGenerating 

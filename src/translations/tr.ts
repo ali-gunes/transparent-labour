@@ -97,7 +97,7 @@ export const tr = {
     salarySatisfaction: "Aldığınız maaştan ne kadar memnunsunuz?"
   },
   profile: {
-    title: 'Paylaşımları',
+    title: 'Katkıların',
     noSalaries: 'Henüz maaş paylaşımı yapmamışsınız',
     source: 'Kaynak',
     sourceSelf: 'Kendi Maaşım',

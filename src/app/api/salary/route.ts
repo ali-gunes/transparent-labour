@@ -140,7 +140,8 @@ export async function GET(req: Request) {
       include: {
         user: {
           select: {
-            totalVotes: true
+            totalVotes: true,
+            role: true
           }
         },
         votes: session?.user ? {

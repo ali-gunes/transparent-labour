@@ -33,6 +33,7 @@ type Salary = {
   salarySatisfaction?: number
   user: {
     totalVotes: number
+    role: 'USER' | 'ADMIN'
   }
 }
 
@@ -306,7 +307,7 @@ export default function Home() {
                   </p>
                   <p className="mt-1 text-gray-500 dark:text-gray-400">
                     {tr.profile.submittedBy}: {salary.submittedBy}
-                    <UserBadge voteCount={salary.user.totalVotes} />
+                    <UserBadge voteCount={salary.user.totalVotes} role={salary.user.role} />
                   </p>
                   
                   

@@ -26,15 +26,16 @@ type Salary = {
   submittedBy: string
   voteCount: number
   userVote?: number
+  startDate: string
+  endDate: string
+  isCurrent: boolean
   workLifeBalance?: number
   compensationSatisfaction?: number
   salarySatisfaction?: number
   user: {
     totalVotes: number
+    role: 'USER' | 'ADMIN'
   }
-  startDate: string
-  endDate: string
-  isCurrent: boolean
 }
 
 export default function Search() {
@@ -214,7 +215,7 @@ export default function Search() {
                   </p>
                   <p className="mt-1 text-gray-500 dark:text-gray-400">
                     {tr.profile.submittedBy}: {salary.submittedBy}
-                    <UserBadge voteCount={salary.user.totalVotes} />
+                    <UserBadge voteCount={salary.user.totalVotes} role={salary.user.role} />
                   </p>
                   
                   

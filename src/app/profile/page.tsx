@@ -57,7 +57,7 @@ export default function ProfilePage() {
                     Profil Durumu:
                   </span>
                   <span className="font-semibold text-gray-900 dark:text-white">
-                    <UserBadge voteCount={profile!.totalVotes} />
+                    <UserBadge voteCount={profile!.totalVotes} role={profile!.role} />
                   </span>
                 </div>
                 <div className="flex items-center gap-2">

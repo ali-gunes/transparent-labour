@@ -1,8 +1,18 @@
 interface BadgeProps {
   voteCount: number
+  role?: 'USER' | 'ADMIN'
 }
 
-export default function UserBadge({ voteCount }: BadgeProps) {
+export default function UserBadge({ voteCount, role }: BadgeProps) {
+  // If user is admin, show admin badge regardless of vote count
+  if (role === 'ADMIN') {
+    return (
+      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800/30">
+        Admin
+      </span>
+    )
+  }
+
   const getBadgeInfo = (votes: number) => {
     // Negative reputation levels
     if (votes <= -25) return { 

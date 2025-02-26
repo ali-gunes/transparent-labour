@@ -1,6 +1,7 @@
 export type UserProfile = {
   emailVerified: boolean
   username: string
+  role: 'USER' | 'ADMIN'
   salaries: Array<{
     id: string
     position: string

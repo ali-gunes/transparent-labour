@@ -5,7 +5,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer
+  ResponsiveContainer,
+  Legend
 } from 'recharts'
 
 interface SalaryPoint {
@@ -25,6 +26,14 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
       currency: 'TRY',
       maximumFractionDigits: 0
     }).format(amount)
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-[32rem] text-gray-500 dark:text-gray-400">
+        <p>Henüz veri bulunmamaktadır.</p>
+      </div>
+    )
   }
 
   return (
@@ -72,11 +81,20 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
               color: '#F3F4F6'
             }}
             cursor={{ strokeDasharray: '3 3' }}
+            labelFormatter={(_, points) => {
+              if (points && points[0]) {
+                return `Pozisyon: ${(points[0].payload as SalaryPoint).position}`
+              }
+              return ''
+            }}
           />
           <Scatter
             name="Maaş-Deneyim"
             data={data}
             fill="#3B82F6"
+            fillOpacity={0.6}
+            shape="circle"
+            r={6}
           />
         </ScatterChart>
       </ResponsiveContainer>

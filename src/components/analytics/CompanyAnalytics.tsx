@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   BarChart,
   Bar,
@@ -21,6 +22,8 @@ interface CompanyAnalyticsProps {
 }
 
 export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
+  const [sortBy, setSortBy] = useState<'salary' | 'count' | 'experience'>('salary')
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('tr-TR', {
       style: 'currency',
@@ -29,7 +32,26 @@ export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
     }).format(amount)
   }
 
-  const sortedData = [...data].sort((a, b) => b.averageSalary - a.averageSalary).slice(0, 10)
+  const sortedData = [...data]
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'salary':
+          return b.averageSalary - a.averageSalary
+        case 'count':
+          return b.employeeCount - a.employeeCount
+        case 'experience':
+          return b.experienceAvg - a.experienceAvg
+      }
+    })
+    .slice(0, 10)
+
+  if (data.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-[32rem] text-gray-500 dark:text-gray-400">
+        <p>Henüz yeterli veri bulunmamaktadır. En az 2 kayıt olan şirketler gösterilmektedir.</p>
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -37,6 +59,7 @@ export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
         <select
           className="block w-48 px-3 py-2 text-base border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
           defaultValue="salary"
+          onChange={(e) => setSortBy(e.target.value as 'salary' | 'count' | 'experience')}
         >
           <option value="salary">Maaşa Göre</option>
           <option value="count">Çalışan Sayısına Göre</option>

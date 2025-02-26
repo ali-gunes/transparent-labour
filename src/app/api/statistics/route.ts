@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
     // Get experience analytics
     const experienceAnalytics = await getExperienceAnalytics(filter)
 
-    return NextResponse.json({
+    const response = {
       stats: {
         totalEntries,
         averageSalary,
@@ -85,7 +85,15 @@ export async function GET(req: NextRequest) {
       distribution: salaryRanges,
       companyAnalytics,
       experienceAnalytics
+    }
+
+    console.log('API Response:', {
+      totalEntries,
+      companyAnalyticsCount: companyAnalytics.length,
+      experienceAnalyticsCount: experienceAnalytics.length
     })
+
+    return NextResponse.json(response)
   } catch (error) {
     console.error('Statistics error:', error)
     return NextResponse.json(
@@ -129,44 +137,76 @@ async function getSalaryDistribution(filter: any) {
 }
 
 async function getCompanyAnalytics(filter: any) {
-  const companies = await prisma.salary.groupBy({
-    where: filter,
-    by: ['company'],
-    _avg: {
-      amount: true,
-      experience: true
-    },
-    _count: true,
-    having: {
-      company: {
-        _count: {
-          gt: 2 // Only include companies with more than 2 entries
+  try {
+    // Get all companies with their stats directly
+    const companies = await prisma.salary.groupBy({
+      by: ['company'],
+      where: filter,
+      _count: {
+        company: true
+      },
+      _avg: {
+        amount: true,
+        experience: true
+      },
+      having: {
+        company: {
+          _count: {
+            gt: 1
+          }
         }
       }
-    }
-  })
+    })
 
-  return companies.map(company => ({
-    name: company.company,
-    averageSalary: company._avg.amount || 0,
-    employeeCount: company._count,
-    experienceAvg: company._avg.experience || 0
-  }))
+    console.log('Company Analytics Raw:', {
+      companiesFound: companies.length,
+      firstCompany: companies[0]
+    })
+
+    const companyStats = companies.map(company => ({
+      name: company.company,
+      averageSalary: Math.round(company._avg.amount || 0),
+      employeeCount: company._count.company,
+      experienceAvg: Number((company._avg.experience || 0).toFixed(1))
+    }))
+
+    console.log('Company Analytics Processed:', {
+      totalCompanies: companyStats.length,
+      sampleCompany: companyStats[0],
+      allCompanies: companyStats
+    })
+
+    return companyStats.sort((a, b) => b.averageSalary - a.averageSalary)
+
+  } catch (error: any) {
+    console.error('Company Analytics Error:', error?.message || 'Unknown error')
+    return []
+  }
 }
 
 async function getExperienceAnalytics(filter: any) {
-  const salaries = await prisma.salary.findMany({
-    where: filter,
-    select: {
-      experience: true,
-      amount: true,
-      position: true
-    }
-  })
+  try {
+    const salaries = await prisma.salary.findMany({
+      where: filter,
+      select: {
+        experience: true,
+        amount: true,
+        position: true
+      }
+    })
 
-  return salaries.map(salary => ({
-    experience: salary.experience,
-    salary: salary.amount,
-    position: salary.position
-  }))
+    console.log('Experience Analytics:', {
+      totalEntries: salaries.length,
+      sampleEntry: salaries[0]
+    })
+
+    return salaries.map(salary => ({
+      experience: salary.experience,
+      salary: salary.amount,
+      position: salary.position
+    }))
+  } catch (error) {
+    console.error('Experience Analytics Error:', error)
+    return []
+  }
 } 

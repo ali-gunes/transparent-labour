@@ -78,14 +78,7 @@ export default function ProfilePage() {
 
 
         )
-
-      // case 'contact':
-      //   return (
-      //     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-      //       <ContactTokenGenerator />
-      //     </div>
-      //   )
-
+        
       case 'notifications':
         return (
           <div>

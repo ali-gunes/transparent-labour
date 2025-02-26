@@ -25,6 +25,9 @@ type Salary = {
   submittedBy: string
   voteCount: number
   userVote?: number
+  startDate: string
+  endDate: string
+  isCurrent: boolean
   workLifeBalance?: number
   compensationSatisfaction?: number
   salarySatisfaction?: number
@@ -243,6 +246,17 @@ export default function Home() {
                 <div className={styles.textSmall}>
                   <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} {tr.search.yearsExp}</p>
                   <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
+                  {/* Add duration info */}
+                  <p className={`text-sm font-medium ${styles.text} mb-2`}>
+                    {new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}
+                    {' - '}
+                    {salary.isCurrent 
+                      ? 'Devam ediyor'
+                      : salary.endDate 
+                        ? new Date(salary.endDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })
+                        : ''
+                    }
+                  </p>
                   {salary.source === 'SELF' && (
                     <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                       <div className="grid gap-2">

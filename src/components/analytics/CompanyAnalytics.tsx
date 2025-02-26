@@ -52,12 +52,12 @@ export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
       </div>
     )
   }
-
+ 
   return (
     <div>
       <div className="flex justify-end mb-6">
         <select
-          className="block w-48 px-3 py-2 text-base border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+          className="block w-48 px-3 py-2 text-base border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white text-gray-800 dark:text-white"
           defaultValue="salary"
           onChange={(e) => setSortBy(e.target.value as 'salary' | 'count' | 'experience')}
         >
@@ -70,18 +70,48 @@ export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={sortedData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-            layout="vertical"
+            margin={{ top: 20, right: 30, left: 0, bottom: 120 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-            <XAxis type="number" tick={{ fill: '#9CA3AF' }} xAxisId="salary" orientation="bottom" />
-            <XAxis type="number" tick={{ fill: '#9CA3AF' }} xAxisId="count" orientation="top" hide />
-            <XAxis type="number" tick={{ fill: '#9CA3AF' }} xAxisId="experience" orientation="top" hide />
-            <YAxis
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--grid-stroke)" />
+            <XAxis 
               dataKey="name"
               type="category"
-              width={150}
-              tick={{ fill: '#9CA3AF' }}
+              tick={(props) => {
+                const { x, y, payload } = props;
+                return (
+                  <g transform={`translate(${x},${y})`}>
+                    <text
+                      x={0}
+                      y={0}
+                      dy={16}
+                      textAnchor="end"
+                      transform="rotate(-45)"
+                      className="fill-gray-800 dark:fill-gray-300"
+                    >
+                      {payload.value}
+                    </text>
+                  </g>
+                );
+              }}
+              height={100}
+              stroke="var(--axis-stroke)"
+            />
+            <YAxis
+              type="number"
+              yAxisId="salary"
+              hide
+            />
+            <YAxis
+              type="number"
+              yAxisId="count"
+              orientation="right"
+              hide
+            />
+            <YAxis
+              type="number"
+              yAxisId="experience"
+              orientation="right"
+              hide
             />
             <Tooltip
               formatter={(value: number, name: string) => {
@@ -97,10 +127,11 @@ export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
                 }
               }}
               contentStyle={{
-                backgroundColor: '#1F2937',
-                border: 'none',
+                backgroundColor: 'var(--tooltip-bg)',
+                border: '1px solid var(--tooltip-border)',
                 borderRadius: '0.375rem',
-                color: '#F3F4F6'
+                color: 'var(--tooltip-text)',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
               }}
             />
             <Legend
@@ -112,26 +143,42 @@ export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
               dataKey="averageSalary"
               name="Ortalama Maaş"
               fill="#3B82F6"
-              radius={[0, 4, 4, 0]}
-              xAxisId="salary"
+              radius={[4, 4, 0, 0]}
+              yAxisId="salary"
             />
             <Bar
               dataKey="employeeCount"
               name="Çalışan Sayısı"
               fill="#10B981"
-              radius={[0, 4, 4, 0]}
-              xAxisId="count"
+              radius={[4, 4, 0, 0]}
+              yAxisId="count"
             />
             <Bar
               dataKey="experienceAvg"
               name="Ortalama Deneyim"
               fill="#F59E0B"
-              radius={[0, 4, 4, 0]}
-              xAxisId="experience"
+              radius={[4, 4, 0, 0]}
+              yAxisId="experience"
             />
           </BarChart>
         </ResponsiveContainer>
       </div>
+      <style jsx global>{`
+        :root {
+          --tooltip-bg: #ffffff;
+          --tooltip-border: #e5e7eb;
+          --tooltip-text: #1f2937;
+          --grid-stroke: #d1d5db;
+          --axis-stroke: #9ca3af;
+        }
+        .dark {
+          --tooltip-bg: #1f2937;
+          --tooltip-border: #374151;
+          --tooltip-text: #f3f4f6;
+          --grid-stroke: #374151;
+          --axis-stroke: #4b5563;
+        }
+      `}</style>
     </div>
   )
 } 

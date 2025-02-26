@@ -116,7 +116,7 @@ export default function Analytics() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid gap-8 mb-8">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
           <div className="border-b border-gray-100 dark:border-gray-700 p-6">
             <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
@@ -127,7 +127,9 @@ export default function Analytics() {
             <CompanyAnalytics data={data.companyAnalytics} />
           </div>
         </div>
+      </div>
 
+      <div className="grid md:grid-cols-1 gap-8">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
           <div className="border-b border-gray-100 dark:border-gray-700 p-6">
             <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">

@@ -47,7 +47,7 @@ export const tr = {
   },
   search: {
     title: 'Maaş Bilgileri',
-    filters: 'Arama Filtreleri',
+    filters: 'Arama Filtrelerini kullanarak istediğiniz maaş bilgilerini bulabilirsiniz',
     clearFilters: 'Filtreleri Temizle',
     searchPlaceholder: 'Pozisyon, şirket veya lokasyon ara',
     minSalary: 'Minimum Maaş',

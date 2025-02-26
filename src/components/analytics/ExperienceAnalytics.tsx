@@ -42,7 +42,10 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
         <ScatterChart
           margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+          <CartesianGrid 
+            strokeDasharray="3 3" 
+            stroke="var(--grid-stroke)" 
+          />
           <XAxis
             type="number"
             dataKey="experience"
@@ -51,9 +54,10 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
             label={{
               value: 'Deneyim (Yıl)',
               position: 'bottom',
-              fill: '#9CA3AF'
+              className: 'fill-gray-800 dark:fill-gray-300'
             }}
-            tick={{ fill: '#9CA3AF' }}
+            tick={{ className: 'fill-gray-800 dark:fill-gray-300' }}
+            stroke="var(--axis-stroke)"
           />
           <YAxis
             type="number"
@@ -64,9 +68,10 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
               value: 'Maaş (TL)',
               angle: -90,
               position: 'left',
-              fill: '#9CA3AF'
+              className: 'fill-gray-800 dark:fill-gray-300'
             }}
-            tick={{ fill: '#9CA3AF' }}
+            tick={{ className: 'fill-gray-800 dark:fill-gray-300' }}
+            stroke="var(--axis-stroke)"
           />
           <Tooltip
             formatter={(value: number, name: string) => {
@@ -75,10 +80,11 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
               return [value, name]
             }}
             contentStyle={{
-              backgroundColor: '#1F2937',
-              border: 'none',
+              backgroundColor: 'var(--tooltip-bg)',
+              border: '1px solid var(--tooltip-border)',
               borderRadius: '0.375rem',
-              color: '#F3F4F6'
+              color: 'var(--tooltip-text)',
+              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
             }}
             cursor={{ strokeDasharray: '3 3' }}
             labelFormatter={(_, points) => {
@@ -91,13 +97,35 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
           <Scatter
             name="Maaş-Deneyim"
             data={data}
-            fill="#3B82F6"
-            fillOpacity={0.6}
+            fill="var(--scatter-fill)"
+            stroke="var(--scatter-stroke)"
+            fillOpacity={0.8}
+            strokeWidth={1}
             shape="circle"
             r={6}
           />
         </ScatterChart>
       </ResponsiveContainer>
+      <style jsx global>{`
+        :root {
+          --tooltip-bg: #ffffff;
+          --tooltip-border: #e5e7eb;
+          --tooltip-text: #1f2937;
+          --scatter-fill: #3b82f6;
+          --scatter-stroke: #2563eb;
+          --grid-stroke: #d1d5db;
+          --axis-stroke: #9ca3af;
+        }
+        .dark {
+          --tooltip-bg: #1f2937;
+          --tooltip-border: #374151;
+          --tooltip-text: #f3f4f6;
+          --scatter-fill: #60a5fa;
+          --scatter-stroke: #3b82f6;
+          --grid-stroke: #374151;
+          --axis-stroke: #4b5563;
+        }
+      `}</style>
     </div>
   )
 } 

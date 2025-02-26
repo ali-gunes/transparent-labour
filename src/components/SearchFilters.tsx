@@ -120,7 +120,7 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 mb-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">{tr.search.filters}</h2>
+        <h2 className="text-l font-bold mb-6 text-gray-800 dark:text-white">{tr.search.filters}</h2>
         <button
           onClick={handleClearFilters}
           className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"

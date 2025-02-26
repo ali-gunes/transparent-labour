@@ -19,10 +19,8 @@ type Salary = {
   source: string
   sourceNote?: string
   createdAt: string
-  salaryRange: {
-    min: number
-    max: number
-  }
+  rangeMin: number
+  rangeMax: number
   submittedBy: string
   voteCount: number
   userVote?: number
@@ -160,7 +158,7 @@ export default function Search() {
               </div>
               <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
               <p className={`text-lg font-medium ${styles.text} mb-2`}>
-                ₺{salary.salaryRange.min.toLocaleString()} - ₺{salary.salaryRange.max.toLocaleString()}
+                ₺{salary.rangeMin.toLocaleString()} - ₺{salary.rangeMax.toLocaleString()}
                 <span className={styles.textSmall}> ({salary.salaryType === 'net' ? tr.submit.salaryTypes.net : tr.submit.salaryTypes.gross})</span>
               </p>
               <div className="relative">

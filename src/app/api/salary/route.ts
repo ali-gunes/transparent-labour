@@ -163,15 +163,13 @@ export async function GET(req: NextRequest) {
 
     // Salary range filter
     if (minSalary) {
-      where.salaryRange = {
-        ...where.salaryRange,
-        min: { gte: minSalary }
+      where.rangeMin = {
+        gte: minSalary
       }
     }
     if (maxSalary) {
-      where.salaryRange = {
-        ...where.salaryRange,
-        max: { lte: maxSalary }
+      where.rangeMax = {
+        lte: maxSalary
       }
     }
 
@@ -217,10 +215,10 @@ export async function GET(req: NextRequest) {
     const orderBy: any = {}
     switch (sortBy) {
       case 'maxSalary':
-        orderBy.salaryRange = { max: 'desc' }
+        orderBy.rangeMax = 'desc'
         break
       case 'minSalary':
-        orderBy.salaryRange = { min: 'asc' }
+        orderBy.rangeMin = 'asc'
         break
       case 'mostVoted':
         orderBy.voteCount = 'desc'

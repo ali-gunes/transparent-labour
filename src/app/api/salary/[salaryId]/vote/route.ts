@@ -3,8 +3,7 @@ import { getServerSession } from 'next-auth'
 import prisma from '@/lib/prisma'
 
 export async function POST(
-  request: NextRequest,
-  { params }: { params: { salaryId: string } }
+  request: NextRequest
 ) {
   try {
     const session = await getServerSession()
@@ -12,6 +11,8 @@ export async function POST(
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    // Get salaryId from URL
+    const salaryId = request.url.split('/salary/')[1].split('/vote')[0]
     const data = await request.json()
     const { value } = data
 
@@ -28,7 +29,7 @@ export async function POST(
       where: {
         userId_salaryId: {
           userId: user.id,
-          salaryId: params.salaryId,
+          salaryId: salaryId,
         },
       },
     })
@@ -39,7 +40,7 @@ export async function POST(
         where: {
           userId_salaryId: {
             userId: user.id,
-            salaryId: params.salaryId,
+            salaryId: salaryId,
           },
         },
         data: { value },
@@ -50,7 +51,7 @@ export async function POST(
         data: {
           value,
           userId: user.id,
-          salaryId: params.salaryId,
+          salaryId: salaryId,
         },
       })
     }

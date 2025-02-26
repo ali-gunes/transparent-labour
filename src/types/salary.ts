@@ -16,4 +16,8 @@ export type SalaryResponse = {
   startDate: Date | null
   endDate: Date | null
   isCurrent: boolean
+  user: {
+    totalVotes: number
+    role: 'USER' | 'ADMIN'
+  }
 } 

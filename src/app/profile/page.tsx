@@ -14,6 +14,7 @@ import UserBadge from '@/components/UserBadge'
 import PasswordChangeForm from '@/components/PasswordChangeForm'
 import { div } from 'framer-motion/client'
 import Notifications from '@/components/Notifications'
+import AdminBadge from '@/components/AdminBadge'
 
 type TabType = 'profile' | 'contact' | 'password' | 'salaries' | 'notifications'
 
@@ -57,7 +58,11 @@ export default function ProfilePage() {
                     Profil Durumu:
                   </span>
                   <span className="font-semibold text-gray-900 dark:text-white">
-                    <UserBadge voteCount={profile!.totalVotes} />
+                    {profile!.role === 'ADMIN' ? (
+    <AdminBadge />
+  ) : (
+    <UserBadge voteCount={profile!.totalVotes} />
+  )}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -126,14 +131,15 @@ export default function ProfilePage() {
                         <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} {tr.search.yearsExp}</p>
                         <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
                         <p className={`text-sm font-medium ${styles.text} mb-2`}>
-                          {salary.startDate ? new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' }) : ''}
-                          {' - '}
-                          {salary.isCurrent
-                            ? 'Devam ediyor'
-                            : salary.endDate
-                              ? new Date(salary.endDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })
-                              : ''
-                          }
+                          {salary.startDate 
+                            ? `${new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}${
+                                salary.isCurrent 
+                                  ? ' - Devam ediyor'
+                                  : salary.endDate 
+                                    ? ` - ${new Date(salary.endDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}`
+                                    : ''
+                              }`
+                            : ''}
                         </p>
                         {salary.source === 'SELF' && (
                           <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
@@ -184,7 +190,11 @@ export default function ProfilePage() {
                         </p>
                         <p className="mt-1 text-gray-500 dark:text-gray-400">
                           {tr.profile.submittedBy}: {salary.submittedBy}
-                          <UserBadge voteCount={profile!.totalVotes} />
+                          <span className="inline-flex gap-2 ml-3">{profile!.role === 'ADMIN' ? (
+    <AdminBadge />
+  ) : (
+    <UserBadge voteCount={profile!.totalVotes} />
+  )}</span>
                         </p>
 
 

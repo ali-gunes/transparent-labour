@@ -20,7 +20,15 @@ export async function POST(
       // Get the salary owner
       const salary = await tx.salary.findUnique({
         where: { id: salaryId },
-        select: { userId: true }
+        select: {
+          userId: true,
+          user: {
+            select: {
+              totalVotes: true,
+              role: true
+            }
+          }
+        }
       })
 
       if (!salary) {

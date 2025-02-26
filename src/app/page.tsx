@@ -6,6 +6,7 @@ import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
 import VoteButtons from '@/components/VoteButtons'
 import UserBadge from '@/components/UserBadge'
+import AdminBadge from '@/components/AdminBadge'
 
 type Salary = {
   id: string
@@ -30,7 +31,11 @@ type Salary = {
   salarySatisfaction?: number
   user: {
     totalVotes: number
+    role: string
   }
+  startDate: string
+  endDate?: string
+  isCurrent?: boolean
 }
 
 function FAQItem({ title, content }: { title: string; content: string }) {
@@ -44,9 +49,8 @@ function FAQItem({ title, content }: { title: string; content: string }) {
       >
         <h3 className="text-xl font-semibold">{title}</h3>
         <svg
-          className={`w-6 h-6 transform transition-transform duration-200 ${
-            isOpen ? 'rotate-180' : ''
-          }`}
+          className={`w-6 h-6 transform transition-transform duration-200 ${isOpen ? 'rotate-180' : ''
+            }`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -60,9 +64,8 @@ function FAQItem({ title, content }: { title: string; content: string }) {
         </svg>
       </button>
       <div
-        className={`transition-all duration-200 ${
-          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        } overflow-hidden`}
+        className={`transition-all duration-200 ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          } overflow-hidden`}
       >
         <p className="px-6 pb-6 text-gray-600 dark:text-gray-300">
           {content}
@@ -107,7 +110,7 @@ export default function Home() {
             {tr.home.subtitle}
           </p>
         </section>
-        
+
         <section className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
           <div className="border-b border-gray-100 dark:border-gray-700 p-6">
             <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">{tr.home.howItWorks}</h2>
@@ -216,103 +219,121 @@ export default function Home() {
           <div className={styles.loading}>{tr.common.loading}</div>
         ) : (
           <div className="grid gap-4">
-        {Array.isArray(latestSalaries) && latestSalaries.map((salary) => (
-          <div key={salary.id} className={styles.card}>
-            <div className={styles.cardBody}>
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h2 className={`text-xl font-semibold ${styles.text}`}>
-                    {salary.position}
-                  </h2>
-                  <p className={styles.textMuted}>{salary.company}</p>
-                </div>
-                <span className={styles.textSmall}>
-                {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
-                </span>
-              </div>
-              <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
-              <p className={`text-lg font-medium ${styles.text} mb-2`}>
-                ₺{salary.salaryRange.min.toLocaleString()} - ₺{salary.salaryRange.max.toLocaleString()}
-                <span className={styles.textSmall}> ({salary.salaryType === 'net' ? tr.submit.salaryTypes.net : tr.submit.salaryTypes.gross})</span>
-              </p>
-              <div className="relative">
-                <div className={styles.textSmall}>
-                  <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} {tr.search.yearsExp}</p>
-                  <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
-                  {salary.source === 'SELF' && (
-                    <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
-                      <div className="grid gap-2">
-                        <div className="flex items-center justify-between">
-                          <span className={`text-sm font-medium ${styles.text} mb-2`}>İş-Yaşam Dengesi:</span>
-                          <div className="flex gap-1">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <span key={star} className={star <= (salary.workLifeBalance || 0) ? "text-yellow-400" : "text-gray-300"}>
-                                ★
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className={`text-sm font-medium ${styles.text} mb-2`}>Yan Haklar:</span>
-                          <div className="flex gap-1">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <span key={star} className={star <= (salary.compensationSatisfaction || 0) ? "text-yellow-400" : "text-gray-300"}>
-                                ★
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className={`text-sm font-medium ${styles.text} mb-2`}>Maaş Memnuniyeti:</span>
-                          <div className="flex gap-1">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <span key={star} className={star <= (salary.salarySatisfaction || 0) ? "text-yellow-400" : "text-gray-300"}>
-                                ★
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        
-                      </div>
-                      
+            {Array.isArray(latestSalaries) && latestSalaries.map((salary) => (
+              <div key={salary.id} className={styles.card}>
+                <div className={styles.cardBody}>
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h2 className={`text-xl font-semibold ${styles.text}`}>
+                        {salary.position}
+                      </h2>
+                      <p className={styles.textMuted}>{salary.company}</p>
                     </div>
-                    
-                  )}
+                    <span className={styles.textSmall}>
+                      {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </div>
                   <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
-                  
-                  <p className="mt-2">
-                    {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : tr.profile.sourceOther}
-                    {salary.sourceNote && (
-                      <span className="block italic mt-1">&quot;{salary.sourceNote}&quot;</span>
-                    )}
+                  <p className={`text-lg font-medium ${styles.text} mb-2`}>
+                    ₺{salary.salaryRange.min.toLocaleString()} - ₺{salary.salaryRange.max.toLocaleString()}
+                    <span className={styles.textSmall}> ({salary.salaryType === 'net' ? tr.submit.salaryTypes.net : tr.submit.salaryTypes.gross})</span>
                   </p>
-                  <p className="mt-1 text-gray-500 dark:text-gray-400">
-                    {tr.profile.submittedBy}: {salary.submittedBy}
-                    <UserBadge voteCount={salary.user.totalVotes} />
-                  </p>
-                  
-                  
-                </div>
-                <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
-                <div className="mt-4 flex justify-center">
-                  <VoteButtons
-                    salaryId={salary.id}
-                    initialVoteCount={salary.voteCount}
-                    initialVote={salary.userVote}
-                  />
+                  <div className="relative">
+                    <div className={styles.textSmall}>
+                      <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} {tr.search.yearsExp}</p>
+                      <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
+                      {salary.startDate && (
+                        <p className={`text-sm font-medium ${styles.text} mb-2`}>
+                          {new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}
+                          {' - '}
+                          {salary.isCurrent 
+                            ? 'Devam ediyor'
+                            : salary.endDate 
+                              ? new Date(salary.endDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })
+                              : ''
+                          }
+                        </p>
+                      )}
+                      {salary.source === 'SELF' && (
+                        <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                          <div className="grid gap-2">
+                            <div className="flex items-center justify-between">
+                              <span className={`text-sm font-medium ${styles.text} mb-2`}>İş-Yaşam Dengesi:</span>
+                              <div className="flex gap-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <span key={star} className={star <= (salary.workLifeBalance || 0) ? "text-yellow-400" : "text-gray-300"}>
+                                    ★
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className={`text-sm font-medium ${styles.text} mb-2`}>Yan Haklar:</span>
+                              <div className="flex gap-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <span key={star} className={star <= (salary.compensationSatisfaction || 0) ? "text-yellow-400" : "text-gray-300"}>
+                                    ★
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className={`text-sm font-medium ${styles.text} mb-2`}>Maaş Memnuniyeti:</span>
+                              <div className="flex gap-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <span key={star} className={star <= (salary.salarySatisfaction || 0) ? "text-yellow-400" : "text-gray-300"}>
+                                    ★
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      )}
+                      <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
+
+                      <p className="mt-2">
+                        {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : tr.profile.sourceOther}
+                        {salary.sourceNote && (
+                          <span className="block italic mt-1">&quot;{salary.sourceNote}&quot;</span>
+                        )}
+                      </p>
+                      <p className="mt-1 text-gray-500 dark:text-gray-400">
+                        
+                        {tr.profile.submittedBy}: {salary.submittedBy}
+                        <span className="inline-flex gap-2 ml-3">{salary.user.role === 'ADMIN' ? (
+                          <AdminBadge />
+                        ) : (
+                          <UserBadge voteCount={salary.user.totalVotes} />
+                        )}</span>
+                        
+                        </p>
+
+
+                    </div>
+                    <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
+                    <div className="mt-4 flex justify-center">
+                      <VoteButtons
+                        salaryId={salary.id}
+                        initialVoteCount={salary.voteCount}
+                        initialVote={salary.userVote}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
+            {latestSalaries.length === 0 && (
+              <p className={styles.textMuted}>{tr.search.noResults}</p>
+            )}
           </div>
-        ))}
-        {latestSalaries.length === 0 && (
-          <p className={styles.textMuted}>{tr.search.noResults}</p>
-        )}
-      </div>
         )}
       </section>
     </div>

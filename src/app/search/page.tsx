@@ -7,6 +7,7 @@ import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
 import VoteButtons from '@/components/VoteButtons'
 import UserBadge from '@/components/UserBadge'
+import AdminBadge from '@/components/AdminBadge'
 
 type Salary = {
   id: string
@@ -31,6 +32,7 @@ type Salary = {
   salarySatisfaction?: number
   user: {
     totalVotes: number
+    role: string
   }
   startDate: string
   endDate: string
@@ -136,7 +138,7 @@ export default function Search() {
                   <p className={styles.textMuted}>{salary.company}</p>
                 </div>
                 <span className={styles.textSmall}>
-                {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
+                  {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
                     day: "2-digit",
                     month: "2-digit",
                     year: "numeric",
@@ -152,14 +154,14 @@ export default function Search() {
                 <div className={styles.textSmall}>
                   <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} {tr.search.yearsExp}</p>
                   <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
-                  
+
                   {/* Add duration info */}
                   <p className={`text-sm font-medium ${styles.text} mb-2`}>
                     {new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}
                     {' - '}
-                    {salary.isCurrent 
+                    {salary.isCurrent
                       ? 'Devam ediyor'
-                      : salary.endDate 
+                      : salary.endDate
                         ? new Date(salary.endDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })
                         : ''
                     }
@@ -198,14 +200,14 @@ export default function Search() {
                             ))}
                           </div>
                         </div>
-                        
+
                       </div>
-                      
+
                     </div>
-                    
+
                   )}
                   <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
-                  
+
                   <p className="mt-2">
                     {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : tr.profile.sourceOther}
                     {salary.sourceNote && (
@@ -214,10 +216,16 @@ export default function Search() {
                   </p>
                   <p className="mt-1 text-gray-500 dark:text-gray-400">
                     {tr.profile.submittedBy}: {salary.submittedBy}
-                    <UserBadge voteCount={salary.user.totalVotes} />
+                    
+                    
+                      <span className="inline-flex gap-2 ml-3">{salary.user.role === 'ADMIN' ? (
+                      <AdminBadge />
+                    ) : (
+                      <UserBadge voteCount={salary.user.totalVotes} />
+                    )}</span>
                   </p>
-                  
-                  
+
+
                 </div>
                 <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
                 <div className="mt-4 flex justify-center">

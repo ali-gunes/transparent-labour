@@ -22,6 +22,16 @@ export async function POST(
       return NextResponse.json({ error: 'Missing salary ID' }, { status: 400 })
     }
 
+    // Get the salary to find its owner
+    const salary = await prisma.salary.findUnique({
+      where: { id },
+      select: { userId: true }
+    })
+
+    if (!salary) {
+      return NextResponse.json({ error: 'Salary not found' }, { status: 404 })
+    }
+
     // Find existing vote
     const existingVote = await prisma.vote.findUnique({
       where: {
@@ -46,6 +56,17 @@ export async function POST(
             where: { id },
             data: { voteCount: { decrement: value } }
           })
+
+          // Update salary owner's total votes
+          const totalVotes = await tx.salary.aggregate({
+            where: { userId: salary.userId },
+            _sum: { voteCount: true }
+          })
+          
+          await tx.user.update({
+            where: { id: salary.userId },
+            data: { totalVotes: totalVotes._sum.voteCount || 0 }
+          })
           
           return { action: 'removed' }
         } else {
@@ -59,6 +80,17 @@ export async function POST(
           await tx.salary.update({
             where: { id },
             data: { voteCount: { increment: value * 2 } }
+          })
+
+          // Update salary owner's total votes
+          const totalVotes = await tx.salary.aggregate({
+            where: { userId: salary.userId },
+            _sum: { voteCount: true }
+          })
+          
+          await tx.user.update({
+            where: { id: salary.userId },
+            data: { totalVotes: totalVotes._sum.voteCount || 0 }
           })
           
           return { action: 'changed' }
@@ -77,6 +109,17 @@ export async function POST(
         await tx.salary.update({
           where: { id },
           data: { voteCount: { increment: value } }
+        })
+
+        // Update salary owner's total votes
+        const totalVotes = await tx.salary.aggregate({
+          where: { userId: salary.userId },
+          _sum: { voteCount: true }
+        })
+        
+        await tx.user.update({
+          where: { id: salary.userId },
+          data: { totalVotes: totalVotes._sum.voteCount || 0 }
         })
         
         return { action: 'added' }

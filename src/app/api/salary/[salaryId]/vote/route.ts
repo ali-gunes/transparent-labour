@@ -2,9 +2,15 @@ import { NextRequest } from 'next/server'
 import { getServerSession } from 'next-auth'
 import prisma from '@/lib/prisma'
 
+type RouteParams = {
+  params: {
+    salaryId: string
+  }
+}
+
 export async function POST(
-  req: NextRequest,
-  context: { params: { salaryId: string } }
+  request: NextRequest,
+  { params }: RouteParams
 ) {
   try {
     const session = await getServerSession()
@@ -12,7 +18,7 @@ export async function POST(
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const data = await req.json()
+    const data = await request.json()
     const { value } = data
 
     const user = await prisma.user.findUnique({
@@ -28,7 +34,7 @@ export async function POST(
       where: {
         userId_salaryId: {
           userId: user.id,
-          salaryId: context.params.salaryId,
+          salaryId: params.salaryId,
         },
       },
     })
@@ -39,7 +45,7 @@ export async function POST(
         where: {
           userId_salaryId: {
             userId: user.id,
-            salaryId: context.params.salaryId,
+            salaryId: params.salaryId,
           },
         },
         data: { value },
@@ -50,7 +56,7 @@ export async function POST(
         data: {
           value,
           userId: user.id,
-          salaryId: context.params.salaryId,
+          salaryId: params.salaryId,
         },
       })
     }

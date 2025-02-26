@@ -48,10 +48,25 @@ export const tr = {
   search: {
     title: 'Maaş Bilgileri',
     filters: 'Arama Filtreleri',
+    clearFilters: 'Filtreleri Temizle',
     searchPlaceholder: 'Pozisyon, şirket veya lokasyon ara',
     minSalary: 'Minimum Maaş',
     maxSalary: 'Maksimum Maaş',
+    minExperience: 'Min. Deneyim',
+    maxExperience: 'Max. Deneyim',
+    startDate: 'Başlangıç Tarihi',
+    endDate: 'Bitiş Tarihi',
     yearsExp: 'yıl deneyim',
+    salaryType: {
+      all: 'Tüm Maaş Türleri',
+      net: 'Net Maaş',
+      gross: 'Brüt Maaş'
+    },
+    source: {
+      all: 'Tüm Kaynaklar',
+      self: 'Kendi Maaşım',
+      other: 'Başka Birinden'
+    },
     sort: {
       newest: 'En Yeni',
       maxSalary: 'En Yüksek Maaş',

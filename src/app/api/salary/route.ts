@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 // import type { SalaryResponse } from '@/types/salary'
 import { authOptions } from '@/lib/auth'
 import { Prisma } from '@prisma/client'
+import { NextRequest } from 'next/server'
 
 // Remove unused Salary type and keep only SalaryResponse
 export async function POST(req: Request) {
@@ -128,41 +129,150 @@ type SalaryFromDB = {
   votes: { value: number }[] | false
 }
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
     const { searchParams } = new URL(req.url)
-    const limit = Number(searchParams.get('limit')) || 50
+    const page = parseInt(searchParams.get('page') || '1')
+    const limit = parseInt(searchParams.get('limit') || '10')
+    const search = searchParams.get('search') || ''
+    const minSalary = searchParams.get('minSalary') ? parseInt(searchParams.get('minSalary')!) : undefined
+    const maxSalary = searchParams.get('maxSalary') ? parseInt(searchParams.get('maxSalary')!) : undefined
+    const sortBy = searchParams.get('sortBy') || 'newest'
+    const salaryType = searchParams.get('salaryType') || undefined
+    const minExperience = searchParams.get('minExperience') ? parseInt(searchParams.get('minExperience')!) : undefined
+    const maxExperience = searchParams.get('maxExperience') ? parseInt(searchParams.get('maxExperience')!) : undefined
+    const source = searchParams.get('source') || undefined
+    const startDate = searchParams.get('startDate') || undefined
+    const endDate = searchParams.get('endDate') || undefined
 
+    // Get user session for vote info
+    const session = await getServerSession(authOptions)
+    const userId = session?.user?.id
+
+    // Build where clause
+    const where: any = {}
+
+    // Search in position, company, or location
+    if (search) {
+      where.OR = [
+        { position: { contains: search, mode: 'insensitive' } },
+        { company: { contains: search, mode: 'insensitive' } },
+        { location: { contains: search, mode: 'insensitive' } }
+      ]
+    }
+
+    // Salary range filter
+    if (minSalary) {
+      where.salaryRange = {
+        ...where.salaryRange,
+        min: { gte: minSalary }
+      }
+    }
+    if (maxSalary) {
+      where.salaryRange = {
+        ...where.salaryRange,
+        max: { lte: maxSalary }
+      }
+    }
+
+    // Salary type filter
+    if (salaryType) {
+      where.salaryType = salaryType
+    }
+
+    // Experience range filter
+    if (minExperience !== undefined) {
+      where.experience = {
+        ...where.experience,
+        gte: minExperience
+      }
+    }
+    if (maxExperience !== undefined) {
+      where.experience = {
+        ...where.experience,
+        lte: maxExperience
+      }
+    }
+
+    // Source type filter
+    if (source) {
+      where.source = source
+    }
+
+    // Date range filter
+    if (startDate) {
+      where.createdAt = {
+        ...where.createdAt,
+        gte: new Date(startDate)
+      }
+    }
+    if (endDate) {
+      where.createdAt = {
+        ...where.createdAt,
+        lte: new Date(endDate)
+      }
+    }
+
+    // Build sort object
+    const orderBy: any = {}
+    switch (sortBy) {
+      case 'maxSalary':
+        orderBy.salaryRange = { max: 'desc' }
+        break
+      case 'minSalary':
+        orderBy.salaryRange = { min: 'asc' }
+        break
+      case 'mostVoted':
+        orderBy.voteCount = 'desc'
+        break
+      default: // 'newest'
+        orderBy.createdAt = 'desc'
+    }
+
+    // Get total count for pagination
+    const total = await prisma.salary.count({ where })
+
+    // Get paginated results
     const salaries = await prisma.salary.findMany({
+      where,
+      orderBy,
+      skip: (page - 1) * limit,
       take: limit,
-      orderBy: { createdAt: 'desc' },
       include: {
+        votes: userId ? {
+          where: { userId }
+        } : false,
         user: {
           select: {
             totalVotes: true,
             role: true
           }
-        },
-        votes: session?.user ? {
-          where: { userId: session.user.id },
-          select: { value: true }
-        } : false
+        }
       }
     })
 
-    const formattedSalaries = salaries.map((salary) => ({
+    // Format response
+    const formattedSalaries = salaries.map(salary => ({
       ...salary,
-      salaryRange: {
-        min: salary.rangeMin,
-        max: salary.rangeMax
-      },
-      userVote: Array.isArray(salary.votes) ? salary.votes[0]?.value : undefined
+      userVote: salary.votes?.[0]?.value || 0,
+      votes: undefined
     }))
 
-    return NextResponse.json(formattedSalaries)
+    return NextResponse.json({
+      salaries: formattedSalaries,
+      pagination: {
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+        hasMore: page * limit < total
+      }
+    })
+
   } catch (error) {
-    console.error('Server error in GET /api/salary:', error)
-    return NextResponse.json({ error: 'Failed to fetch salaries' }, { status: 500 })
+    console.error('Failed to fetch salaries:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch salaries' },
+      { status: 500 }
+    )
   }
 } 

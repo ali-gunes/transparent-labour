@@ -38,28 +38,80 @@ type Salary = {
   }
 }
 
+type Filters = {
+  search: string
+  minSalary: string
+  maxSalary: string
+  sortBy: string
+  salaryType: string
+  minExperience: string
+  maxExperience: string
+  source: string
+  startDate: Date | null
+  endDate: Date | null
+}
+
+type PaginationInfo = {
+  total: number
+  page: number
+  totalPages: number
+  hasMore: boolean
+}
+
 export default function Search() {
   const [salaries, setSalaries] = useState<Salary[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [filters, setFilters] = useState<Filters>({
+    search: '',
+    minSalary: '',
+    maxSalary: '',
+    sortBy: 'newest',
+    salaryType: 'all',
+    minExperience: '',
+    maxExperience: '',
+    source: 'all',
+    startDate: null,
+    endDate: null
+  })
+  const [pagination, setPagination] = useState<PaginationInfo>({
+    total: 0,
+    page: 1,
+    totalPages: 1,
+    hasMore: false
+  })
 
   useEffect(() => {
     fetchSalaries()
-  }, [])
+  }, [filters, pagination.page])
 
   async function fetchSalaries() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch('/api/salary')
+      // Build query params
+      const params = new URLSearchParams()
+      params.append('page', pagination.page.toString())
+      params.append('limit', '10')
+
+      if (filters.search) params.append('search', filters.search)
+      if (filters.minSalary) params.append('minSalary', filters.minSalary)
+      if (filters.maxSalary) params.append('maxSalary', filters.maxSalary)
+      if (filters.sortBy) params.append('sortBy', filters.sortBy)
+      if (filters.salaryType !== 'all') params.append('salaryType', filters.salaryType)
+      if (filters.minExperience) params.append('minExperience', filters.minExperience)
+      if (filters.maxExperience) params.append('maxExperience', filters.maxExperience)
+      if (filters.source !== 'all') params.append('source', filters.source)
+      if (filters.startDate) params.append('startDate', filters.startDate.toISOString())
+      if (filters.endDate) params.append('endDate', filters.endDate.toISOString())
+
+      const res = await fetch(`/api/salary?${params.toString()}`)
       if (!res.ok) {
         throw new Error('Failed to fetch salaries')
       }
       const data = await res.json()
-      if (!Array.isArray(data)) {
-        throw new Error('Invalid data format')
-      }
-      setSalaries(data)
+      setSalaries(data.salaries)
+      setPagination(data.pagination)
     } catch (error) {
       console.error('Failed to fetch salaries:', error)
       setError(tr.common.error)
@@ -68,53 +120,15 @@ export default function Search() {
     }
   }
 
-  function handleFilterChange(filters: {
-    search: string
-    minSalary: string
-    maxSalary: string
-    sortBy: string
-  }) {
-    let filtered = [...salaries]
-
-    if (filters.search) {
-      const searchTerm = filters.search.toLowerCase()
-      filtered = filtered.filter(
-        (salary) =>
-          salary.position.toLowerCase().includes(searchTerm) ||
-          salary.company.toLowerCase().includes(searchTerm) ||
-          salary.location.toLowerCase().includes(searchTerm)
-      )
-    }
-
-    if (filters.minSalary) {
-      const minAmount = parseInt(filters.minSalary)
-      filtered = filtered.filter((salary) => salary.salaryRange.min >= minAmount)
-    }
-
-    if (filters.maxSalary) {
-      const maxAmount = parseInt(filters.maxSalary)
-      filtered = filtered.filter((salary) => salary.salaryRange.max <= maxAmount)
-    }
-
-    // Apply sorting
-    filtered.sort((a, b) => {
-      switch (filters.sortBy) {
-        case 'maxSalary':
-          return b.salaryRange.max - a.salaryRange.max
-        case 'minSalary':
-          return a.salaryRange.min - b.salaryRange.min
-        case 'mostVoted':
-          return b.voteCount - a.voteCount
-        default: // 'newest'
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      }
-    })
-
-    setSalaries(filtered)
+  function handleFilterChange(newFilters: Filters) {
+    setFilters(newFilters)
+    setPagination(prev => ({ ...prev, page: 1 })) // Reset to first page when filters change
   }
 
-  if (loading) {
-    return <div className={styles.loading}>{tr.common.loading}</div>
+  function handleLoadMore() {
+    if (pagination.hasMore) {
+      setPagination(prev => ({ ...prev, page: prev.page + 1 }))
+    }
   }
 
   if (error) {
@@ -124,7 +138,7 @@ export default function Search() {
   return (
     <div>
       <h1 className={styles.pageTitle}>{tr.search.title}</h1>
-      <SearchFilters onFilterChange={handleFilterChange} />
+      <SearchFilters onFilterChange={handleFilterChange} isLoading={loading} />
       <div className="grid gap-4">
         {Array.isArray(salaries) && salaries.map((salary) => (
           <div key={salary.id} className={styles.card}>
@@ -199,11 +213,8 @@ export default function Search() {
                             ))}
                           </div>
                         </div>
-                        
                       </div>
-                      
                     </div>
-                    
                   )}
                   <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
                   
@@ -217,8 +228,6 @@ export default function Search() {
                     {tr.profile.submittedBy}: {salary.submittedBy}
                     <UserBadge voteCount={salary.user.totalVotes} role={salary.user.role} />
                   </p>
-                  
-                  
                 </div>
                 <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
                 <div className="mt-4 flex justify-center">
@@ -232,8 +241,19 @@ export default function Search() {
             </div>
           </div>
         ))}
-        {salaries.length === 0 && (
+        {loading && (
+          <div className={styles.loading}>{tr.common.loading}</div>
+        )}
+        {!loading && salaries.length === 0 && (
           <p className={styles.textMuted}>{tr.search.noResults}</p>
+        )}
+        {!loading && pagination.hasMore && (
+          <button
+            onClick={handleLoadMore}
+            className={`${styles.button} w-full`}
+          >
+            Daha Fazla Yükle
+          </button>
         )}
       </div>
     </div>

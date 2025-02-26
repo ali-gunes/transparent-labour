@@ -177,7 +177,7 @@ export default function ProfilePage() {
                         </p>
                         <p className="mt-1 text-gray-500 dark:text-gray-400">
                           {tr.profile.submittedBy}: {salary.submittedBy}
-                          <UserBadge voteCount={profile!.totalVotes} />
+                          <UserBadge voteCount={profile!.totalVotes} role={profile!.role} />
                         </p>
 
 

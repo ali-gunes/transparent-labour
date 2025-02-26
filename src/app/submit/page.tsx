@@ -7,6 +7,7 @@ import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import AutocompleteInput from '@/components/AutocompleteInput'
 
 export default function SubmitSalary() {
   const router = useRouter()
@@ -171,31 +172,25 @@ export default function SubmitSalary() {
                 </p>
               </div>
               <div>
-                <label htmlFor="position" className={`${styles.label} text-lg`}>
-                  {tr.submit.position}
-                </label>
-                <input
-                  type="text"
+                <AutocompleteInput
                   id="position"
                   name="position"
+                  label={tr.submit.position}
                   required
                   maxLength={100}
-                  className={`${styles.input} h-12 text-lg`}
                   placeholder={tr.submit.placeholders.position}
+                  field="position"
                 />
               </div>
               <div>
-                <label htmlFor="company" className={`${styles.label} text-lg`}>
-                  {tr.submit.company}
-                </label>
-                <input
-                  type="text"
+                <AutocompleteInput
                   id="company"
                   name="company"
+                  label={tr.submit.company}
                   required
                   maxLength={100}
-                  className={`${styles.input} h-12 text-lg`}
                   placeholder={tr.submit.placeholders.company}
+                  field="company"
                 />
               </div>
               <div>
@@ -216,17 +211,14 @@ export default function SubmitSalary() {
                 />
               </div>
               <div>
-                <label htmlFor="location" className={`${styles.label} text-lg`}>
-                  {tr.submit.location}
-                </label>
-                <input
-                  type="text"
+                <AutocompleteInput
                   id="location"
                   name="location"
+                  label={tr.submit.location}
                   required
                   maxLength={100}
-                  className={`${styles.input} h-12 text-lg`}
                   placeholder={tr.submit.placeholders.location}
+                  field="location"
                 />
               </div>
               <div>

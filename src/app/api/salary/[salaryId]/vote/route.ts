@@ -2,15 +2,9 @@ import { NextRequest } from 'next/server'
 import { getServerSession } from 'next-auth'
 import prisma from '@/lib/prisma'
 
-type RouteParams = {
-  params: {
-    salaryId: string
-  }
-}
-
 export async function POST(
   request: NextRequest,
-  { params }: RouteParams
+  { params }: { params: { salaryId: string } }
 ) {
   try {
     const session = await getServerSession()

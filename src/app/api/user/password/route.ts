@@ -8,7 +8,7 @@ import { hashPassword } from '@/lib/hash'
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user?.username) {
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
     // Get user from database
     const user = await prisma.user.findUnique({
-      where: { username: session.user.username },
+      where: { id: session.user.id },
       select: { password: true }
     })
 
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
 
     // Update password
     await prisma.user.update({
-      where: { username: session.user.username },
+      where: { id: session.user.id },
       data: { password: hashedPassword }
     })
 

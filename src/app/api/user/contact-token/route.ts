@@ -7,12 +7,12 @@ import { randomBytes } from 'crypto'
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user?.username) {
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const user = await prisma.user.findUnique({
-      where: { username: session.user.username },
+      where: { id: session.user.id },
       select: { contactToken: true, contactTokenExpiry: true }
     })
 
@@ -20,7 +20,7 @@ export async function GET() {
       // Clear expired token
       if (user?.contactToken) {
         await prisma.user.update({
-          where: { username: session.user.username },
+          where: { id: session.user.id },
           data: {
             contactToken: null,
             contactTokenExpiry: null,
@@ -46,13 +46,13 @@ export async function GET() {
 export async function POST() {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user?.username) {
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     // Check if user has a valid token
     const user = await prisma.user.findUnique({
-      where: { username: session.user.username },
+      where: { id: session.user.id },
       select: { contactToken: true, contactTokenExpiry: true }
     })
 
@@ -69,7 +69,7 @@ export async function POST() {
 
     // Update user with new token
     await prisma.user.update({
-      where: { username: session.user.username },
+      where: { id: session.user.id },
       data: {
         contactToken: token,
         contactTokenExpiry: expiry,

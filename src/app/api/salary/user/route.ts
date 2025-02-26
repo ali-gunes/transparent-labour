@@ -28,12 +28,12 @@ type DBSalary = {
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user?.username) {
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const user = await prisma.user.findUnique({
-      where: { username: session.user.username },
+      where: { id: session.user.id },
       include: {
         salaries: {
           orderBy: { createdAt: 'desc' }

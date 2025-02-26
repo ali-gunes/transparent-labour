@@ -7,10 +7,10 @@ import type { UserProfile } from '@/types/user'
 
 export async function getUserProfile() {
   const session = await getServerSession(authOptions)
-  if (!session?.user?.username) return null
+  if (!session?.user?.id) return null
 
   const user = await prisma.user.findUnique({
-    where: { username: session.user.username },
+    where: { id: session.user.id },
     select: {
       emailVerified: true,
       username: true,

@@ -4,10 +4,11 @@ import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { NextResponse } from 'next/server'
 import { hashPassword } from '@/lib/hash'
+
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user?.email) {
+    if (!session?.user?.username) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
 
     // Get user from database
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
+      where: { username: session.user.username },
       select: { password: true }
     })
 
@@ -41,11 +42,11 @@ export async function POST(req: Request) {
     }
 
     // Hash new password
-    const hashedPassword = await hashPassword(newPassword)
+    const hashedPassword = hashPassword(newPassword)
 
     // Update password
     await prisma.user.update({
-      where: { email: session.user.email },
+      where: { username: session.user.username },
       data: { password: hashedPassword }
     })
 

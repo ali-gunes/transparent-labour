@@ -28,62 +28,26 @@ type DBSalary = {
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
-    
-    if (!session?.user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
+    if (!session?.user?.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email }
-    })
-
-    if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      )
-    }
-
-    const salaries = await prisma.salary.findMany({
-      where: { userId: user.id },
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        position: true,
-        company: true,
-        experience: true,
-        location: true,
-        source: true,
-        sourceNote: true,
-        createdAt: true,
-        salaryType: true,
-        rangeMin: true,
-        rangeMax: true,
-        submittedBy: true,
-        voteCount: true,
-        startDate: true,
-        endDate: true,
-        isCurrent: true,
-        votes: {
-          where: { userId: session.user.id },
-          select: { value: true }
+      where: { username: session.user.username },
+      include: {
+        salaries: {
+          orderBy: { createdAt: 'desc' }
         }
       }
     })
 
-    return NextResponse.json(salaries.map((salary: DBSalary) => ({
-      ...salary,
-      salaryRange: {
-        min: salary.rangeMin,
-        max: salary.rangeMax
-      },
-      userVote: Array.isArray(salary.votes) ? salary.votes[0]?.value : undefined
-    })))
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    return NextResponse.json(user.salaries)
   } catch (error) {
-    console.error('Failed to fetch user salaries:', error)
+    console.error('Error fetching user salaries:', error)
     return NextResponse.json(
       { error: 'Failed to fetch salaries' },
       { status: 500 }

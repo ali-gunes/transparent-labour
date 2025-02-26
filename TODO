@@ -3,25 +3,25 @@
 + Email verification
 - Entry edit 
 + Salary duration info
-- Bugs at the filter function
-- Dark mode compatibility
++ Bugs at the filter function
++ Dark mode compatibility
 + Showing salary submit note
 + Upvote/Downvote for entries
 - Report entry
 - Abuse and spam prevention
 + More enhanced main page
 - Comment system for entries
-- Grouping for roles
-- Grouping for companies
-- Grouping for locations
-- Grouping for experience levels
++ Grouping for roles
++ Grouping for companies
++ Grouping for locations
++ Grouping for experience levels
 - Showing actual salary on profile
 - Admin panel 
-- Predefined roles, companies, locations, experience levels
-- Input validation and capitalization
++ Predefined roles, companies, locations, experience levels
++ Input validation and capitalization
 + Seperation of dev and prod branches
 + Add submitted by info
 + Questions for submit salary form
 - Notification Panel on the user profile
 + User levels and badges
-- Graph and chart data on main page
++ Graph and chart data on main page

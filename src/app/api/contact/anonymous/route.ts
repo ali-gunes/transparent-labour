@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
     if (!user || !user.contactTokenExpiry || user.contactTokenExpiry < new Date()) {
       return NextResponse.json(
-        { error: 'Geçersiz veya süresi dolmuş token' },
+        { error: 'Geçersiz veya süresi dolmuş iletişim kodu' },
         { status: 400 }
       )
     }

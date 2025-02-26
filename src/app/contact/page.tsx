@@ -53,7 +53,7 @@ export default function Contact() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Bize Ulaşın</h1>
+        <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">Bize Ulaşın</h1>
         
         <div className="flex gap-4 mb-8">
           <button
@@ -61,7 +61,7 @@ export default function Contact() {
             className={`px-4 py-2 rounded-md transition-colors ${
               formType === 'general' 
                 ? 'bg-blue-600 text-white' 
-                : 'bg-gray-200 dark:bg-gray-700'
+                : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
             }`}
           >
             Genel İletişim
@@ -71,7 +71,7 @@ export default function Contact() {
             className={`px-4 py-2 rounded-md transition-colors ${
               formType === 'anonymous' 
                 ? 'bg-blue-600 text-white' 
-                : 'bg-gray-200 dark:bg-gray-700'
+                : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
             }`}
           >
             Üye İletişimi
@@ -91,7 +91,7 @@ export default function Contact() {
               📌 Eğer Saydam Emek üyeyiyseniz lütfen Üye İletişim formunu kullanın.
             </p>
             </div>
-            <p className="text-gray-600 dark:text-gray-400 mb-8">
+            <p className="text-gray-700 dark:text-gray-400 mb-8">
               Herhangi bir soru, öneri veya geri bildiriminiz için aşağıdaki formu kullanabilirsiniz.
             </p>
           </div>
@@ -102,7 +102,7 @@ export default function Contact() {
           {formType === 'general' ? (
             <>
               <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
                   Adınız
                 </label>
                 <input
@@ -110,12 +110,12 @@ export default function Contact() {
                   id="name"
                   name="name"
                   required
-                  className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full p-2 border border-gray-200 rounded-md bg-white text-gray-800 placeholder:text-gray-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder:text-gray-400"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
                   E-posta Adresiniz
                 </label>
                 <input
@@ -123,13 +123,13 @@ export default function Contact() {
                   id="email"
                   name="email"
                   required
-                  className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full p-2 border border-gray-200 rounded-md bg-white text-gray-800 placeholder:text-gray-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder:text-gray-400"
                 />
               </div>
             </>
           ) : (
             <div>
-              <label htmlFor="token" className="block text-sm font-medium mb-2">
+              <label htmlFor="token" className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
                 İletişim Kodunuz
               </label>
               <input
@@ -138,13 +138,13 @@ export default function Contact() {
                 name="token"
                 required
                 placeholder="Profilinizden oluşturduğunuz iletişim kodu"
-                className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700"
+                className="w-full p-2 border border-gray-200 rounded-md bg-white text-gray-800 placeholder:text-gray-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder:text-gray-400"
               />
             </div>
           )}
 
           <div>
-            <label htmlFor="subject" className="block text-sm font-medium mb-2">
+            <label htmlFor="subject" className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
               Konu
             </label>
             <input
@@ -152,12 +152,12 @@ export default function Contact() {
               id="subject"
               name="subject"
               required
-              className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700"
+              className="w-full p-2 border border-gray-200 rounded-md bg-white text-gray-800 placeholder:text-gray-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder:text-gray-400"
             />
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-sm font-medium mb-2">
+            <label htmlFor="message" className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
               Mesajınız
             </label>
             <textarea
@@ -165,7 +165,7 @@ export default function Contact() {
               name="message"
               required
               rows={5}
-              className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700"
+              className="w-full p-2 border border-gray-200 rounded-md bg-white text-gray-800 placeholder:text-gray-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder:text-gray-400"
             />
           </div>
 

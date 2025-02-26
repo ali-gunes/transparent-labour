@@ -1,19 +1,20 @@
-import { NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { prisma } from '@/lib/prisma'
-import { authOptions } from '@/lib/auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import prisma from '@/lib/prisma'
 
 export async function POST(
-  req: Request,
+  request: NextRequest,
   { params }: { params: { salaryId: string } }
 ) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!session?.user?.email) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { value } = await req.json()
+    const data = await request.json()
+    const { value } = data
     const salaryId = params.salaryId
 
     const result = await prisma.$transaction(async (tx) => {
@@ -107,12 +108,9 @@ export async function POST(
       }
     })
 
-    return NextResponse.json(result)
+    return Response.json(result)
   } catch (error) {
     console.error('Vote error:', error)
-    return NextResponse.json(
-      { error: 'Failed to process vote' },
-      { status: 500 }
-    )
+    return Response.json({ error: 'Internal server error' }, { status: 500 })
   }
 } 

@@ -83,9 +83,9 @@ export default function Analytics() {
           <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
             Maaş İstatistikleri
           </h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">
+          {/* <p className="mt-2 text-gray-600 dark:text-gray-300">
             Tüm maaş verilerinin detaylı analizi
-          </p>
+          </p> */}
         </div>
         <div className="p-6">
           <KeyStatistics stats={data.stats} />

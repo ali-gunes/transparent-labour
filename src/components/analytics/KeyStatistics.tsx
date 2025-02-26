@@ -56,7 +56,7 @@ export default function KeyStatistics({ stats }: KeyStatisticsProps) {
       <StatCard
         title="Toplam Kayıt"
         metric={stats.totalEntries}
-        description="Veritabanındaki toplam maaş kaydı sayısı"
+        description="Veritabanındaki toplam maaş kaydı"
       />
       <StatCard
         title="En Yaygın Pozisyon"

@@ -9,6 +9,15 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import AutocompleteInput from '@/components/AutocompleteInput'
 
+// Add helper function for text formatting
+function formatFieldText(text: string): string {
+  return text
+    .trim()
+    .split(/\s+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+}
+
 export default function SubmitSalary() {
   const router = useRouter()
   const { data: session } = useSession()
@@ -57,18 +66,17 @@ export default function SubmitSalary() {
     try {
       const data = {
         amount,
-        position: formData.get('position') as string,
-        company: formData.get('company') as string,
+        position: formatFieldText(formData.get('position') as string),
+        company: formatFieldText(formData.get('company') as string),
         experience,
-        location: formData.get('location') as string,
+        location: formatFieldText(formData.get('location') as string),
         source,
         sourceNote,
-        submittedBy: session?.user?.username || '',  // Add fallback
+        submittedBy: session?.user?.username || '',
         salaryType,
         startDate,
         endDate: !isCurrent ? endDate : null,
         isCurrent,
-        // Add new fields when source is SELF
         ...(source === 'SELF' && {
           workLifeBalance: Number(formData.get('workLifeBalance')),
           compensationSatisfaction: Number(formData.get('compensationSatisfaction')),

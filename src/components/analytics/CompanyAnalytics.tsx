@@ -74,7 +74,9 @@ export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
             layout="vertical"
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-            <XAxis type="number" tick={{ fill: '#9CA3AF' }} />
+            <XAxis type="number" tick={{ fill: '#9CA3AF' }} xAxisId="salary" orientation="bottom" />
+            <XAxis type="number" tick={{ fill: '#9CA3AF' }} xAxisId="count" orientation="top" hide />
+            <XAxis type="number" tick={{ fill: '#9CA3AF' }} xAxisId="experience" orientation="top" hide />
             <YAxis
               dataKey="name"
               type="category"
@@ -83,10 +85,16 @@ export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
             />
             <Tooltip
               formatter={(value: number, name: string) => {
-                if (name === 'averageSalary') return [formatCurrency(value), 'Ortalama Maaş']
-                if (name === 'employeeCount') return [value, 'Çalışan Sayısı']
-                if (name === 'experienceAvg') return [`${value.toFixed(1)} yıl`, 'Ortalama Deneyim']
-                return [value, name]
+                switch (name) {
+                  case 'averageSalary':
+                    return [formatCurrency(value), 'Ortalama Maaş']
+                  case 'employeeCount':
+                    return [value, 'Çalışan Sayısı']
+                  case 'experienceAvg':
+                    return [`${value.toFixed(1)} yıl`, 'Ortalama Deneyim']
+                  default:
+                    return [value, name]
+                }
               }}
               contentStyle={{
                 backgroundColor: '#1F2937',
@@ -105,18 +113,21 @@ export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
               name="Ortalama Maaş"
               fill="#3B82F6"
               radius={[0, 4, 4, 0]}
+              xAxisId="salary"
             />
             <Bar
               dataKey="employeeCount"
               name="Çalışan Sayısı"
               fill="#10B981"
               radius={[0, 4, 4, 0]}
+              xAxisId="count"
             />
             <Bar
               dataKey="experienceAvg"
               name="Ortalama Deneyim"
               fill="#F59E0B"
               radius={[0, 4, 4, 0]}
+              xAxisId="experience"
             />
           </BarChart>
         </ResponsiveContainer>

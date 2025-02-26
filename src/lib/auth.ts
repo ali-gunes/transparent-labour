@@ -4,6 +4,8 @@ import { prisma } from '@/lib/prisma'
 import { hashPassword } from '@/lib/hash'
 import { tr } from '@/translations/tr'
 import { Role } from '@prisma/client'
+import { PrismaAdapter } from '@auth/prisma-adapter'
+import GoogleProvider from 'next-auth/providers/google'
 
 declare module 'next-auth' {
   interface User extends DefaultUser {
@@ -21,6 +23,7 @@ declare module 'next-auth' {
 }
 
 export const authOptions: AuthOptions = {
+  adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'jwt'
   },
@@ -74,7 +77,11 @@ export const authOptions: AuthOptions = {
           throw error
         }
       }
-    })
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {

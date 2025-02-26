@@ -2,10 +2,10 @@
 + Password change
 + Email verification
 - Entry edit 
-- Salary duration info
++ Salary duration info
 - Bugs at the filter function
 - Dark mode compatibility
-- Showing salary submit note
++ Showing salary submit note
 + Upvote/Downvote for entries
 - Report entry
 - Abuse and spam prevention
@@ -22,3 +22,6 @@
 + Seperation of dev and prod branches
 + Add submitted by info
 + Questions for submit salary form
+- Notification Panel on the user profile
++ User levels and badges
+- Graph and chart data on main page

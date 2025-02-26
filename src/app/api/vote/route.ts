@@ -44,36 +44,39 @@ export async function POST(req: Request) {
       })
 
       // Update salary vote count
-      const votes = await tx.vote.findMany({
+      const salaryVotes = await tx.vote.findMany({
         where: { salaryId: salaryId },
       })
-      const voteCount = votes.reduce((sum, vote) => sum + vote.value, 0)
+      const salaryVoteCount = salaryVotes.reduce((sum, vote) => sum + vote.value, 0)
 
       await tx.salary.update({
         where: { id: salaryId },
-        data: { voteCount }
+        data: { voteCount: salaryVoteCount }
       })
 
-      // Update user's total votes
-      const userTotalVotes = await tx.vote.findMany({
+      // Calculate total votes for the salary owner
+      const userSalaries = await tx.salary.findMany({
+        where: { userId: salary.userId },
+        select: { id: true }
+      })
+
+      const userSalaryIds = userSalaries.map(s => s.id)
+      
+      const allUserVotes = await tx.vote.findMany({
         where: { 
-          salaryId: { in: await tx.salary.findMany({
-            where: { userId: salary.userId },
-            select: { id: true }
-          }).then(salaries => salaries.map(s => s.id)) }
+          salaryId: { in: userSalaryIds }
         }
       })
       
-      const totalVotes = userTotalVotes.reduce((sum, vote) => sum + vote.value, 0)
+      const totalVotes = allUserVotes.reduce((sum, vote) => sum + vote.value, 0)
 
       // Update user's total votes
-      const updateUserVotes = await tx.$executeRaw`
-        UPDATE "User" 
-        SET "totalVotes" = ${totalVotes} 
-        WHERE id = ${salary.userId}
-      `;
+      await tx.user.update({
+        where: { id: salary.userId },
+        data: { totalVotes: totalVotes }
+      })
 
-      return { vote, voteCount, totalVotes }
+      return { vote, voteCount: salaryVoteCount, totalVotes }
     })
 
     return NextResponse.json(result)

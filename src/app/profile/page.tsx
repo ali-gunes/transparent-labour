@@ -13,8 +13,9 @@ import ContactTokenGenerator from '@/components/ContactTokenGenerator'
 import UserBadge from '@/components/UserBadge'
 import PasswordChangeForm from '@/components/PasswordChangeForm'
 import { div } from 'framer-motion/client'
+import Notifications from '@/components/Notifications'
 
-type TabType = 'profile' | 'contact' | 'password' | 'salaries'
+type TabType = 'profile' | 'contact' | 'password' | 'salaries' | 'notifications'
 
 export default function ProfilePage() {
   const { data: session, status } = useSession()
@@ -85,6 +86,13 @@ export default function ProfilePage() {
       //     </div>
       //   )
 
+      case 'notifications':
+        return (
+          <div>
+            <Notifications />
+          </div>
+        )
+
       case 'salaries':
         return (
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
@@ -120,9 +128,9 @@ export default function ProfilePage() {
                         <p className={`text-sm font-medium ${styles.text} mb-2`}>
                           {salary.startDate ? new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' }) : ''}
                           {' - '}
-                          {salary.isCurrent 
+                          {salary.isCurrent
                             ? 'Devam ediyor'
-                            : salary.endDate 
+                            : salary.endDate
                               ? new Date(salary.endDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })
                               : ''
                           }
@@ -228,16 +236,15 @@ export default function ProfilePage() {
         >
           Profil
         </button>
-        {/* <button
-          onClick={() => setActiveTab('contact')}
-          className={`px-4 py-2 -mb-px ${
-            activeTab === 'contact'
-              ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-          }`}
+        <button
+          onClick={() => setActiveTab('notifications')}
+          className={`px-4 py-2 -mb-px ${activeTab === 'notifications'
+            ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
+            : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            }`}
         >
           İletişim
-        </button> */}
+        </button>
         <button
           onClick={() => setActiveTab('salaries')}
           className={`px-4 py-2 -mb-px ${activeTab === 'salaries'
@@ -256,7 +263,6 @@ export default function ProfilePage() {
         >
           Şifre Değiştir
         </button>
-        
       </div>
 
       {renderTabContent()}

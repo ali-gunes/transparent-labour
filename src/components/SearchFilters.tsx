@@ -69,14 +69,21 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
   // Initialize filters from URL params
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    const newFilters: Partial<Filters> = {}
+    const newFilters = {} as Record<keyof Filters, any>
 
     params.forEach((value, key) => {
       if (key in filters) {
         if (key === 'startDate' || key === 'endDate') {
-          newFilters[key as keyof Filters] = new Date(value)
+          try {
+            const date = new Date(value)
+            if (!isNaN(date.getTime())) {
+              newFilters[key as keyof Filters] = date
+            }
+          } catch {
+            newFilters[key as keyof Filters] = null
+          }
         } else {
-          newFilters[key as keyof Filters] = value as any
+          newFilters[key as keyof Filters] = value
         }
       }
     })

@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.4.1",
+    "@tremor/react": "^3.18.7",
     "@types/react-datepicker": "^6.2.0",
     "add": "^2.0.6",
     "bcryptjs": "^3.0.2",
@@ -23,6 +24,7 @@
     "react-datepicker": "^8.1.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
+    "recharts": "^2.15.1",
     "resend": "^4.1.2",
     "shadcn-ui": "^0.9.4",
     "toast": "^0.5.4"

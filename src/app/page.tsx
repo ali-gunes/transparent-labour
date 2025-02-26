@@ -6,6 +6,7 @@ import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
 import VoteButtons from '@/components/VoteButtons'
 import UserBadge from '@/components/UserBadge'
+import Analytics from '@/components/analytics/Analytics'
 
 type Salary = {
   id: string
@@ -213,123 +214,11 @@ export default function Home() {
   }
 
   return (
-    <div className="space-y-6">
-      <section>
-        <h1 className={styles.pageTitle}>Son Emek Paylaşımları</h1>
-        {loading ? (
-          <div className={styles.loading}>{tr.common.loading}</div>
-        ) : (
-          <div className="grid gap-4">
-        {Array.isArray(latestSalaries) && latestSalaries.map((salary) => (
-          <div key={salary.id} className={styles.card}>
-            <div className={styles.cardBody}>
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h2 className={`text-xl font-semibold ${styles.text}`}>
-                    {salary.position}
-                  </h2>
-                  <p className={styles.textMuted}>{salary.company}</p>
-                </div>
-                <span className={styles.textSmall}>
-                {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
-                </span>
-              </div>
-              <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
-              <p className={`text-lg font-medium ${styles.text} mb-2`}>
-                ₺{salary.salaryRange.min.toLocaleString()} - ₺{salary.salaryRange.max.toLocaleString()}
-                <span className={styles.textSmall}> ({salary.salaryType === 'net' ? tr.submit.salaryTypes.net : tr.submit.salaryTypes.gross})</span>
-              </p>
-              <div className="relative">
-                <div className={styles.textSmall}>
-                  <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} {tr.search.yearsExp}</p>
-                  <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
-                  {/* Add duration info */}
-                  <p className={`text-sm font-medium ${styles.text} mb-2`}>
-                    {new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}
-                    {' - '}
-                    {salary.isCurrent 
-                      ? 'Devam ediyor'
-                      : salary.endDate 
-                        ? new Date(salary.endDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })
-                        : ''
-                    }
-                  </p>
-                  {salary.source === 'SELF' && (
-                    <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
-                      <div className="grid gap-2">
-                        <div className="flex items-center justify-between">
-                          <span className={`text-sm font-medium ${styles.text} mb-2`}>İş-Yaşam Dengesi:</span>
-                          <div className="flex gap-1">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <span key={star} className={star <= (salary.workLifeBalance || 0) ? "text-yellow-400" : "text-gray-300"}>
-                                ★
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className={`text-sm font-medium ${styles.text} mb-2`}>Yan Haklar:</span>
-                          <div className="flex gap-1">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <span key={star} className={star <= (salary.compensationSatisfaction || 0) ? "text-yellow-400" : "text-gray-300"}>
-                                ★
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className={`text-sm font-medium ${styles.text} mb-2`}>Maaş Memnuniyeti:</span>
-                          <div className="flex gap-1">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <span key={star} className={star <= (salary.salarySatisfaction || 0) ? "text-yellow-400" : "text-gray-300"}>
-                                ★
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        
-                      </div>
-                      
-                    </div>
-                    
-                  )}
-                  <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
-                  
-                  <p className="mt-2">
-                    {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : tr.profile.sourceOther}
-                    {salary.sourceNote && (
-                      <span className="block italic mt-1">&quot;{salary.sourceNote}&quot;</span>
-                    )}
-                  </p>
-                  <p className="mt-1 text-gray-500 dark:text-gray-400">
-                    {tr.profile.submittedBy}: {salary.submittedBy}
-                    <UserBadge voteCount={salary.user.totalVotes} role={salary.user.role} />
-                  </p>
-                  
-                  
-                </div>
-                <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
-                <div className="mt-4 flex justify-center">
-                  <VoteButtons
-                    salaryId={salary.id}
-                    initialVoteCount={salary.voteCount}
-                    initialVote={salary.userVote}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-        {latestSalaries.length === 0 && (
-          <p className={styles.textMuted}>{tr.search.noResults}</p>
-        )}
-      </div>
-        )}
-      </section>
-    </div>
+    <main className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-8 text-center">
+        Emek Görüleri
+      </h1>
+      <Analytics />
+    </main>
   )
 } 

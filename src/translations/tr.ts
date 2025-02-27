@@ -8,7 +8,7 @@ export const tr = {
   nav: {
     home: 'Saydam Emek',
     search: 'Maaşları Ara',
-    analytics: 'Analizler',
+    analytics: 'Görüler',
     submitSalary: 'Maaş Paylaş',
     profile: 'Profilim',
     login: 'Giriş',

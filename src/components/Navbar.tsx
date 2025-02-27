@@ -89,7 +89,7 @@ export default function Navbar() {
         <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden mt-4`}>
           <div className="flex flex-col space-y-4 py-4">
           <Link 
-              href="/analytics" 
+              href="/" 
               className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
               onClick={() => setIsMenuOpen(false)}
             >

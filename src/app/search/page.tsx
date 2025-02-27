@@ -31,6 +31,7 @@ type Salary = {
   workLifeBalance?: number
   compensationSatisfaction?: number
   salarySatisfaction?: number
+  educationLevel?: string
   user: {
     totalVotes: number
     role: 'USER' | 'ADMIN'
@@ -79,6 +80,15 @@ export default function Search() {
     totalPages: 1,
     hasMore: false
   })
+  
+  const educationLevels = {
+      HIGH_SCHOOL: 'Lise',
+      ASSOCIATE: 'Ön Lisans',
+      BACHELORS: 'Lisans',
+      MASTERS: 'Yüksek Lisans',
+      PHD: 'Doktora',
+      OTHER: 'Diğer',
+  }
 
   useEffect(() => {
     fetchSalaries()
@@ -164,13 +174,8 @@ export default function Search() {
                 ₺{salary.rangeMin.toLocaleString()} - ₺{salary.rangeMax.toLocaleString()}
                 <span className={styles.textSmall}> ({salary.salaryType === 'net' ? tr.submit.salaryTypes.net : tr.submit.salaryTypes.gross})</span>
               </p>
-              <div className="relative">
-                <div className={styles.textSmall}>
-                  <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} yıl deneyim</p>
-                  <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
-                  
-                  {/* Add duration info */}
-                  <p className={`text-sm font-medium ${styles.text} mb-2`}>
+              {/* Add duration info */}
+              <p className={`text-base font-medium ${styles.text} mb-2`}>
                     {new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}
                     {' - '}
                     {salary.isCurrent 
@@ -180,6 +185,13 @@ export default function Search() {
                         : ''
                     }
                   </p>
+              <div className="relative">
+                <div className={styles.textSmall}>
+                  <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} yıl deneyim</p>
+                  <p className={`text-sm font-medium ${styles.text} mb-2`}>{educationLevels[salary.educationLevel as keyof typeof educationLevels]} mezunu</p>
+                  <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
+                  
+                  
 
                   {salary.source === 'SELF' && (
                     <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">

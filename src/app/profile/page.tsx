@@ -39,7 +39,14 @@ export default function ProfilePage() {
     }
   }, [session, status, router])
 
-
+  const educationLevels = {
+    HIGH_SCHOOL: 'Lise',
+    ASSOCIATE: 'Ön Lisans',
+    BACHELORS: 'Lisans',
+    MASTERS: 'Yüksek Lisans',
+    PHD: 'Doktora',
+    OTHER: 'Diğer',
+}
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -119,6 +126,7 @@ export default function ProfilePage() {
                     <div className="relative">
                       <div className={styles.textSmall}>
                         <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} yıl deneyim</p>
+                        <p className={`text-sm font-medium ${styles.text} mb-2`}>{educationLevels[salary.educationLevel as keyof typeof educationLevels]} mezunu</p>
                         <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
                         <p className={`text-sm font-medium ${styles.text} mb-2`}>
                           {salary.startDate ? new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' }) : ''}

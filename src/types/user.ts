@@ -21,6 +21,7 @@ export type UserProfile = {
     workLifeBalance?: number
     compensationSatisfaction?: number
     salarySatisfaction?: number
+    educationLevel: string
     startDate: Date | null
     endDate: Date | null
     isCurrent: boolean

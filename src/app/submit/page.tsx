@@ -8,6 +8,7 @@ import { tr } from '@/translations/tr'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import AutocompleteInput from '@/components/AutocompleteInput'
+import { CompanyFocus, EducationLevel } from '@prisma/client'
 
 // Add helper function for text formatting
 function formatFieldText(text: string): string {
@@ -28,6 +29,7 @@ export default function SubmitSalary() {
   const [endDate, setEndDate] = useState<Date | null>(null)
   const [isCurrent, setIsCurrent] = useState(true)
   const [hideCompany, setHideCompany] = useState(false)
+  const [educationLevel, setEducationLevel] = useState<EducationLevel | ''>('')
 
   // Redirect if not authenticated
   if (session === null) {
@@ -68,8 +70,8 @@ export default function SubmitSalary() {
       const data = {
         amount,
         position: formatFieldText(formData.get('position') as string),
-        company: hideCompany ? null : formatFieldText(formData.get('company') as string),
-        companyFocus: hideCompany ? formData.get('companyFocus') as string : null,
+        company: hideCompany ? undefined : formatFieldText(formData.get('company') as string),
+        companyFocus: formData.get('companyFocus') as CompanyFocus,
         experience,
         location: formatFieldText(formData.get('location') as string),
         source,
@@ -79,6 +81,7 @@ export default function SubmitSalary() {
         startDate,
         endDate: !isCurrent ? endDate : null,
         isCurrent,
+        educationLevel: educationLevel || undefined,
         ...(source === 'SELF' && {
           workLifeBalance: Number(formData.get('workLifeBalance')),
           compensationSatisfaction: Number(formData.get('compensationSatisfaction')),
@@ -180,6 +183,25 @@ export default function SubmitSalary() {
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 italic">
                   {tr.submit.salaryNote}
                 </p>
+              </div>
+              <div>
+                <label htmlFor="educationLevel" className={styles.label}>
+                  {tr.submit.educationLevel}
+                </label>
+                <select
+                  id="educationLevel"
+                  name="educationLevel"
+                  className={styles.select}
+                  value={educationLevel}
+                  onChange={(e) => setEducationLevel(e.target.value as EducationLevel)}
+                >
+                  <option value="">Seçiniz</option>
+                  {Object.entries(tr.submit.educationLevels).map(([key, value]) => (
+                    <option key={key} value={key}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <AutocompleteInput
@@ -340,6 +362,7 @@ export default function SubmitSalary() {
                   <option value="OTHER">{tr.submit.sourceTypes.other}</option>
                 </select>
               </div>
+              
             </div>
 
             {source === 'OTHER' && (

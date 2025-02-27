@@ -55,6 +55,7 @@ export async function POST(req: Request) {
         startDate: data.startDate ? new Date(data.startDate) : null,
         endDate: data.endDate ? new Date(data.endDate) : null,
         isCurrent: data.isCurrent,
+        educationLevel: data.educationLevel,
         // Add new fields conditionally
         ...(data.source === 'SELF' ? {
           workLifeBalance: parseInt(data.workLifeBalance),
@@ -127,6 +128,7 @@ type SalaryFromDB = {
   workLifeBalance: number | null
   compensationSatisfaction: number | null
   salarySatisfaction: number | null
+  educationLevel: string | null
   votes: { value: number }[] | false
 }
 
@@ -146,7 +148,7 @@ export async function GET(req: NextRequest) {
     const startDate = searchParams.get('startDate') || undefined
     const endDate = searchParams.get('endDate') || undefined
     const companyFocus = searchParams.get('companyFocus') || undefined
-
+    const educationLevel = searchParams.get('educationLevel') || undefined
     // Get user session for vote info
     const session = await getServerSession(authOptions)
     const userId = session?.user?.id

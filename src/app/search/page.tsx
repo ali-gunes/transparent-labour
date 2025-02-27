@@ -49,6 +49,8 @@ type Filters = {
   source: string
   startDate: Date | null
   endDate: Date | null
+  companyFocus: string
+  educationLevel: string
 }
 
 type PaginationInfo = {
@@ -72,7 +74,9 @@ export default function Search() {
     maxExperience: '',
     source: 'all',
     startDate: null,
-    endDate: null
+    endDate: null,
+    companyFocus: '',
+    educationLevel: 'all'
   })
   const [pagination, setPagination] = useState<PaginationInfo>({
     total: 0,
@@ -113,6 +117,8 @@ export default function Search() {
       if (filters.source !== 'all') params.append('source', filters.source)
       if (filters.startDate) params.append('startDate', filters.startDate.toISOString())
       if (filters.endDate) params.append('endDate', filters.endDate.toISOString())
+      if (filters.educationLevel !== 'all') params.append('educationLevel', filters.educationLevel)
+      if (filters.companyFocus) params.append('companyFocus', filters.companyFocus)
 
       const res = await fetch(`/api/salary?${params.toString()}`)
       if (!res.ok) {

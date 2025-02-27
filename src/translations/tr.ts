@@ -71,8 +71,19 @@ export const tr = {
     clearFilters: 'Filtreleri Temizle',
     startDate: 'Başlangıç Tarihi',
     endDate: 'Bitiş Tarihi',
+    educationLevel: 'Eğitim Seviyesi',
+    educationLevels: {
+      all: 'Tüm Eğitim Seviyeleri',
+      HIGH_SCHOOL: 'Lise',
+      ASSOCIATE: 'Ön Lisans',
+      BACHELORS: 'Lisans',
+      MASTERS: 'Yüksek Lisans',
+      PHD: 'Doktora',
+      OTHER: 'Diğer',
+    },
     companyFocus: {
-      all: 'Tüm Sektörler'
+      all: 'Tüm Sektörler',
+      label: 'Sektör',
     },
     salaryType: {
       all: 'Tüm Maaşlar',

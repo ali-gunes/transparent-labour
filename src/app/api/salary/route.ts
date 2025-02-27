@@ -135,93 +135,51 @@ type SalaryFromDB = {
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
-    const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '10')
-    const search = searchParams.get('search') || ''
-    const minSalary = searchParams.get('minSalary') ? parseInt(searchParams.get('minSalary')!) : undefined
-    const maxSalary = searchParams.get('maxSalary') ? parseInt(searchParams.get('maxSalary')!) : undefined
+    const page = Number(searchParams.get('page')) || 1
+    const limit = Number(searchParams.get('limit')) || 10
+    const search = searchParams.get('search') || undefined
+    const minSalary = searchParams.get('minSalary') ? Number(searchParams.get('minSalary')) : undefined
+    const maxSalary = searchParams.get('maxSalary') ? Number(searchParams.get('maxSalary')) : undefined
     const sortBy = searchParams.get('sortBy') || 'newest'
     const salaryType = searchParams.get('salaryType') || undefined
-    const minExperience = searchParams.get('minExperience') ? parseInt(searchParams.get('minExperience')!) : undefined
-    const maxExperience = searchParams.get('maxExperience') ? parseInt(searchParams.get('maxExperience')!) : undefined
+    const minExperience = searchParams.get('minExperience') ? Number(searchParams.get('minExperience')) : undefined
+    const maxExperience = searchParams.get('maxExperience') ? Number(searchParams.get('maxExperience')) : undefined
     const source = searchParams.get('source') || undefined
-    const startDate = searchParams.get('startDate') || undefined
-    const endDate = searchParams.get('endDate') || undefined
-    const companyFocus = searchParams.get('companyFocus') || undefined
+    const startDate = searchParams.get('startDate') ? new Date(searchParams.get('startDate') as string) : undefined
+    const endDate = searchParams.get('endDate') ? new Date(searchParams.get('endDate') as string) : undefined
     const educationLevel = searchParams.get('educationLevel') || undefined
-    // Get user session for vote info
-    const session = await getServerSession(authOptions)
-    const userId = session?.user?.id
+    const companyFocus = searchParams.get('companyFocus') || undefined
+    
+    console.log('Received companyFocus:', companyFocus)
 
     // Build where clause
     const where: any = {}
 
-    // Search in position, company, location, or companyFocus
     if (search) {
       where.OR = [
         { position: { contains: search, mode: 'insensitive' } },
         { company: { contains: search, mode: 'insensitive' } },
         { location: { contains: search, mode: 'insensitive' } },
-        { companyFocus: { contains: search, mode: 'insensitive' } }
       ]
     }
 
-    // Salary range filter
-    if (minSalary) {
-      where.rangeMin = {
-        gte: minSalary
-      }
-    }
-    if (maxSalary) {
-      where.rangeMax = {
-        lte: maxSalary
-      }
-    }
-
-    // Salary type filter
-    if (salaryType) {
-      where.salaryType = salaryType
+    if (minSalary) where.rangeMin = { gte: minSalary }
+    if (maxSalary) where.rangeMax = { lte: maxSalary }
+    if (salaryType !== 'all' && salaryType) where.salaryType = salaryType
+    if (minExperience) where.experience = { gte: minExperience }
+    if (maxExperience) where.experience = { ...where.experience, lte: maxExperience }
+    if (source !== 'all' && source) where.source = source
+    if (startDate) where.startDate = { gte: startDate }
+    if (endDate) where.endDate = { lte: endDate }
+    if (educationLevel !== 'all' && educationLevel) where.educationLevel = educationLevel
+    if (companyFocus && companyFocus !== '') {
+      console.log('Setting companyFocus filter to:', companyFocus)
+      where.companyFocus = companyFocus as any // Cast to any to handle enum type
     }
 
-    // Experience range filter
-    if (minExperience !== undefined) {
-      where.experience = {
-        ...where.experience,
-        gte: minExperience
-      }
-    }
-    if (maxExperience !== undefined) {
-      where.experience = {
-        ...where.experience,
-        lte: maxExperience
-      }
-    }
+    console.log('Final where clause:', JSON.stringify(where, null, 2))
 
-    // Source type filter
-    if (source) {
-      where.source = source
-    }
-
-    // Company focus filter
-    if (companyFocus) {
-      where.companyFocus = companyFocus
-    }
-
-    // Date range filter
-    if (startDate) {
-      where.createdAt = {
-        ...where.createdAt,
-        gte: new Date(startDate)
-      }
-    }
-    if (endDate) {
-      where.createdAt = {
-        ...where.createdAt,
-        lte: new Date(endDate)
-      }
-    }
-
-    // Build sort object
+    // Build orderBy
     const orderBy: any = {}
     switch (sortBy) {
       case 'maxSalary':
@@ -233,9 +191,13 @@ export async function GET(req: NextRequest) {
       case 'mostVoted':
         orderBy.voteCount = 'desc'
         break
-      default: // 'newest'
+      default:
         orderBy.createdAt = 'desc'
     }
+
+    // Get user session for vote info
+    const session = await getServerSession(authOptions)
+    const userId = session?.user?.id
 
     // Get total count for pagination
     const total = await prisma.salary.count({ where })

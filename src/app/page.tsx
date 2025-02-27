@@ -91,7 +91,7 @@ function RotatingFacts() {
   const fact = FACTS[currentFactIndex]
 
   return (
-    <div className="relative h-24 mb-8">
+    <div className="relative h-32 mb-12 md:h-24 md:mb-8">
       <div 
         className={`absolute w-full transition-all duration-500 ease-in-out transform ${
           isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
@@ -227,30 +227,30 @@ export default function Home() {
           
           <div className="space-y-6">
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+            <div className="grid grid-cols-2 gap-6 max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                <div className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                   {stats.totalSalaries.toLocaleString()}
                 </div>
-                <div className="text-sm text-gray-700 dark:text-gray-400">Maaş Verisi</div>
+                <div className="text-xs md:text-sm text-gray-700 dark:text-gray-400">Maaş Verisi</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                <div className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                   {stats.totalCompanies.toLocaleString()}
                 </div>
-                <div className="text-sm text-gray-700 dark:text-gray-400">Şirket</div>
+                <div className="text-xs md:text-sm text-gray-700 dark:text-gray-400">Şirket</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                <div className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                   {stats.totalPositions.toLocaleString()}
                 </div>
-                <div className="text-sm text-gray-700 dark:text-gray-400">Pozisyon</div>
+                <div className="text-xs md:text-sm text-gray-700 dark:text-gray-400">Pozisyon</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                <div className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                   {stats.totalLocations.toLocaleString()}
                 </div>
-                <div className="text-sm text-gray-700 dark:text-gray-400">Lokasyon</div>
+                <div className="text-xs md:text-sm text-gray-700 dark:text-gray-400">Lokasyon</div>
               </div>
             </div>
             <p className="text-lg text-gray-500 dark:text-gray-400 italic">

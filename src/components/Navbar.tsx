@@ -29,9 +29,13 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6">
+          <Link href="/analytics" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              {tr.nav.analytics}
+            </Link>
             <Link href="/search" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
               {tr.nav.search}
             </Link>
+            
             {session ? (
               <>
                 <Link href="/submit" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
@@ -84,6 +88,13 @@ export default function Navbar() {
         {/* Mobile Menu */}
         <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden mt-4`}>
           <div className="flex flex-col space-y-4 py-4">
+          <Link 
+              href="/analytics" 
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {tr.nav.analytics}
+            </Link>
             <Link 
               href="/search" 
               className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
@@ -91,6 +102,7 @@ export default function Navbar() {
             >
               {tr.nav.search}
             </Link>
+            
             {session ? (
               <>
                 <Link 

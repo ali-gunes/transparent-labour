@@ -46,27 +46,27 @@ export default function KeyStatistics({ stats }: KeyStatisticsProps) {
       <StatCard
         title="Ortalama Maaş"
         metric={`${formatCurrency(Math.round((stats.averageSalary * 0.95) / 500) * 500)} - ${formatCurrency(Math.round((stats.averageSalary * 1.05) / 500) * 500)}`}
-        description="Tüm kayıtların aylık ortalama maaşı"
+        //description="Tüm kayıtların aylık ortalama maaşı"
       />
       <StatCard
         title="Medyan Maaş"
         metric={`${formatCurrency(Math.round((stats.medianSalary * 0.95) / 500) * 500)} - ${formatCurrency(Math.round((stats.medianSalary * 1.05) / 500) * 500)}`}
-        description="Tüm kayıtların aylık medyan maaşı"
+        //description="Tüm kayıtların aylık medyan maaşı"
       />
       <StatCard
-        title="Toplam Kayıt"
+        title="Toplam Maaş Kaydı"
         metric={stats.totalEntries}
-        description="Veritabanındaki toplam maaş kaydı"
+        //description="Veritabanındaki toplam maaş kaydı"
       />
       <StatCard
         title="En Yaygın Pozisyon"
         metric={stats.topPosition}
-        description="En çok girilen pozisyon"
+        //description="En çok girilen pozisyon"
       />
       <StatCard
-        title="En Çok Kayıt Olan Şirket"
+        title="En Çok Kayıt Girilen Şirket"
         metric={stats.topCompany}
-        description="En fazla maaş kaydı olan şirket"
+        //description="En fazla maaş kaydı olan şirket"
       />
     </Grid>
   )

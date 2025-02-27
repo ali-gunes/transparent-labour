@@ -28,18 +28,90 @@ function convertBigIntToNumber(obj: any): any {
   return obj;
 }
 
+// Helper function to create salary distribution ranges
+function createSalaryDistribution(amounts: number[]) {
+  console.log('Creating distribution for amounts:', amounts)
+  
+  if (amounts.length === 0) {
+    console.log('No amounts provided for distribution')
+    return [];
+  }
+
+  const minAmount = Math.min(...amounts);
+  const maxAmount = Math.max(...amounts);
+  console.log('Amount range:', { minAmount, maxAmount })
+  
+  // Handle case where all values are the same
+  if (minAmount === maxAmount) {
+    // Create a single range around the value
+    const rangeSize = Math.max(minAmount * 0.1, 10000); // 10% of value or minimum 10,000
+    return [{
+      range: `₺${(minAmount - rangeSize).toLocaleString()} - ₺${(minAmount + rangeSize).toLocaleString()}`,
+      count: amounts.length
+    }];
+  }
+  
+  // Calculate a reasonable step size based on the data range
+  let step = Math.ceil((maxAmount - minAmount) / 10);
+  // Round step to a nice number
+  const magnitude = Math.pow(10, Math.floor(Math.log10(step)));
+  step = Math.ceil(step / magnitude) * magnitude;
+  console.log('Step size:', step)
+  
+  // Create ranges starting from 0 or minAmount
+  const startAmount = Math.max(0, minAmount - step); // Start one step below the minimum
+  const numRanges = Math.ceil((maxAmount - startAmount) / step) + 1; // Add one more range
+  console.log('Number of ranges:', numRanges)
+  
+  const distribution = Array.from({ length: numRanges }, (_, i) => {
+    const min = startAmount + (i * step);
+    const max = min + step;
+    const count = amounts.filter(a => a >= min && a < (i === numRanges - 1 ? max + 1 : max)).length;
+    return {
+      range: `₺${min.toLocaleString()} - ₺${max.toLocaleString()}`,
+      count
+    }
+  }).filter(range => range.count > 0); // Only include ranges with data
+
+  console.log('Final distribution:', distribution)
+  return distribution;
+}
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
     const salaryType = searchParams.get('salaryType') || 'all'
+    console.log('Requested salary type:', salaryType)
 
     // Build where clause for salary type
     const where = salaryType !== 'all' ? { salaryType } : {}
+    console.log('Where clause:', where)
 
     // Get basic statistics
     const salaries = await prisma.salary.findMany({ where })
+    console.log('Total salaries found:', salaries.length)
+    console.log('Sample salary types:', salaries.slice(0, 5).map(s => s.salaryType))
+
+    if (salaries.length === 0) {
+      return NextResponse.json({
+        stats: {
+          averageSalary: 0,
+          totalEntries: 0,
+          topPosition: '',
+          topCompany: '',
+          medianSalary: 0
+        },
+        distribution: [],
+        companyAnalytics: [],
+        experienceAnalytics: [],
+        companyFocusAnalytics: [],
+        educationAnalytics: []
+      })
+    }
+
     const totalEntries = salaries.length
     const amounts = salaries.map(s => Number(s.amount)).sort((a, b) => a - b)
+    console.log('Salary amounts range:', Math.min(...amounts), 'to', Math.max(...amounts))
     const averageSalary = Math.round(amounts.reduce((a, b) => a + b, 0) / totalEntries)
     const medianSalary = amounts[Math.floor(totalEntries / 2)]
 
@@ -57,17 +129,8 @@ export async function GET(req: NextRequest) {
     const topCompany = Array.from(companyCounts.entries())
       .sort((a, b) => b[1] - a[1])[0]?.[0] || ''
 
-    // Calculate salary distribution
-    const maxAmount = Math.max(...amounts)
-    const step = Math.ceil(maxAmount / 10)
-    const distribution = Array.from({ length: 10 }, (_, i) => {
-      const min = i * step
-      const max = (i + 1) * step
-      return {
-        range: `₺${min.toLocaleString()} - ₺${max.toLocaleString()}`,
-        count: amounts.filter(a => a >= min && a < max).length
-      }
-    })
+    // Calculate salary distribution using the helper function
+    const distribution = createSalaryDistribution(amounts)
 
     // Get company analytics
     const companyAnalytics = await prisma.$queryRaw<Array<{

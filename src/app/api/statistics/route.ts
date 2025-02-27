@@ -1,250 +1,191 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { NextRequest } from 'next/server'
+import { Prisma } from '@prisma/client'
+
+// Helper function to convert BigInt to number
+function convertBigIntToNumber(obj: any): any {
+  if (obj === null || obj === undefined) {
+    return obj;
+  }
+  
+  if (typeof obj === 'bigint') {
+    return Number(obj);
+  }
+  
+  if (Array.isArray(obj)) {
+    return obj.map(convertBigIntToNumber);
+  }
+  
+  if (typeof obj === 'object') {
+    const converted: any = {};
+    for (const key in obj) {
+      converted[key] = convertBigIntToNumber(obj[key]);
+    }
+    return converted;
+  }
+  
+  return obj;
+}
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
     const salaryType = searchParams.get('salaryType') || 'all'
 
-    // Base query filter
-    const filter = salaryType !== 'all' 
-      ? { salaryType }
-      : {}
+    // Build where clause for salary type
+    const where = salaryType !== 'all' ? { salaryType } : {}
 
-    // Get total entries
-    const totalEntries = await prisma.salary.count({ where: filter })
+    // Get basic statistics
+    const salaries = await prisma.salary.findMany({ where })
+    const totalEntries = salaries.length
+    const amounts = salaries.map(s => Number(s.amount)).sort((a, b) => a - b)
+    const averageSalary = Math.round(amounts.reduce((a, b) => a + b, 0) / totalEntries)
+    const medianSalary = amounts[Math.floor(totalEntries / 2)]
 
-    // Get average salary
-    const avgResult = await prisma.salary.aggregate({
-      where: filter,
-      _avg: {
-        amount: true
+    // Get top position and company
+    const positionCounts = new Map<string, number>()
+    const companyCounts = new Map<string, number>()
+    salaries.forEach(salary => {
+      positionCounts.set(salary.position, (positionCounts.get(salary.position) || 0) + 1)
+      if (salary.company) {
+        companyCounts.set(salary.company, (companyCounts.get(salary.company) || 0) + 1)
       }
     })
-    const averageSalary = avgResult._avg.amount || 0
+    const topPosition = Array.from(positionCounts.entries())
+      .sort((a, b) => b[1] - a[1])[0]?.[0] || ''
+    const topCompany = Array.from(companyCounts.entries())
+      .sort((a, b) => b[1] - a[1])[0]?.[0] || ''
 
-    // Get median salary
-    const allSalaries = await prisma.salary.findMany({
-      where: filter,
-      select: {
-        amount: true
-      },
-      orderBy: {
-        amount: 'asc'
+    // Calculate salary distribution
+    const maxAmount = Math.max(...amounts)
+    const step = Math.ceil(maxAmount / 10)
+    const distribution = Array.from({ length: 10 }, (_, i) => {
+      const min = i * step
+      const max = (i + 1) * step
+      return {
+        range: `₺${min.toLocaleString()} - ₺${max.toLocaleString()}`,
+        count: amounts.filter(a => a >= min && a < max).length
       }
     })
-    const medianIndex = Math.floor(allSalaries.length / 2)
-    const medianSalary = allSalaries.length > 0 ? allSalaries[medianIndex].amount : 0
-
-    // Get most common position
-    const positions = await prisma.salary.groupBy({
-      where: filter,
-      by: ['position'],
-      _count: true,
-      orderBy: {
-        _count: {
-          position: 'desc'
-        }
-      },
-      take: 1
-    })
-    const topPosition = positions[0]?.position || 'N/A'
-
-    // Get company with most entries
-    const companies = await prisma.salary.groupBy({
-      where: filter,
-      by: ['company'],
-      _count: true,
-      orderBy: {
-        _count: {
-          company: 'desc'
-        }
-      },
-      take: 1
-    })
-    const topCompany = companies[0]?.company || 'N/A'
-
-    // Get salary distribution
-    const salaryRanges = await getSalaryDistribution(filter)
 
     // Get company analytics
-    const companyAnalytics = await getCompanyAnalytics(filter)
+    const companyAnalytics = await prisma.$queryRaw<Array<{
+      name: string
+      averageSalary: number
+      employeeCount: number
+      experienceAvg: number
+    }>>`
+      SELECT 
+        company as name,
+        CAST(AVG(amount) AS integer) as "averageSalary",
+        COUNT(*) as "employeeCount",
+        CAST(AVG(CAST(experience AS float)) AS float) as "experienceAvg"
+      FROM "Salary"
+      WHERE company IS NOT NULL
+      ${salaryType !== 'all' ? Prisma.sql`AND "salaryType" = ${salaryType}` : Prisma.empty}
+      GROUP BY company
+      HAVING COUNT(*) >= 3
+      ORDER BY "averageSalary" DESC
+      LIMIT 10
+    `
+
+    // Get company focus analytics
+    const companyFocusAnalytics = await prisma.$queryRaw<Array<{
+      focus: string
+      averageSalary: number
+      employeeCount: number
+      experienceAvg: number
+    }>>`
+      SELECT 
+        "companyFocus" as focus,
+        CAST(AVG(amount) AS integer) as "averageSalary",
+        COUNT(*) as "employeeCount",
+        CAST(AVG(CAST(experience AS float)) AS float) as "experienceAvg"
+      FROM "Salary"
+      WHERE "companyFocus" IS NOT NULL
+      ${salaryType !== 'all' ? Prisma.sql`AND "salaryType" = ${salaryType}` : Prisma.empty}
+      GROUP BY "companyFocus"
+      ORDER BY "averageSalary" DESC
+    `
+
+    // Get education level analytics
+    const educationAnalytics = await prisma.$queryRaw<Array<{
+      level: string
+      averageSalary: number
+      employeeCount: number
+      experienceAvg: number
+    }>>`
+      SELECT 
+        "educationLevel" as level,
+        CAST(AVG(amount) AS integer) as "averageSalary",
+        COUNT(*) as "employeeCount",
+        CAST(AVG(CAST(experience AS float)) AS float) as "experienceAvg"
+      FROM "Salary"
+      WHERE "educationLevel" IS NOT NULL
+      ${salaryType !== 'all' ? Prisma.sql`AND "salaryType" = ${salaryType}` : Prisma.empty}
+      GROUP BY "educationLevel"
+      ORDER BY "averageSalary" DESC
+    `
 
     // Get experience analytics
-    const experienceAnalytics = await getExperienceAnalytics(filter)
+    const experienceAnalytics = await prisma.$queryRaw<Array<{
+      experience: number
+      salary: number
+      position: string
+    }>>`
+      SELECT 
+        CAST(experience AS integer) as experience,
+        CAST(AVG(amount) AS integer) as salary,
+        mode() WITHIN GROUP (ORDER BY position) as position
+      FROM "Salary"
+      ${salaryType !== 'all' ? Prisma.sql`WHERE "salaryType" = ${salaryType}` : Prisma.empty}
+      GROUP BY experience
+      ORDER BY experience ASC
+    `
 
-    const response = {
+    // Convert all numeric values to numbers
+    const processedResponse = {
       stats: {
-        totalEntries,
         averageSalary,
-        medianSalary,
+        totalEntries,
         topPosition,
-        topCompany
+        topCompany,
+        medianSalary
       },
-      distribution: salaryRanges,
-      companyAnalytics,
-      experienceAnalytics
+      distribution,
+      companyAnalytics: companyAnalytics.map(item => ({
+        ...item,
+        averageSalary: Number(item.averageSalary),
+        employeeCount: Number(item.employeeCount),
+        experienceAvg: Number(item.experienceAvg)
+      })),
+      experienceAnalytics: experienceAnalytics.map(item => ({
+        ...item,
+        experience: Number(item.experience),
+        salary: Number(item.salary)
+      })),
+      companyFocusAnalytics: companyFocusAnalytics.map(item => ({
+        ...item,
+        averageSalary: Number(item.averageSalary),
+        employeeCount: Number(item.employeeCount),
+        experienceAvg: Number(item.experienceAvg)
+      })),
+      educationAnalytics: educationAnalytics.map(item => ({
+        ...item,
+        averageSalary: Number(item.averageSalary),
+        employeeCount: Number(item.employeeCount),
+        experienceAvg: Number(item.experienceAvg)
+      }))
     }
 
-    console.log('API Response:', {
-      totalEntries,
-      companyAnalyticsCount: companyAnalytics.length,
-      experienceAnalyticsCount: experienceAnalytics.length
-    })
+    return NextResponse.json(processedResponse)
 
-    return NextResponse.json(response)
   } catch (error) {
-    console.error('Statistics error:', error)
+    console.error('Failed to fetch statistics:', error)
     return NextResponse.json(
       { error: 'Failed to fetch statistics' },
       { status: 500 }
     )
-  }
-}
-
-async function getSalaryDistribution(filter: any) {
-  const salaries = await prisma.salary.findMany({
-    where: filter,
-    select: {
-      amount: true
-    }
-  })
-
-  // Create salary ranges
-  const ranges = [
-    { min: 0, max: 15000 },
-    { min: 15000, max: 25000 },
-    { min: 25000, max: 35000 },
-    { min: 35000, max: 45000 },
-    { min: 45000, max: 55000 },
-    { min: 55000, max: 70000 },
-    { min: 70000, max: 85000 },
-    { min: 85000, max: 100000 },
-    { min: 100000, max: Infinity }
-  ]
-
-  const distribution = ranges.map(range => ({
-    range: range.max === Infinity
-      ? `${range.min / 1000}k+`
-      : `${range.min / 1000}k-${range.max / 1000}k`,
-    count: salaries.filter(
-      s => s.amount >= range.min && s.amount < range.max
-    ).length
-  }))
-
-  return distribution
-}
-
-async function getCompanyAnalytics(filter: any) {
-  try {
-    // Get company stats
-    const companyStats = await prisma.salary.groupBy({
-      by: ['company'],
-      where: {
-        ...filter,
-        company: { not: null }
-      },
-      _count: {
-        company: true
-      },
-      _avg: {
-        amount: true,
-        experience: true
-      },
-      having: {
-        company: {
-          _count: {
-            gt: 1
-          }
-        }
-      }
-    })
-
-    // Get focus area stats
-    const focusStats = await prisma.salary.groupBy({
-      by: ['companyFocus'],
-      where: {
-        ...filter,
-        company: null,
-        companyFocus: { not: null }
-      },
-      _count: {
-        companyFocus: true
-      },
-      _avg: {
-        amount: true,
-        experience: true
-      },
-      having: {
-        companyFocus: {
-          _count: {
-            gt: 1
-          }
-        }
-      }
-    })
-
-    console.log('Analytics Raw:', {
-      companiesFound: companyStats.length,
-      focusAreasFound: focusStats.length
-    })
-
-    const processedCompanyStats = companyStats.map(company => ({
-      name: company.company || '',
-      averageSalary: Math.round(company._avg.amount || 0),
-      employeeCount: company._count.company,
-      experienceAvg: Number((company._avg.experience || 0).toFixed(1)),
-      isFocus: false
-    }))
-
-    const processedFocusStats = focusStats.map(focus => ({
-      name: focus.companyFocus || '',
-      averageSalary: Math.round(focus._avg.amount || 0),
-      employeeCount: focus._count.companyFocus,
-      experienceAvg: Number((focus._avg.experience || 0).toFixed(1)),
-      isFocus: true
-    }))
-
-    const combinedStats = [...processedCompanyStats, ...processedFocusStats]
-
-    console.log('Analytics Processed:', {
-      totalEntries: combinedStats.length,
-      companies: processedCompanyStats.length,
-      focusAreas: processedFocusStats.length
-    })
-
-    return combinedStats.sort((a, b) => b.averageSalary - a.averageSalary)
-
-  } catch (error: any) {
-    console.error('Analytics Error:', error?.message || 'Unknown error')
-    return []
-  }
-}
-
-async function getExperienceAnalytics(filter: any) {
-  try {
-    const salaries = await prisma.salary.findMany({
-      where: filter,
-      select: {
-        experience: true,
-        amount: true,
-        position: true
-      }
-    })
-
-    console.log('Experience Analytics:', {
-      totalEntries: salaries.length,
-      sampleEntry: salaries[0]
-    })
-
-    return salaries.map(salary => ({
-      experience: salary.experience,
-      salary: salary.amount,
-      position: salary.position
-    }))
-  } catch (error) {
-    console.error('Experience Analytics Error:', error)
-    return []
   }
 } 

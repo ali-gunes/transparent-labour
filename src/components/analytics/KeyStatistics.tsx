@@ -45,12 +45,12 @@ export default function KeyStatistics({ stats }: KeyStatisticsProps) {
     <Grid numItems={1} numItemsSm={2} numItemsLg={3} className="gap-6">
       <StatCard
         title="Ortalama Maaş"
-        metric={formatCurrency(stats.averageSalary)}
+        metric={`${formatCurrency(Math.round((stats.averageSalary * 0.95) / 500) * 500)} - ${formatCurrency(Math.round((stats.averageSalary * 1.05) / 500) * 500)}`}
         description="Tüm kayıtların aylık ortalama maaşı"
       />
       <StatCard
         title="Medyan Maaş"
-        metric={formatCurrency(stats.medianSalary)}
+        metric={`${formatCurrency(Math.round((stats.medianSalary * 0.95) / 500) * 500)} - ${formatCurrency(Math.round((stats.medianSalary * 1.05) / 500) * 500)}`}
         description="Tüm kayıtların aylık medyan maaşı"
       />
       <StatCard

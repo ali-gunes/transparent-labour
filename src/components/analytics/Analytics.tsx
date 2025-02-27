@@ -4,6 +4,7 @@ import KeyStatistics from './KeyStatistics'
 import SalaryDistribution from './SalaryDistribution'
 import CompanyAnalytics from './CompanyAnalytics'
 import ExperienceAnalytics from './ExperienceAnalytics'
+import { tr } from '@/translations/tr'
 
 export default function Analytics() {
   const [loading, setLoading] = useState(true)
@@ -32,6 +33,18 @@ export default function Analytics() {
       salary: number
       position: string
     }>
+    companyFocusAnalytics: Array<{
+      focus: string
+      averageSalary: number
+      employeeCount: number
+      experienceAvg: number
+    }>
+    educationAnalytics: Array<{
+      level: string
+      averageSalary: number
+      employeeCount: number
+      experienceAvg: number
+    }>
   } | null>(null)
 
   const fetchData = async (type: string) => {
@@ -48,6 +61,14 @@ export default function Analytics() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('tr-TR', {
+      style: 'currency',
+      currency: 'TRY',
+      maximumFractionDigits: 0
+    }).format(amount)
   }
 
   useEffect(() => {
@@ -125,6 +146,94 @@ export default function Analytics() {
           </div>
           <div className="p-6">
             <CompanyAnalytics data={data.companyAnalytics} />
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-8 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+          <div className="border-b border-gray-100 dark:border-gray-700 p-6">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+              Sektör Analizi
+            </h2>
+          </div>
+          <div className="p-6">
+            {data.companyFocusAnalytics && (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead>
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Sektör</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ortalama Maaş</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Çalışan Sayısı</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ortalama Deneyim</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {data.companyFocusAnalytics.map((focus) => (
+                      <tr key={focus.focus}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                          {tr.submit.companyFocusTypes[focus.focus as keyof typeof tr.submit.companyFocusTypes]}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                          {`${formatCurrency(Math.round((focus.averageSalary * 0.95) / 500) * 500)} - ${formatCurrency(Math.round((focus.averageSalary * 1.05) / 500) * 500)}`}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                          {focus.employeeCount}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                          {focus.experienceAvg.toFixed(1)} yıl
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-8 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+          <div className="border-b border-gray-100 dark:border-gray-700 p-6">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+              Eğitim Seviyesi Analizi
+            </h2>
+          </div>
+          <div className="p-6">
+            {data.educationAnalytics && (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead>
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Eğitim Seviyesi</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ortalama Maaş</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Çalışan Sayısı</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ortalama Deneyim</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {data.educationAnalytics.map((education) => (
+                      <tr key={education.level}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                          {tr.search.educationLevels[education.level as keyof typeof tr.search.educationLevels]}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                          {`${formatCurrency(Math.round((education.averageSalary * 0.95) / 500) * 500)} - ${formatCurrency(Math.round((education.averageSalary * 1.05) / 500) * 500)}`}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                          {education.employeeCount}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                          {education.experienceAvg.toFixed(1)} yıl
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
       </div>

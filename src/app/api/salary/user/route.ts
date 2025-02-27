@@ -10,7 +10,8 @@ type DBSalary = {
   createdAt: Date
   votes: { value: number }[]
   position: string
-  company: string
+  company: string | null
+  companyFocus: string | null
   experience: number
   location: string
   source: string
@@ -54,6 +55,7 @@ export async function GET() {
         id: true,
         position: true,
         company: true,
+        companyFocus: true,
         experience: true,
         location: true,
         source: true,

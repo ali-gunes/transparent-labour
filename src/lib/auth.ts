@@ -53,6 +53,10 @@ export const authOptions: AuthOptions = {
             throw new Error(tr.auth.errors.invalidCredentials)
           }
 
+          if (user.role === Role.BANNED) {
+            throw new Error(tr.auth.errors.accountBanned)
+          }
+
           const hashedPassword = hashPassword(credentials.password)
           if (hashedPassword !== user.password) {
             throw new Error(tr.auth.errors.invalidCredentials)

@@ -205,6 +205,7 @@ export const tr = {
       usernameProfanity: 'Bu kullanıcı adı uygunsuz içerik barındırıyor',
       invalidEmail: 'Geçerli bir e-posta adresi girin',
       unexpectedError: 'Bir hata oluştu, lütfen daha sonra tekrar deneyin.',
+      accountBanned: 'Bu hesap yasaklanmıştır. Daha fazla bilgi için İletişim sayfasındaki Genel İletişimi kullanarak bizimle iletişime geçin.',
     },
     forgotPassword: {
       title: 'Şifre Sıfırlama',

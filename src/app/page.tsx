@@ -40,30 +40,36 @@ type Salary = {
 
 const FACTS = [
   {
-    text: "Türkiye'de çalışanların %78'i maaşlarını iş arkadaşlarıyla konuşmaktan çekiniyor.",
-    source: "Saydam Emek Araştırması, 2024",
-    sourceUrl: "https://saydamemek.org.tr/saydam-emek-arasitmasi/"
+    text: "Şeffaf maaş politikası uygulayan şirketlerde çalışan memnuniyeti %30 daha yüksek.",
+    source: "Harvard Business Review, 2023",
+    sourceUrl: "https://hbr.org/2023/02/research-the-complicated-effects-of-pay-transparency"
   },
   {
     text: "Maaş şeffaflığı olan şirketlerde cinsiyet bazlı maaş farkı %7 daha az.",
     source: "PayScale Research, 2023",
-    sourceUrl: "https://www.payscale.com/research/US/Salary/Gender_Pay_Gap"
-  },
-  {
-    text: "Şeffaf maaş politikası uygulayan şirketlerde çalışan memnuniyeti %30 daha yüksek.",
-    source: "Harvard Business Review, 2023",
-    sourceUrl: "https://hbr.org/2023/03/the-business-case-for-salary-transparency"
+    sourceUrl: "https://www.payscale.com/research-and-insights/gender-pay-gap/"
   },
   {
     text: "İş görüşmelerinde adayların %92'si maaş aralığını önceden bilmek istiyor.",
     source: "LinkedIn Global Talent Trends, 2023",
-    sourceUrl: "https://www.linkedin.com/pulse/global-talent-trends-2023-linkedin-research-team/"
+    sourceUrl: "https://business.linkedin.com/talent-solutions/global-talent-trends/archival/global-talent-trends-october-2023"
   },
   {
-    text: "Maaş şeffaflığı olan şirketlerde çalışan bağlılığı %22 daha fazla.",
-    source: "Glassdoor Economic Research, 2023",
-    sourceUrl: "https://www.glassdoor.com/research/economic-research/salary-transparency-employee-engagement-2023-03-27-2023-04-02.htm"
-  }
+    text: "Benzer eğitim seviyelerine sahip kişiler arasında bile, yüksek ve düşük gelir grupları arasındaki maaş farkı son 40 yılda giderek büyüdü.",
+    source: "OECD Aile Veritabanı, 2024",
+    sourceUrl: "https://webfs.oecd.org/Els-com/Family_Database/LMF_1_5_Gender_pay_gaps_for_full_time_workers.pdf"
+  },
+  {
+    text: "Maaş kararlarının şeffaf olduğunu düşünen çalışanların %91'i, işverenlerinin adil ödeme yaptığını düşünüyor.",
+    source: "ADP, Maaş Şeffaflık Araştırması",
+    sourceUrl: "https://www.adp.com/spark/articles/2023/03/pay-transparency-what-it-is-and-laws-by-state.aspx"
+  },
+  {
+    text: "Araştırmalar, maaş kıyaslamalarını bilmeyen çalışanların, bilgisi olanlara kıyasla daha düşük ücretleri kabul etme eğiliminde olduğunu gösteriyor.",
+    source: "Glassdoor, Küresel Maaş Şeffaflık Araştırması",
+    sourceUrl: "https://media.glassdoor.com/pr/press/pdf/GD_Survey_GlobalSalaryTransparency-FINAL.pdf"
+  },
+  
 ]
 
 function RotatingFacts() {
@@ -211,10 +217,14 @@ export default function Home() {
           <h1 className="text-5xl font-bold mb-6 text-gray-800 dark:text-white">
             {tr.home.welcome}
           </h1>
-          <RotatingFacts />
-          <p className="text-xl text-gray-700 dark:text-gray-300 mb-16 max-w-2xl mx-auto">
+          {/* <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
             {tr.home.subtitle}
+          </p> */}
+          <p className="text-lg text-blue-600 dark:text-blue-400 mb-16 max-w-2xl mx-auto font-medium">
+            {tr.home.subtitleTagline}
           </p>
+          <RotatingFacts />
+          
           <div className="space-y-6">
             <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-300">Kullanıcılarımızın Toplam Katkıları</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">

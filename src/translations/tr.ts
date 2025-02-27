@@ -17,7 +17,8 @@ export const tr = {
   },
   home: {
     welcome: 'Saydam Emek\'e Hoş Geldiniz',
-    subtitle: 'Maaş bilgilerini şeffaf bir şekilde paylaş ve keşfet',
+    subtitle: 'Türkiye\'nin ilk topluluk destekli maaş şeffaflık platformu. Anonim olarak maaş bilgilerini paylaş, sektördeki gerçek maaş aralıklarını öğren ve kariyerinde daha bilinçli adımlar at.',
+    subtitleTagline: 'Birlikte daha adil bir iş dünyası için çalışıyoruz',
     howItWorks: 'Nasıl Çalışır',
     step1: 'Anonim Olarak Paylaş',
     step1Desc: 'Maaş bilgilerini güvenli ve anonim olarak paylaş',

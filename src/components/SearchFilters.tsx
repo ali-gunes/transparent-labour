@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 type SortOption = 'newest' | 'maxSalary' | 'minSalary' | 'mostVoted'
 type SalaryType = 'all' | 'net' | 'gross'
 type SourceType = 'all' | 'SELF' | 'OTHER'
-type CompanyFocusType = 'TECHNOLOGY' | 'BANKING' | 'FINANCE' | 'MANUFACTURING' | 'RETAIL' | 'HEALTHCARE' | 'EDUCATION' | 'CONSULTING' | 'TELECOM' | 'ENERGY' | 'AUTOMOTIVE' | 'ECOMMERCE' | 'GAMING' | 'MEDIA' | 'OTHER'
+type CompanyFocusType = 'TECHNOLOGY' | 'BANKING' | 'FINANCE' | 'MANUFACTURING' | 'DEFENSE' | 'LOGISTICS' | 'RETAIL' | 'HEALTHCARE' | 'EDUCATION' | 'CONSULTING' | 'TELECOM' | 'ENERGY' | 'AUTOMOTIVE' | 'ECOMMERCE' | 'GAMING' | 'MEDIA' | 'OTHER'
 
 type Filters = {
   search: string

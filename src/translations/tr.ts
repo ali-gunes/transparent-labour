@@ -130,6 +130,8 @@ export const tr = {
       BANKING: 'Bankacılık',
       FINANCE: 'Finans',
       MANUFACTURING: 'Üretim',
+      DEFENSE: 'Savunma Sanayi',
+      LOGISTICS: 'Lojistik',
       RETAIL: 'Perakende',
       HEALTHCARE: 'Sağlık',
       EDUCATION: 'Eğitim',

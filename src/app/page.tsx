@@ -226,7 +226,7 @@ export default function Home() {
           <RotatingFacts />
           
           <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-300">Kullanıcılarımızın Toplam Katkıları</h3>
+            
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
               <div className="text-center">
                 <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
@@ -253,6 +253,9 @@ export default function Home() {
                 <div className="text-sm text-gray-700 dark:text-gray-400">Lokasyon</div>
               </div>
             </div>
+            <p className="text-lg text-gray-500 dark:text-gray-400 italic">
+            Kullanıcılarımızın Toplam Katkıları
+          </p>
           </div>
         </section>
         
@@ -374,21 +377,20 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section className="max-w-6xl mx-auto mt-16 px-4 mb-16">
+        <section className="max-w-4xl mx-auto px-4 py-12">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">{tr.home.faq}</h2>
-          <div className="space-y-4">
-            <FAQItem
-              title={tr.home.anonymousTitle}
-              content={tr.home.anonymousDesc}
-            />
-            <FAQItem
-              title={tr.home.dataVerificationTitle}
-              content={tr.home.dataVerificationDesc}
-            />
-            <FAQItem
-              title={tr.home.updateFrequencyTitle}
-              content={tr.home.updateFrequencyDesc}
-            />
+          <div className="space-y-6">
+            <FAQItem title={tr.home.anonymousTitle} content={tr.home.anonymousDesc} />
+            <FAQItem title={tr.home.dataVerificationTitle} content={tr.home.dataVerificationDesc} />
+            
+            <FAQItem title={tr.home.updateFrequencyTitle} content={tr.home.updateFrequencyDesc} />
+            <FAQItem title={tr.home.dataSafetyTitle} content={tr.home.dataSafetyDesc} />
+            <FAQItem title={tr.home.salaryRangeTitle} content={tr.home.salaryRangeDesc} />
+            <FAQItem title={tr.home.companyOptionalTitle} content={tr.home.companyOptionalDesc} />
+            <FAQItem title={tr.home.dataAccuracyTitle} content={tr.home.dataAccuracyDesc} />
+            <FAQItem title={tr.home.multipleEntriesTitle} content={tr.home.multipleEntriesDesc} />
+            
+            <FAQItem title={tr.home.benefitsTitle} content={tr.home.benefitsDesc} />
           </div>
         </section>
       </div>

@@ -38,6 +38,89 @@ type Salary = {
   }
 }
 
+const FACTS = [
+  {
+    text: "Türkiye'de çalışanların %78'i maaşlarını iş arkadaşlarıyla konuşmaktan çekiniyor.",
+    source: "Saydam Emek Araştırması, 2024",
+    sourceUrl: "https://saydamemek.org.tr/saydam-emek-arasitmasi/"
+  },
+  {
+    text: "Maaş şeffaflığı olan şirketlerde cinsiyet bazlı maaş farkı %7 daha az.",
+    source: "PayScale Research, 2023",
+    sourceUrl: "https://www.payscale.com/research/US/Salary/Gender_Pay_Gap"
+  },
+  {
+    text: "Şeffaf maaş politikası uygulayan şirketlerde çalışan memnuniyeti %30 daha yüksek.",
+    source: "Harvard Business Review, 2023",
+    sourceUrl: "https://hbr.org/2023/03/the-business-case-for-salary-transparency"
+  },
+  {
+    text: "İş görüşmelerinde adayların %92'si maaş aralığını önceden bilmek istiyor.",
+    source: "LinkedIn Global Talent Trends, 2023",
+    sourceUrl: "https://www.linkedin.com/pulse/global-talent-trends-2023-linkedin-research-team/"
+  },
+  {
+    text: "Maaş şeffaflığı olan şirketlerde çalışan bağlılığı %22 daha fazla.",
+    source: "Glassdoor Economic Research, 2023",
+    sourceUrl: "https://www.glassdoor.com/research/economic-research/salary-transparency-employee-engagement-2023-03-27-2023-04-02.htm"
+  }
+]
+
+function RotatingFacts() {
+  const [currentFactIndex, setCurrentFactIndex] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true)
+      setTimeout(() => {
+        setCurrentFactIndex((prevIndex) => (prevIndex + 1) % FACTS.length)
+        setIsTransitioning(false)
+      }, 500) // Half of the transition duration
+    }, 5000) // Change fact every 5 seconds
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const fact = FACTS[currentFactIndex]
+
+  return (
+    <div className="relative h-24 mb-8">
+      <div 
+        className={`absolute w-full transition-all duration-500 ease-in-out transform ${
+          isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        <div className="text-lg text-blue-600 dark:text-blue-400 font-medium mb-2">
+          {fact.text}
+        </div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 italic">
+          <a href={fact.sourceUrl} target="_blank" rel="noopener noreferrer">{fact.source}</a>
+        </div>
+      </div>
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        {FACTS.map((_, index) => (
+          <button
+            key={index}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === currentFactIndex
+                ? 'bg-blue-600 dark:bg-blue-400 w-4'
+                : 'bg-gray-300 dark:bg-gray-600'
+            }`}
+            onClick={() => {
+              setIsTransitioning(true)
+              setTimeout(() => {
+                setCurrentFactIndex(index)
+                setIsTransitioning(false)
+              }, 500)
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function FAQItem({ title, content }: { title: string; content: string }) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -128,6 +211,7 @@ export default function Home() {
           <h1 className="text-5xl font-bold mb-6 text-gray-800 dark:text-white">
             {tr.home.welcome}
           </h1>
+          <RotatingFacts />
           <p className="text-xl text-gray-700 dark:text-gray-300 mb-16 max-w-2xl mx-auto">
             {tr.home.subtitle}
           </p>

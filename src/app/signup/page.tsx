@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
 import { hashPassword } from '@/lib/hash'
+import { isValidUsername } from '@/lib/validation'
 
 export default function SignUp() {
   const router = useRouter()
@@ -19,8 +20,9 @@ export default function SignUp() {
       return tr.auth.errors.weakPassword
     }
 
-    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-      return tr.auth.errors.invalidUsername
+    const usernameValidation = isValidUsername(username)
+    if (!usernameValidation.isValid) {
+      return usernameValidation.reason
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

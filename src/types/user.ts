@@ -6,6 +6,7 @@ export type UserProfile = {
     id: string
     position: string
     company: string
+    companyFocus: string
     rangeMin: number
     rangeMax: number
     salaryType: string

@@ -11,7 +11,8 @@ import UserBadge from '@/components/UserBadge'
 type Salary = {
   id: string
   position: string
-  company: string
+  company: string | null
+  companyFocus: string | null
   amount: number
   salaryType: string
   experience: number
@@ -146,7 +147,9 @@ export default function Search() {
                   <h2 className={`text-xl font-semibold ${styles.text}`}>
                     {salary.position}
                   </h2>
-                  <p className={styles.textMuted}>{salary.company}</p>
+                  <p className={styles.textMuted}>
+                    {salary.company || "Şirket Gizlenmiştir (Sektör: " + tr.submit.companyFocusTypes[salary.companyFocus as keyof typeof tr.submit.companyFocusTypes] + ")"}
+                  </p>
                 </div>
                 <span className={styles.textSmall}>
                 {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
@@ -163,7 +166,7 @@ export default function Search() {
               </p>
               <div className="relative">
                 <div className={styles.textSmall}>
-                  <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} {tr.search.yearsExp}</p>
+                  <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} yıl deneyim</p>
                   <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
                   
                   {/* Add duration info */}

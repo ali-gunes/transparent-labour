@@ -10,6 +10,7 @@ interface AutocompleteInputProps {
   maxLength?: number
   field: 'position' | 'company' | 'location'
   className?: string
+  disabled?: boolean
 }
 
 export default function AutocompleteInput({
@@ -20,7 +21,8 @@ export default function AutocompleteInput({
   required = false,
   maxLength,
   field,
-  className = ''
+  className = '',
+  disabled = false
 }: AutocompleteInputProps) {
   const [value, setValue] = useState('')
   const [suggestions, setSuggestions] = useState<string[]>([])
@@ -91,6 +93,7 @@ export default function AutocompleteInput({
         className={`${styles.input} h-12 text-lg ${className}`}
         placeholder={placeholder}
         autoComplete="off"
+        disabled={disabled}
       />
       {showSuggestions && suggestions.length > 0 && (
         <div

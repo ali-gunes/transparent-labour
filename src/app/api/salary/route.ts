@@ -40,7 +40,8 @@ export async function POST(req: Request) {
       data: {
         amount: data.amount,
         position: data.position,
-        company: data.company,
+        company: data.company || null,
+        companyFocus: data.company ? null : data.companyFocus,
         experience: data.experience,
         location: data.location,
         source: data.source,
@@ -144,6 +145,7 @@ export async function GET(req: NextRequest) {
     const source = searchParams.get('source') || undefined
     const startDate = searchParams.get('startDate') || undefined
     const endDate = searchParams.get('endDate') || undefined
+    const companyFocus = searchParams.get('companyFocus') || undefined
 
     // Get user session for vote info
     const session = await getServerSession(authOptions)
@@ -152,12 +154,13 @@ export async function GET(req: NextRequest) {
     // Build where clause
     const where: any = {}
 
-    // Search in position, company, or location
+    // Search in position, company, location, or companyFocus
     if (search) {
       where.OR = [
         { position: { contains: search, mode: 'insensitive' } },
         { company: { contains: search, mode: 'insensitive' } },
-        { location: { contains: search, mode: 'insensitive' } }
+        { location: { contains: search, mode: 'insensitive' } },
+        { companyFocus: { contains: search, mode: 'insensitive' } }
       ]
     }
 
@@ -195,6 +198,11 @@ export async function GET(req: NextRequest) {
     // Source type filter
     if (source) {
       where.source = source
+    }
+
+    // Company focus filter
+    if (companyFocus) {
+      where.companyFocus = companyFocus
     }
 
     // Date range filter

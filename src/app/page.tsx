@@ -110,7 +110,7 @@ export default function Home() {
   async function fetchLatestSalaries() {
     setLoading(true)
     try {
-      const res = await fetch('/api/salary?limit=20')
+      const res = await fetch('/api/salary?limit=5')
       const data = await res.json()
       setLatestSalaries(data)
     } catch (error) {

@@ -9,12 +9,14 @@ import {
   ResponsiveContainer,
   Legend
 } from 'recharts'
+import { tr } from '@/translations/tr'
 
 interface CompanyData {
   name: string
   averageSalary: number
   employeeCount: number
   experienceAvg: number
+  isFocus?: boolean
 }
 
 interface CompanyAnalyticsProps {
@@ -78,6 +80,10 @@ export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
               type="category"
               tick={(props) => {
                 const { x, y, payload } = props;
+                const value = payload.value;
+                const displayText = sortedData.find(d => d.name === value)?.isFocus
+                  ? tr.submit.companyFocusTypes[value as keyof typeof tr.submit.companyFocusTypes]
+                  : value;
                 return (
                   <g transform={`translate(${x},${y})`}>
                     <text
@@ -88,7 +94,7 @@ export default function CompanyAnalytics({ data }: CompanyAnalyticsProps) {
                       transform="rotate(-45)"
                       className="fill-gray-800 dark:fill-gray-300"
                     >
-                      {payload.value}
+                      {displayText}
                     </text>
                   </g>
                 );

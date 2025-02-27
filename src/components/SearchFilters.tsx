@@ -22,6 +22,7 @@ type Filters = {
   source: SourceType
   startDate: Date | null
   endDate: Date | null
+  companyFocus: string
 }
 
 type SearchFiltersProps = {
@@ -40,7 +41,8 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
     maxExperience: '',
     source: 'all',
     startDate: null,
-    endDate: null
+    endDate: null,
+    companyFocus: ''
   })
 
   // Create a debounced version of onFilterChange
@@ -111,7 +113,8 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
       maxExperience: '',
       source: 'all',
       startDate: null,
-      endDate: null
+      endDate: null,
+      companyFocus: ''
     }
     setFilters(defaultFilters)
     onFilterChange(defaultFilters)
@@ -226,6 +229,19 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
             disabled={isLoading}
           />
         </div>
+        <select
+          className={styles.select}
+          value={filters.companyFocus}
+          onChange={(e) => handleChange('companyFocus', e.target.value)}
+          disabled={isLoading}
+        >
+          <option value="">{tr.search.companyFocus.all}</option>
+          {Object.entries(tr.submit.companyFocusTypes).map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   )

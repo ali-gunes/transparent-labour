@@ -1,7 +1,8 @@
 export type SalaryResponse = {
   id: string
   position: string
-  company: string
+  company: string | null
+  companyFocus: string | null
   experience: number
   location: string
   source: string

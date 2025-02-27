@@ -32,7 +32,8 @@ model Salary {
   id          String   @id @default(cuid())
   amount      Int
   position    String
-  company     String
+  company     String?
+  companyFocus CompanyFocus?
   experience  Int
   location    String
   userId      String
@@ -106,4 +107,22 @@ enum ContactMessageStatus {
   ARCHIVED
 
   @@map("contact_message_status")
+}
+
+enum CompanyFocus {
+  TECHNOLOGY
+  BANKING
+  FINANCE
+  MANUFACTURING
+  RETAIL
+  HEALTHCARE
+  EDUCATION
+  CONSULTING
+  TELECOM
+  ENERGY
+  AUTOMOTIVE
+  ECOMMERCE
+  GAMING
+  MEDIA
+  OTHER
 }

@@ -138,10 +138,13 @@ async function getSalaryDistribution(filter: any) {
 
 async function getCompanyAnalytics(filter: any) {
   try {
-    // Get all companies with their stats directly
-    const companies = await prisma.salary.groupBy({
+    // Get company stats
+    const companyStats = await prisma.salary.groupBy({
       by: ['company'],
-      where: filter,
+      where: {
+        ...filter,
+        company: { not: null }
+      },
       _count: {
         company: true
       },
@@ -158,28 +161,63 @@ async function getCompanyAnalytics(filter: any) {
       }
     })
 
-    console.log('Company Analytics Raw:', {
-      companiesFound: companies.length,
-      firstCompany: companies[0]
+    // Get focus area stats
+    const focusStats = await prisma.salary.groupBy({
+      by: ['companyFocus'],
+      where: {
+        ...filter,
+        company: null,
+        companyFocus: { not: null }
+      },
+      _count: {
+        companyFocus: true
+      },
+      _avg: {
+        amount: true,
+        experience: true
+      },
+      having: {
+        companyFocus: {
+          _count: {
+            gt: 1
+          }
+        }
+      }
     })
 
-    const companyStats = companies.map(company => ({
-      name: company.company,
+    console.log('Analytics Raw:', {
+      companiesFound: companyStats.length,
+      focusAreasFound: focusStats.length
+    })
+
+    const processedCompanyStats = companyStats.map(company => ({
+      name: company.company || '',
       averageSalary: Math.round(company._avg.amount || 0),
       employeeCount: company._count.company,
-      experienceAvg: Number((company._avg.experience || 0).toFixed(1))
+      experienceAvg: Number((company._avg.experience || 0).toFixed(1)),
+      isFocus: false
     }))
 
-    console.log('Company Analytics Processed:', {
-      totalCompanies: companyStats.length,
-      sampleCompany: companyStats[0],
-      allCompanies: companyStats
+    const processedFocusStats = focusStats.map(focus => ({
+      name: focus.companyFocus || '',
+      averageSalary: Math.round(focus._avg.amount || 0),
+      employeeCount: focus._count.companyFocus,
+      experienceAvg: Number((focus._avg.experience || 0).toFixed(1)),
+      isFocus: true
+    }))
+
+    const combinedStats = [...processedCompanyStats, ...processedFocusStats]
+
+    console.log('Analytics Processed:', {
+      totalEntries: combinedStats.length,
+      companies: processedCompanyStats.length,
+      focusAreas: processedFocusStats.length
     })
 
-    return companyStats.sort((a, b) => b.averageSalary - a.averageSalary)
+    return combinedStats.sort((a, b) => b.averageSalary - a.averageSalary)
 
   } catch (error: any) {
-    console.error('Company Analytics Error:', error?.message || 'Unknown error')
+    console.error('Analytics Error:', error?.message || 'Unknown error')
     return []
   }
 }

@@ -27,6 +27,7 @@ export default function SubmitSalary() {
   const [startDate, setStartDate] = useState<Date | null>(null)
   const [endDate, setEndDate] = useState<Date | null>(null)
   const [isCurrent, setIsCurrent] = useState(true)
+  const [hideCompany, setHideCompany] = useState(false)
 
   // Redirect if not authenticated
   if (session === null) {
@@ -67,7 +68,8 @@ export default function SubmitSalary() {
       const data = {
         amount,
         position: formatFieldText(formData.get('position') as string),
-        company: formatFieldText(formData.get('company') as string),
+        company: hideCompany ? null : formatFieldText(formData.get('company') as string),
+        companyFocus: hideCompany ? formData.get('companyFocus') as string : null,
         experience,
         location: formatFieldText(formData.get('location') as string),
         source,
@@ -191,16 +193,53 @@ export default function SubmitSalary() {
                 />
               </div>
               <div>
-                <AutocompleteInput
-                  id="company"
-                  name="company"
-                  label={tr.submit.company}
-                  required
-                  maxLength={100}
-                  placeholder={tr.submit.placeholders.company}
-                  field="company"
-                />
+                {!hideCompany && (
+                  <AutocompleteInput
+                    id="company"
+                    name="company"
+                    label={tr.submit.company}
+                    maxLength={100}
+                    placeholder={tr.submit.placeholders.company}
+                    field="company"
+                  />
+                )}
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 italic">
+                  {tr.submit.companyNote}
+                </p>
+                <div className="mt-2 flex items-center">
+                  <input
+                    type="checkbox"
+                    id="hideCompany"
+                    checked={hideCompany}
+                    onChange={(e) => setHideCompany(e.target.checked)}
+                    className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                  />
+                  <label htmlFor="hideCompany" className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                    Şirket belirtmek istemiyorum
+                  </label>
+                </div>
+                
               </div>
+              {hideCompany && (
+                <div>
+                  <label htmlFor="companyFocus" className={`${styles.label} text-lg`}>
+                    {tr.submit.companyFocus}
+                  </label>
+                  <select
+                    id="companyFocus"
+                    name="companyFocus"
+                    required={hideCompany}
+                    className={`${styles.select} h-12 text-lg`}
+                  >
+                    <option value="">Lütfen seçiniz</option>
+                    {Object.entries(tr.submit.companyFocusTypes).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <div>
                 <label htmlFor="experience" className={`${styles.label} text-lg`}>
                   {tr.submit.experience}

@@ -81,10 +81,13 @@ export default function Notifications() {
                 ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-200'
                 : message.status === 'READ'
                 ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-200'
+                : message.status === 'ARCHIVED'
+                ? 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-200'
                 : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-200'
             }`}>
               {message.status === 'REPLIED' ? 'Yanıtlandı' : 
-               message.status === 'READ' ? 'Okundu' : 
+               message.status === 'READ' ? 'Okundu' :
+               message.status === 'ARCHIVED' ? 'Arşivlendi' :
                'Okunmadı'}
             </span>
           </div>

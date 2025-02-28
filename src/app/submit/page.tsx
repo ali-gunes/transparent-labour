@@ -39,10 +39,8 @@ export default function SubmitSalary() {
   const [hideCompany, setHideCompany] = useState(false)
   const [educationLevel, setEducationLevel] = useState<EducationLevel | ''>('')
   const [selectedCountry, setSelectedCountry] = useState('Türkiye')
-  const [selectedCity, setSelectedCity] = useState('')
   const [isSameLocation, setIsSameLocation] = useState(true)
   const [companyCountry, setCompanyCountry] = useState('Türkiye')
-  const [companyCity, setCompanyCity] = useState('')
   const [workLocationType, setWorkLocationType] = useState('on-site')
   const [confirmedLowSalary, setConfirmedLowSalary] = useState(false)
 
@@ -104,7 +102,7 @@ export default function SubmitSalary() {
       location = selectedCountry
     } else {
       if (workLocationType === 'remote') {
-        location = `Remote -> ${companyCountry}`
+        location = companyCountry
       } else {
         location = companyCountry
       }

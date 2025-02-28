@@ -26,6 +26,7 @@ export type UserProfile = {
     startDate: Date | null
     endDate: Date | null
     isCurrent: boolean
+    workType: string
   }>
   totalVotes: number
 } 

@@ -111,6 +111,9 @@ export default function ProfilePage() {
                         <p className={styles.textMuted}>
                     {salary.company || "Şirket Gizlenmiştir (Sektör: " + tr.submit.companyFocusTypes[salary.companyFocus as keyof typeof tr.submit.companyFocusTypes] + ")"}
                   </p>
+                  <p className={`text-sm ${styles.textMuted}`}>
+                    {salary.location.split(' -> ')[0]}
+                  </p>
                       </div>
                       <span className={styles.textSmall}>
                         {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
@@ -127,10 +130,7 @@ export default function ProfilePage() {
                     </p>
                     <div className="relative">
                       <div className={styles.textSmall}>
-                        <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} yıl deneyim</p>
-                        <p className={`text-sm font-medium ${styles.text} mb-2`}>{educationLevels[salary.educationLevel as keyof typeof educationLevels]} mezunu</p>
-                        <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
-                        <p className={`text-sm font-medium ${styles.text} mb-2`}>
+                      <p className={`text-sm font-medium ${styles.text} mb-2`}>
                           {salary.startDate ? new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' }) : ''}
                           {' - '}
                           {salary.isCurrent
@@ -140,6 +140,15 @@ export default function ProfilePage() {
                               : ''
                           }
                         </p>
+                        <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} yıl deneyim</p>
+                        <p className={`text-sm font-medium ${styles.text} mb-2`}>{educationLevels[salary.educationLevel as keyof typeof educationLevels]} mezunu</p>
+                        <p className={`text-sm font-medium ${styles.text} mb-2`}>
+                    {salary.workType === 'REMOTE' 
+                      ? 'Remote çalışıyor'
+                      : `${salary.location.split(' -> ')[0]}'de ofisten çalışıyor`
+                    }
+                  </p>
+                        
                         {salary.source === 'SELF' && (
                           <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                             <div className="grid gap-2">

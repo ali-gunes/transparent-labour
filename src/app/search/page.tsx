@@ -34,6 +34,8 @@ type Salary = {
   compensationSatisfaction?: number
   salarySatisfaction?: number
   educationLevel?: string
+  workType: string
+  isSameLocation: boolean
   user: {
     totalVotes: number
     role: 'USER' | 'ADMIN'
@@ -170,6 +172,9 @@ export default function Search() {
                   <p className={styles.textMuted}>
                     {salary.company || "Şirket Gizlenmiştir (Sektör: " + tr.submit.companyFocusTypes[salary.companyFocus as keyof typeof tr.submit.companyFocusTypes] + ")"}
                   </p>
+                  <p className={`text-sm ${styles.textMuted}`}>
+                    {salary.location.split(' -> ')[0]}
+                  </p>
                 </div>
                 <span className={styles.textSmall}>
                 {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
@@ -198,8 +203,15 @@ export default function Search() {
               <div className="relative">
                 <div className={styles.textSmall}>
                   <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} yıl deneyim</p>
-                  <p className={`text-sm font-medium ${styles.text} mb-2`}>{educationLevels[salary.educationLevel as keyof typeof educationLevels]} mezunu</p>
-                  <p className={`text-sm font-medium ${styles.text} mb-2`}>{salary.location}</p>
+                  <p className={`text-sm font-medium ${styles.text} mb-2`}>
+                    {educationLevels[salary.educationLevel as keyof typeof educationLevels]} mezunu
+                  </p>
+                  <p className={`text-sm font-medium ${styles.text} mb-2`}>
+                    {salary.workType === 'REMOTE' 
+                      ? 'Remote çalışıyor'
+                      : `${salary.location.split(' -> ')[0]}'de ofisten çalışıyor`
+                    }
+                  </p>
                   
                   
 

@@ -11,9 +11,15 @@ import AutocompleteInput from '@/components/AutocompleteInput'
 import { CompanyFocus, EducationLevel } from '@prisma/client'
 
 // Add helper function for text formatting
-function formatFieldText(text: string): string {
-  return text
-    .trim()
+function formatFieldText(text: string, field?: string): string {
+  const trimmedText = text.trim()
+  
+  // Skip initialization for company names
+  if (field === 'company') {
+    return trimmedText
+  }
+  
+  return trimmedText
     .split(/\s+/)
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ')
@@ -69,11 +75,11 @@ export default function SubmitSalary() {
     try {
       const data = {
         amount,
-        position: formatFieldText(formData.get('position') as string),
-        company: hideCompany ? undefined : formatFieldText(formData.get('company') as string),
+        position: formatFieldText(formData.get('position') as string, 'position'),
+        company: hideCompany ? undefined : formatFieldText(formData.get('company') as string, 'company'),
         companyFocus: formData.get('companyFocus') as CompanyFocus,
         experience,
-        location: formatFieldText(formData.get('location') as string),
+        location: formatFieldText(formData.get('location') as string, 'location'),
         source,
         sourceNote,
         submittedBy: session?.user?.username || '',

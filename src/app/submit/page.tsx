@@ -72,6 +72,12 @@ export default function SubmitSalary() {
       ? formData.get('sourceNote') as string 
       : undefined
 
+    // Validate source note when source is OTHER
+    if (source === 'OTHER' && (!sourceNote || sourceNote.trim() === '')) {
+      setError('Lütfen kaynak detayı giriniz')
+      return
+    }
+
     try {
       const data = {
         amount,
@@ -383,6 +389,7 @@ export default function SubmitSalary() {
                   placeholder={tr.submit.sourceNotePlaceholder}
                   maxLength={500}
                   rows={4}
+                  required
                 />
               </div>
             )}

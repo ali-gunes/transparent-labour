@@ -58,6 +58,7 @@ model Salary {
   startDate   DateTime?
   endDate     DateTime?
   isCurrent   Boolean   @default(true)
+  workType    String    @default("ONSITE")
 }
 
 model Vote {

@@ -88,7 +88,20 @@ export async function GET(req: NextRequest) {
     console.log('Where clause:', where)
 
     // Get basic statistics
-    const salaries = await prisma.salary.findMany({ where })
+    const salaries = await prisma.salary.findMany({
+      where,
+      select: {
+        id: true,
+        amount: true,
+        position: true,
+        company: true,
+        companyFocus: true,
+        experience: true,
+        location: true,
+        salaryType: true,
+        createdAt: true
+      }
+    })
     console.log('Total salaries found:', salaries.length)
     console.log('Sample salary types:', salaries.slice(0, 5).map(s => s.salaryType))
 

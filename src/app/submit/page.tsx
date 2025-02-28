@@ -9,6 +9,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import AutocompleteInput from '@/components/AutocompleteInput'
 import { CompanyFocus, EducationLevel } from '@prisma/client'
+import { turkishCities, popularCountries } from '@/data/locations'
 
 // Add helper function for text formatting
 function formatFieldText(text: string, field?: string): string {
@@ -29,6 +30,7 @@ export default function SubmitSalary() {
   const router = useRouter()
   const { data: session } = useSession()
   const [error, setError] = useState('')
+  const [warning, setWarning] = useState('')
   const [source, setSource] = useState('SELF')
   const [salaryType, setSalaryType] = useState('net')
   const [startDate, setStartDate] = useState<Date | null>(null)
@@ -36,6 +38,13 @@ export default function SubmitSalary() {
   const [isCurrent, setIsCurrent] = useState(true)
   const [hideCompany, setHideCompany] = useState(false)
   const [educationLevel, setEducationLevel] = useState<EducationLevel | ''>('')
+  const [selectedCountry, setSelectedCountry] = useState('Türkiye')
+  const [selectedCity, setSelectedCity] = useState('')
+  const [isSameLocation, setIsSameLocation] = useState(true)
+  const [companyCountry, setCompanyCountry] = useState('Türkiye')
+  const [companyCity, setCompanyCity] = useState('')
+  const [workLocationType, setWorkLocationType] = useState('on-site')
+  const [confirmedLowSalary, setConfirmedLowSalary] = useState(false)
 
   // Redirect if not authenticated
   if (session === null) {
@@ -51,6 +60,7 @@ export default function SubmitSalary() {
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError('')
+    setWarning('')
 
     const formData = new FormData(event.currentTarget)
     const amount = Number(formData.get('amount'))
@@ -67,6 +77,16 @@ export default function SubmitSalary() {
       return
     }
 
+    // Check for minimum wage if the country is Turkey
+    if ((selectedCountry === 'Türkiye' || companyCountry === 'Türkiye') && 
+        amount < 22104 && 
+        !confirmedLowSalary) {
+      setWarning('Girdiğiniz maaş Türkiye\'deki asgari ücretin (₺22.104) altında. Bu maaşın doğru olduğundan emin misiniz?')
+      setConfirmedLowSalary(true)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+
     const source = formData.get('source') as string
     const sourceNote = source === 'OTHER' 
       ? formData.get('sourceNote') as string 
@@ -78,6 +98,18 @@ export default function SubmitSalary() {
       return
     }
 
+    // Format location based on country selection
+    let location
+    if (isSameLocation) {
+      location = selectedCountry
+    } else {
+      if (workLocationType === 'remote') {
+        location = `Remote -> ${companyCountry}`
+      } else {
+        location = companyCountry
+      }
+    }
+
     try {
       const data = {
         amount,
@@ -85,7 +117,7 @@ export default function SubmitSalary() {
         company: hideCompany ? undefined : formatFieldText(formData.get('company') as string, 'company'),
         companyFocus: formData.get('companyFocus') as CompanyFocus,
         experience,
-        location: formatFieldText(formData.get('location') as string, 'location'),
+        location,
         source,
         sourceNote,
         submittedBy: session?.user?.username || '',
@@ -94,6 +126,7 @@ export default function SubmitSalary() {
         endDate: !isCurrent ? endDate : null,
         isCurrent,
         educationLevel: educationLevel || undefined,
+        workType: workLocationType === 'remote' ? 'REMOTE' : 'ONSITE',
         ...(source === 'SELF' && {
           workLifeBalance: Number(formData.get('workLifeBalance')),
           compensationSatisfaction: Number(formData.get('compensationSatisfaction')),
@@ -157,6 +190,35 @@ export default function SubmitSalary() {
       {error && (
         <div className={styles.error}>
           {error}
+        </div>
+      )}
+      {warning && (
+        <div className="bg-yellow-50 dark:bg-yellow-900 border-l-4 border-yellow-400 p-4 mb-4">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <p className="text-sm text-yellow-700 dark:text-yellow-200">
+                {warning}
+              </p>
+              <div className="mt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setWarning('')
+                    setConfirmedLowSalary(true)
+                    document.querySelector('button[type="submit"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                  }}
+                  className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-600 dark:hover:bg-yellow-700 text-white dark:text-white rounded-md font-medium transition-colors duration-200"
+                >
+                  Evet, devam et
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
       <div className="max-w-xl mx-auto">
@@ -292,15 +354,76 @@ export default function SubmitSalary() {
                 />
               </div>
               <div>
-                <AutocompleteInput
-                  id="location"
-                  name="location"
-                  label={tr.submit.location}
-                  required
-                  maxLength={100}
-                  placeholder={tr.submit.placeholders.location}
-                  field="location"
-                />
+                <label className={`${styles.label} text-lg`}>
+                  {tr.submit.location}
+                </label>
+                <div className="space-y-4">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="isSameLocation"
+                      checked={isSameLocation}
+                      onChange={(e) => {
+                        setIsSameLocation(e.target.checked)
+                        if (e.target.checked) {
+                          setCompanyCountry('Türkiye')
+                          setWorkLocationType('on-site')
+                        } else {
+                          setWorkLocationType('remote')
+                        }
+                      }}
+                      className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                    />
+                    <label htmlFor="isSameLocation" className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                      Şirketin bulunduğu ülke ile yaşadığım ülke aynı
+                    </label>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <select
+                        id="country"
+                        name="country"
+                        className={`${styles.select} h-12 text-lg`}
+                        value={isSameLocation ? selectedCountry : companyCountry}
+                        onChange={(e) => {
+                          if (isSameLocation) {
+                            setSelectedCountry(e.target.value)
+                          } else {
+                            setCompanyCountry(e.target.value)
+                          }
+                        }}
+                        required
+                      >
+                        {popularCountries.map((country) => (
+                          <option key={country} value={country}>
+                            {country}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <select
+                        id="workLocationType"
+                        name="workLocationType"
+                        className={`${styles.select} h-12 text-lg`}
+                        value={workLocationType}
+                        onChange={(e) => setWorkLocationType(e.target.value)}
+                        disabled={!isSameLocation}
+                        required
+                      >
+                        {isSameLocation ? (
+                          <>
+                            <option value="on-site">Ofisten</option>
+                            <option value="remote">Remote</option>
+                          </>
+                        ) : (
+                          <option value="remote">Remote</option>
+                        )}
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div>
                 <label className={`${styles.label} text-lg`}>

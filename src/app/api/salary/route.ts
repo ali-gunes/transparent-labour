@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 // import type { SalaryResponse } from '@/types/salary'
 import { authOptions } from '@/lib/auth'
-import { Prisma } from '@prisma/client'
+import { Prisma, CompanyFocus, EducationLevel } from '@prisma/client'
 import { NextRequest } from 'next/server'
 
 // Remove unused Salary type and keep only SalaryResponse
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
         endDate: data.endDate ? new Date(data.endDate) : null,
         isCurrent: data.isCurrent,
         educationLevel: data.educationLevel,
-        // Add new fields conditionally
+        workType: data.workType,
         ...(data.source === 'SELF' ? {
           workLifeBalance: parseInt(data.workLifeBalance),
           compensationSatisfaction: parseInt(data.compensationSatisfaction),
@@ -223,17 +223,44 @@ export async function GET(req: NextRequest) {
       ],
       skip: (page - 1) * limit,
       take: limit,
-      include: {
-        votes: userId ? {
-          where: { userId }
-        } : false,
+      select: {
+        id: true,
+        amount: true,
+        position: true,
+        company: true,
+        companyFocus: true,
+        experience: true,
+        location: true,
+        userId: true,
+        createdAt: true,
+        source: true,
+        sourceNote: true,
+        salaryType: true,
+        rangeMax: true,
+        rangeMin: true,
+        submittedBy: true,
+        voteCount: true,
+        workLifeBalance: true,
+        compensationSatisfaction: true,
+        salarySatisfaction: true,
+        educationLevel: true,
+        startDate: true,
+        endDate: true,
+        isCurrent: true,
+        workType: true,
         user: {
           select: {
             totalVotes: true,
             role: true,
             isEarlyAdapter: true
           }
-        }
+        },
+        votes: userId ? {
+          where: { userId },
+          select: {
+            value: true
+          }
+        } : false
       }
     })
 

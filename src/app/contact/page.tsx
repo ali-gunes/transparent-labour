@@ -88,7 +88,7 @@ export default function Contact() {
           <div>
             <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-900/50 rounded-lg p-4 mb-8">
             <p className="text-yellow-800 dark:text-yellow-200">
-              📌 Eğer Saydam Emek üyeyiyseniz lütfen Üye İletişim formunu kullanın.
+              📌 Eğer Saydam Emek üyeyiyseniz gizliliğinizi korumak için lütfen Üye İletişim formunu kullanın.
             </p>
             </div>
             <p className="text-gray-700 dark:text-gray-400 mb-8">

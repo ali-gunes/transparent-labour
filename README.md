@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Saydam Emek (Transparent Labour)
 
-## Getting Started
+## Mission
 
-First, run the development server:
+Saydam Emek is a platform dedicated to bringing transparency to the Turkish labor market by creating an anonymous, community-driven salary information sharing platform. Our mission is to:
 
+- Empower employees with accurate salary data for better career decisions
+- Promote fair compensation through market transparency
+- Protect user privacy while maintaining data reliability
+- Foster a more equitable job market through data-driven insights
+
+## Features
+
+### 💰 Salary Sharing
+- Anonymous salary submissions with privacy-focused data handling
+- Standardized salary ranges to protect individual privacy
+- Optional company information with industry categorization
+- Detailed position and experience tracking
+- Work satisfaction metrics (work-life balance, compensation, overall satisfaction)
+
+### 📊 Analytics
+- Interactive salary distribution charts
+- Experience-based salary scatter plots
+- Industry-focused analysis
+- Education level impact analysis
+- Company and position-based comparisons
+
+### 🔒 Privacy & Security
+- Anonymous data sharing options
+- Standardized salary ranges
+- Variance-based data display (±7% with 500 TL rounding)
+- Email verification system
+- Secure authentication
+
+### 👥 Community Features
+- Reliability voting system
+- Early adopter recognition
+- User reputation system
+- Anonymous communication channel
+- Community-driven data validation
+
+## Technology Stack
+
+- **Frontend**: Next.js 14, React, TailwindCSS
+- **Backend**: Next.js API Routes
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: NextAuth.js
+- **Charts**: Recharts
+- **Styling**: TailwindCSS with Dark Mode support
+- **Deployment**: Vercel
+
+## Data Privacy
+
+We take data privacy seriously and have implemented multiple layers of protection:
+
+### Data Anonymization
+- No exact salary figures are stored or displayed
+- All salary data is standardized into ranges with ±7% variance
+- Displayed values are rounded to nearest 500 TL
+- Company names are optional and can be replaced with industry categories
+- User profiles never display actual salary amounts
+
+### User Protection
+- Email verification required for account creation
+- Secure password hashing and storage
+- Option to use anonymous communication tokens
+- No public profile information beyond username
+- Early adopter badges and reputation scores don't reveal personal data
+
+### Data Display
+- Scatter plots use variance to prevent exact salary identification
+- Salary ranges are aggregated for distribution charts
+- Company statistics only shown when sufficient data exists
+- Position titles are standardized to prevent individual identification
+- Experience levels are grouped to maintain anonymity
+
+### Technical Measures
+- HTTPS encryption for all data transmission
+- Secure session management
+- Regular security audits
+- Database encryption at rest
+- Rate limiting on sensitive operations
+- IP address anonymization
+
+### User Control
+- Users can delete their submissions at any time
+- Option to hide company names
+- Control over what information is shared
+- Anonymous contact system for support
+- Ability to disable account without data loss
+
+### Compliance
+- KVKK (Turkish Data Protection Law) compliant
+- Transparent data handling practices
+- Clear privacy policy
+- Regular privacy impact assessments
+- Minimal data collection principle
+
+## Contributing
+
+We welcome contributions! Please read our contributing guidelines before submitting pull requests.
+
+## Local Development
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/ali-gunes/transparent-labour.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Set up the database:
+```bash
+npx prisma migrate dev
+```
 
-## Learn More
+5. Run the development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contact
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For questions or feedback, please use our anonymous contact form on the platform or reach out through GitHub issues.

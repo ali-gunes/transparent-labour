@@ -20,6 +20,8 @@ model User {
   verificationTokenExpiry DateTime?
   resetToken           String?   @unique
   resetTokenExpiry     DateTime?
+  contactToken         String?   @unique
+  contactTokenExpiry   DateTime?
   totalVotes           Int       @default(0)
   isEarlyAdapter       Boolean   @default(false)
   salaries             Salary[]

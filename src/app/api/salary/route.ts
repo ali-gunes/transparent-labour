@@ -230,7 +230,8 @@ export async function GET(req: NextRequest) {
         user: {
           select: {
             totalVotes: true,
-            role: true
+            role: true,
+            isEarlyAdapter: true
           }
         }
       }

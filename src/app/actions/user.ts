@@ -16,6 +16,7 @@ export async function getUserProfile() {
       username: true,
       totalVotes: true,
       role: true,
+      isEarlyAdapter: true,
       salaries: {
         select: {
           id: true,

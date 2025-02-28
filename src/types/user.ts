@@ -2,6 +2,7 @@ export type UserProfile = {
   emailVerified: boolean
   username: string
   role: 'USER' | 'ADMIN'
+  isEarlyAdapter: boolean
   salaries: Array<{
     id: string
     position: string

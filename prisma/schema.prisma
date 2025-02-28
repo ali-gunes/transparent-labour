@@ -8,24 +8,25 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  role      Role     @default(USER)
-  username  String   @unique
-  totalVotes Int     @default(0)
-  salaries  Salary[]
-  votes     Vote[]
-  emailVerified    Boolean   @default(false)
-  verificationToken String?  @unique
+  id                     String    @id @default(cuid())
+  email                  String    @unique
+  password               String
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  role                  Role      @default(USER)
+  username              String    @unique
+  emailVerified         Boolean   @default(false)
+  verificationToken     String?   @unique
   verificationTokenExpiry DateTime?
-  resetToken          String?   @unique
-  resetTokenExpiry    DateTime?
-  contactToken          String?   @unique
-  contactTokenExpiry    DateTime?
+  resetToken           String?   @unique
+  resetTokenExpiry     DateTime?
+  totalVotes           Int       @default(0)
+  isEarlyAdapter       Boolean   @default(false)
+  salaries             Salary[]
+  votes                Vote[]
   anonymousMessages    AnonymousMessage[]
+
+  @@map("users")
 }
 
 model Salary {

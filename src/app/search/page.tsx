@@ -37,6 +37,7 @@ type Salary = {
   user: {
     totalVotes: number
     role: 'USER' | 'ADMIN'
+    isEarlyAdapter: boolean
   }
 }
 
@@ -248,7 +249,11 @@ export default function Search() {
                   </p>
                   <p className="mt-1 text-gray-500 dark:text-gray-400">
                     {tr.profile.submittedBy}: {salary.submittedBy}
-                    <UserBadge voteCount={salary.user.totalVotes} role={salary.user.role} />
+                    <UserBadge 
+                      voteCount={salary.user.totalVotes} 
+                      role={salary.user.role}
+                      isEarlyAdapter={salary.user.isEarlyAdapter} 
+                    />
                   </p>
                 </div>
                 <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>

@@ -127,6 +127,7 @@ export default function SubmitSalary() {
         isCurrent,
         educationLevel: educationLevel || undefined,
         workType: workLocationType === 'remote' ? 'REMOTE' : 'ONSITE',
+        isSameLocation,
         ...(source === 'SELF' && {
           workLifeBalance: Number(formData.get('workLifeBalance')),
           compensationSatisfaction: Number(formData.get('compensationSatisfaction')),

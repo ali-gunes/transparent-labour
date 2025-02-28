@@ -57,6 +57,7 @@ export async function POST(req: Request) {
         isCurrent: data.isCurrent,
         educationLevel: data.educationLevel,
         workType: data.workType,
+        isSameLocation: data.isSameLocation,
         ...(data.source === 'SELF' ? {
           workLifeBalance: parseInt(data.workLifeBalance),
           compensationSatisfaction: parseInt(data.compensationSatisfaction),

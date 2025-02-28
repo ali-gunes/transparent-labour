@@ -58,7 +58,8 @@ model Salary {
   startDate   DateTime?
   endDate     DateTime?
   isCurrent   Boolean   @default(true)
-  workType    String    @default("ONSITE")
+  workType    String    @default("ONSITE") @db.VarChar(50)
+  isSameLocation Boolean @default(true)
 }
 
 model Vote {

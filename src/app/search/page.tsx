@@ -209,7 +209,13 @@ export default function Search() {
                   <p className={`text-sm font-medium ${styles.text} mb-2`}>
                     {salary.workType === 'REMOTE' 
                       ? 'Remote çalışıyor'
-                      : `${salary.location.split(' -> ')[0]}'de ofisten çalışıyor`
+                      : `${salary.location.split(' -> ')[0]}${
+                          ['a', 'ı', 'o', 'u'].includes(salary.location.split(' -> ')[0].slice(-1).toLowerCase()) 
+                            ? '\'da' 
+                            : ['e', 'i', 'ö', 'ü'].includes(salary.location.split(' -> ')[0].slice(-1).toLowerCase())
+                              ? '\'de'
+                              : '\'de'
+                        } ofisten çalışıyor`
                     }
                   </p>
                   

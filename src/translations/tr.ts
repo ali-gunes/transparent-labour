@@ -101,6 +101,8 @@ export const tr = {
       maxSalary: 'En Yüksek Maaş',
       minSalary: 'En Düşük Maaş',
       mostVoted: 'En Çok Oylanan',
+      maxEducation: 'En Yüksek Eğitim',
+      maxExperience: 'En Yüksek Deneyim',
     },
     noResults: 'Sonuç bulunamadı.',
   },

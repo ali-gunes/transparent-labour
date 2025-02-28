@@ -40,7 +40,7 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
     <div className="h-[32rem] w-full">
       <ResponsiveContainer width="100%" height="100%">
         <ScatterChart
-          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
         >
           <CartesianGrid 
             strokeDasharray="3 3" 
@@ -54,9 +54,9 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
             label={{
               value: 'Deneyim (Yıl)',
               position: 'bottom',
-              className: 'fill-gray-800 dark:fill-gray-300'
+              className: 'fill-gray-900 dark:fill-white'
             }}
-            tick={{ className: 'fill-gray-800 dark:fill-gray-300' }}
+            tick={{ className: 'fill-gray-900 dark:fill-white' }}
             stroke="var(--axis-stroke)"
           />
           <YAxis
@@ -68,9 +68,9 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
               value: 'Maaş (TL)',
               angle: -90,
               position: 'left',
-              className: 'fill-gray-800 dark:fill-gray-300'
+              className: 'fill-gray-900 dark:fill-white'
             }}
-            tick={{ className: 'fill-gray-800 dark:fill-gray-300' }}
+            tick={{ className: 'fill-gray-900 dark:fill-white' }}
             stroke="var(--axis-stroke)"
           />
           <Tooltip
@@ -114,7 +114,7 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
           --scatter-fill: #3b82f6;
           --scatter-stroke: #2563eb;
           --grid-stroke: #d1d5db;
-          --axis-stroke: #9ca3af;
+          --axis-stroke: #111827;
         }
         .dark {
           --tooltip-bg: #1f2937;
@@ -123,7 +123,7 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
           --scatter-fill: #60a5fa;
           --scatter-stroke: #3b82f6;
           --grid-stroke: #374151;
-          --axis-stroke: #4b5563;
+          --axis-stroke: #f9fafb;
         }
       `}</style>
     </div>

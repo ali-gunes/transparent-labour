@@ -2,11 +2,13 @@
 
 import type { JSX } from 'react'
 import { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
 import SearchFilters from '@/components/SearchFilters'
 import { commonStyles as styles } from '@/styles/common'
 import { tr } from '@/translations/tr'
 import VoteButtons from '@/components/VoteButtons'
 import UserBadge from '@/components/UserBadge'
+import Link from 'next/link'
 
 type Salary = {
   id: string
@@ -61,6 +63,7 @@ type PaginationInfo = {
 }
 
 export default function Search() {
+  const { data: session } = useSession()
   const [salaries, setSalaries] = useState<Salary[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -105,7 +108,7 @@ export default function Search() {
       // Build query params
       const params = new URLSearchParams()
       params.append('page', pagination.page.toString())
-      params.append('limit', '10')
+      params.append('limit', session ? '10' : '5') // Adjust limit based on auth status
 
       if (filters.search) params.append('search', filters.search)
       if (filters.minSalary) params.append('minSalary', filters.minSalary)
@@ -266,7 +269,20 @@ export default function Search() {
         {!loading && salaries.length === 0 && (
           <p className={styles.textMuted}>{tr.search.noResults}</p>
         )}
-        {!loading && pagination.hasMore && (
+        {!loading && !session && salaries.length > 0 && (
+          <div className="text-center py-6">
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              Daha fazla maaş bilgisi görmek için giriş yapın
+            </p>
+            <Link
+              href="/login"
+              className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Giriş Yap
+            </Link>
+          </div>
+        )}
+        {!loading && session && pagination.hasMore && (
           <button
             onClick={handleLoadMore}
             className={`${styles.button} w-full`}

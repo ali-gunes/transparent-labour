@@ -191,6 +191,16 @@ export async function GET(req: NextRequest) {
       case 'mostVoted':
         orderBy.voteCount = 'desc'
         break
+      case 'maxEducation':
+        // Order by education level using enum order
+        orderBy.educationLevel = {
+          sort: 'desc',
+          nulls: 'last'
+        }
+        break
+      case 'maxExperience':
+        orderBy.experience = 'desc'
+        break
       default:
         orderBy.createdAt = 'desc'
     }
@@ -202,10 +212,15 @@ export async function GET(req: NextRequest) {
     // Get total count for pagination
     const total = await prisma.salary.count({ where })
 
-    // Get paginated results
+    // Get paginated results with proper sorting
     const salaries = await prisma.salary.findMany({
       where,
-      orderBy,
+      orderBy: [
+        ...(sortBy === 'maxEducation' ? [
+          { educationLevel: 'desc' },
+          { createdAt: 'desc' }
+        ] : [orderBy])
+      ],
       skip: (page - 1) * limit,
       take: limit,
       include: {

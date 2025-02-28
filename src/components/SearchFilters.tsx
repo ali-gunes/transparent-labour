@@ -6,8 +6,9 @@ import { commonStyles as styles } from '@/styles/common'
 import debounce from 'lodash/debounce'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 
-type SortOption = 'newest' | 'maxSalary' | 'minSalary' | 'mostVoted'
+type SortOption = 'newest' | 'maxSalary' | 'minSalary' | 'mostVoted' | 'maxEducation' | 'maxExperience'
 type SalaryType = 'all' | 'net' | 'gross'
 type SourceType = 'all' | 'SELF' | 'OTHER'
 type CompanyFocusType = 'TECHNOLOGY' | 'BANKING' | 'FINANCE' | 'MANUFACTURING' | 'DEFENSE' | 'LOGISTICS' | 'RETAIL' | 'HEALTHCARE' | 'EDUCATION' | 'CONSULTING' | 'TELECOM' | 'ENERGY' | 'AUTOMOTIVE' | 'ECOMMERCE' | 'GAMING' | 'MEDIA' | 'OTHER'
@@ -47,6 +48,7 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
     companyFocus: '',
     educationLevel: 'all'
   })
+  const [isCollapsed, setIsCollapsed] = useState(true)
 
   // Create a debounced version of onFilterChange
   const debouncedFilterChange = useCallback(
@@ -111,7 +113,7 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
       minSalary: '',
       maxSalary: '',
       sortBy: 'newest',
-      salaryType: 'all',
+      salaryType: 'net',
       minExperience: '',
       maxExperience: '',
       source: 'all',
@@ -127,7 +129,20 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 mb-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-l font-bold text-gray-800 dark:text-white">{tr.search.filters}</h2>
+        <div className="flex items-center gap-2">
+          <h2 className="text-l font-bold text-gray-800 dark:text-white">{tr.search.filters}</h2>
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="md:hidden inline-flex items-center justify-center p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+            aria-label={isCollapsed ? 'Expand filters' : 'Collapse filters'}
+          >
+            {isCollapsed ? (
+              <ChevronDownIcon className="h-5 w-5 text-gray-500" />
+            ) : (
+              <ChevronUpIcon className="h-5 w-5 text-gray-500" />
+            )}
+          </button>
+        </div>
         <button
           onClick={handleClearFilters}
           className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
@@ -137,7 +152,7 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
         </button>
       </div>
 
-      <div className="space-y-6">
+      <div className={`space-y-6 ${isCollapsed ? 'hidden md:block' : 'block'}`}>
         {/* Search Input */}
         <div>
           <label className={styles.label}>Arama</label>
@@ -206,6 +221,8 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
               <option value="maxSalary">{tr.search.sort.maxSalary}</option>
               <option value="minSalary">{tr.search.sort.minSalary}</option>
               <option value="mostVoted">{tr.search.sort.mostVoted}</option>
+              <option value="maxEducation">En Yüksek Eğitim</option>
+              <option value="maxExperience">En Yüksek Deneyim</option>
             </select>
           </div>
         </div>

@@ -13,11 +13,11 @@ const ThemeContext = createContext<{
 })
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light')
+  const [theme, setTheme] = useState<Theme>('dark')
 
   useEffect(() => {
-    // Check local storage first, if not found use light as default
-    const savedTheme = localStorage.getItem('theme') as Theme || 'light'
+    // Check local storage first, if not found use dark as default
+    const savedTheme = localStorage.getItem('theme') as Theme || 'dark'
     setTheme(savedTheme)
     document.documentElement.classList.toggle('dark', savedTheme === 'dark')
   }, [])

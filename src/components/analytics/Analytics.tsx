@@ -124,28 +124,28 @@ export default function Analytics() {
             {data.educationAnalytics && (
               <div className="overflow-x-auto relative">
                 <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white dark:from-gray-800 pointer-events-none md:hidden" />
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <table className="w-full divide-y divide-gray-200 dark:divide-gray-700">
                   <thead>
                     <tr>
-                      <th className="px-3 md:px-6 py-2 md:py-3 text-left text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Eğitim</th>
-                      <th className="px-3 md:px-6 py-2 md:py-3 text-left text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ort. Maaş</th>
-                      <th className="px-3 md:px-6 py-2 md:py-3 text-left text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Çalışan</th>
-                      <th className="px-3 md:px-6 py-2 md:py-3 text-left text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ort. Deneyim</th>
+                      <th className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-3 text-left text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap">Eğitim</th>
+                      <th className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-3 text-left text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap">Ort. Maaş</th>
+                      <th className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-3 text-left text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap">Çalışan</th>
+                      <th className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-3 text-left text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap">Ort. Den.</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {data.educationAnalytics.map((education) => (
                       <tr key={education.level} className="hover:bg-gray-50 hover:dark:bg-gray-700/50">
-                        <td className="px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm text-gray-900 dark:text-gray-100">
+                        <td className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-4 text-[10px] sm:text-[11px] md:text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap">
                           {tr.search.educationLevels[education.level as keyof typeof tr.search.educationLevels]}
                         </td>
-                        <td className="px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm text-gray-900 dark:text-gray-100">
+                        <td className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-4 text-[10px] sm:text-[11px] md:text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap">
                           {formatCurrency(Math.round(education.averageSalary / 500) * 500)}
                         </td>
-                        <td className="px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm text-gray-900 dark:text-gray-100">
+                        <td className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-4 text-[10px] sm:text-[11px] md:text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap">
                           {education.employeeCount}
                         </td>
-                        <td className="px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm text-gray-900 dark:text-gray-100">
+                        <td className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-4 text-[10px] sm:text-[11px] md:text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap">
                           {education.experienceAvg.toFixed(1)} yıl
                         </td>
                       </tr>
@@ -169,28 +169,28 @@ export default function Analytics() {
             {data.companyFocusAnalytics && (
               <div className="overflow-x-auto relative">
                 <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white dark:from-gray-800 pointer-events-none md:hidden" />
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <table className="w-full divide-y divide-gray-200 dark:divide-gray-700">
                   <thead>
                     <tr>
-                      <th className="px-3 md:px-6 py-2 md:py-3 text-left text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Sektör</th>
-                      <th className="px-3 md:px-6 py-2 md:py-3 text-left text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ort. Maaş</th>
-                      <th className="px-3 md:px-6 py-2 md:py-3 text-left text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Çalışan</th>
-                      <th className="px-3 md:px-6 py-2 md:py-3 text-left text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ort. Deneyim</th>
+                      <th className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-3 text-left text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap">Sektör</th>
+                      <th className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-3 text-left text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap">Ort. Maaş</th>
+                      <th className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-3 text-left text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap">Çalışan</th>
+                      <th className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-3 text-left text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap">Ort. Den.</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {data.companyFocusAnalytics.map((focus) => (
                       <tr key={focus.focus} className="hover:bg-gray-50 hover:dark:bg-gray-700/50">
-                        <td className="px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm text-gray-900 dark:text-gray-100">
+                        <td className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-4 text-[10px] sm:text-[11px] md:text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap">
                           {tr.submit.companyFocusTypes[focus.focus as keyof typeof tr.submit.companyFocusTypes]}
                         </td>
-                        <td className="px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm text-gray-900 dark:text-gray-100">
+                        <td className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-4 text-[10px] sm:text-[11px] md:text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap">
                           {formatCurrency(Math.round(focus.averageSalary / 500) * 500)}
                         </td>
-                        <td className="px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm text-gray-900 dark:text-gray-100">
+                        <td className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-4 text-[10px] sm:text-[11px] md:text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap">
                           {focus.employeeCount}
                         </td>
-                        <td className="px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm text-gray-900 dark:text-gray-100">
+                        <td className="px-1.5 sm:px-2 md:px-6 py-1.5 sm:py-2 md:py-4 text-[10px] sm:text-[11px] md:text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap">
                           {focus.experienceAvg.toFixed(1)} yıl
                         </td>
                       </tr>

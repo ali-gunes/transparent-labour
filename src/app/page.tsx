@@ -220,13 +220,25 @@ export default function Home() {
           {/* <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
             {tr.home.subtitle}
           </p> */}
-          <p className="text-lg text-blue-600 dark:text-blue-400 mb-16 max-w-2xl mx-auto font-medium">
+          <p className="text-lg text-blue-600 dark:text-blue-400 mb-8 max-w-2xl mx-auto font-medium">
             {tr.home.subtitleTagline}
           </p>
+          <div className="mt-4">
+            <a
+              href="/signup"
+              className="inline-block px-8 py-4 text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-lg transition-colors duration-200 transform hover:scale-105"
+            >
+              Bize Katıl
+            </a>
+          </div>
+          <br />
           <RotatingFacts />
           
+          <br />
           <div className="space-y-6">
-            
+          <p className="text-lg text-gray-500 dark:text-gray-400 italic">
+            Kullanıcılarımızın Toplam Katkıları
+          </p>
             <div className="grid grid-cols-2 gap-6 max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
               <div className="text-center">
                 <div className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
@@ -253,9 +265,8 @@ export default function Home() {
                 <div className="text-xs md:text-sm text-gray-700 dark:text-gray-400">Lokasyon</div>
               </div>
             </div>
-            <p className="text-lg text-gray-500 dark:text-gray-400 italic">
-            Kullanıcılarımızın Toplam Katkıları
-          </p>
+            
+          
           </div>
         </section>
         
@@ -377,7 +388,7 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section className="max-w-4xl mx-auto px-4 py-12">
+        <section id="faq" className="max-w-4xl mx-auto px-4 py-12">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">{tr.home.faq}</h2>
           <div className="space-y-6">
             <FAQItem title={tr.home.anonymousTitle} content={tr.home.anonymousDesc} />

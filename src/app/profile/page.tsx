@@ -60,7 +60,7 @@ export default function ProfilePage() {
                   email={session!.user.email}
                 />
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-600 dark:text-gray-400">
+                  <span className="text-gray-800 dark:text-gray-400">
                     Profil Durumu:
                   </span>
                   <span className="font-semibold text-gray-900 dark:text-white">
@@ -72,7 +72,7 @@ export default function ProfilePage() {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-600 dark:text-gray-400">
+                  <span className="text-gray-800 dark:text-gray-400">
                     Toplam Katkı Puanı:
                   </span>
                   <span className="font-semibold text-gray-900 dark:text-white">
@@ -86,8 +86,6 @@ export default function ProfilePage() {
               <ContactTokenGenerator />
             </div>
           </div>
-
-
         )
         
       case 'notifications':
@@ -231,14 +229,14 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8">
-      <h1 className="text-2xl font-bold mb-8">Merhaba, {profile.username}</h1>
+      <h1 className="text-2xl font-bold mb-8 text-gray-900 dark:text-white">Merhaba, {profile.username}</h1>
 
       <div className="flex border-b border-gray-200 dark:border-gray-700 mb-6">
         <button
           onClick={() => setActiveTab('profile')}
           className={`px-4 py-2 -mb-px ${activeTab === 'profile'
-            ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
-            : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            ? 'border-b-2 border-blue-500 text-blue-600'
+            : 'text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200'
             }`}
         >
           Profil
@@ -246,8 +244,8 @@ export default function ProfilePage() {
         <button
           onClick={() => setActiveTab('notifications')}
           className={`px-4 py-2 -mb-px ${activeTab === 'notifications'
-            ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
-            : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            ? 'border-b-2 border-blue-500 text-blue-600'
+            : 'text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200'
             }`}
         >
           İletişim
@@ -255,8 +253,8 @@ export default function ProfilePage() {
         <button
           onClick={() => setActiveTab('salaries')}
           className={`px-4 py-2 -mb-px ${activeTab === 'salaries'
-            ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
-            : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            ? 'border-b-2 border-blue-500 text-blue-600'
+            : 'text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200'
             }`}
         >
           Katkılarım
@@ -264,8 +262,8 @@ export default function ProfilePage() {
         <button
           onClick={() => setActiveTab('password')}
           className={`px-4 py-2 -mb-px ${activeTab === 'password'
-            ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
-            : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            ? 'border-b-2 border-blue-500 text-blue-600'
+            : 'text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200'
             }`}
         >
           Şifre Değiştir

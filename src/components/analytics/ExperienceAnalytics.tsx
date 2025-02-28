@@ -21,11 +21,16 @@ interface ExperienceAnalyticsProps {
 
 export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) {
   const formatCurrency = (amount: number) => {
+    // Add random variance between -7% and +7%
+    const variance = 0.07 // 7%
+    const randomFactor = 1 + (Math.random() * variance * 2 - variance)
+    const variedAmount = amount * randomFactor
+    
     return new Intl.NumberFormat('tr-TR', {
-      style: 'currency',
+      style: 'currency', 
       currency: 'TRY',
       maximumFractionDigits: 0
-    }).format(amount)
+    }).format(variedAmount)
   }
 
   if (data.length === 0) {

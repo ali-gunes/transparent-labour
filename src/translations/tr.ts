@@ -167,7 +167,7 @@ export const tr = {
       self: 'Kendi Maaşım',
       other: 'Başka Birinden',
     },
-    sourceNote: 'Kaynak Detayı (opsiyonel)',
+    sourceNote: 'Kaynak Detayı',
     sourceNotePlaceholder: 'Örn: Bir arkadaştan, LinkedIn gönderisi, vb.',
     submit: 'Gönder',
     placeholders: {

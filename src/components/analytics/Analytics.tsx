@@ -135,7 +135,7 @@ export default function Analytics() {
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {data.educationAnalytics.map((education) => (
-                      <tr key={education.level} className="hover:bg-gray-50 dark:hover:bg-gray-750">
+                      <tr key={education.level} className="hover:bg-gray-50 hover:dark:bg-gray-700/50">
                         <td className="px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm text-gray-900 dark:text-gray-100">
                           {tr.search.educationLevels[education.level as keyof typeof tr.search.educationLevels]}
                         </td>
@@ -180,7 +180,7 @@ export default function Analytics() {
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {data.companyFocusAnalytics.map((focus) => (
-                      <tr key={focus.focus} className="hover:bg-gray-50 dark:hover:bg-gray-750">
+                      <tr key={focus.focus} className="hover:bg-gray-50 hover:dark:bg-gray-700/50">
                         <td className="px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm text-gray-900 dark:text-gray-100">
                           {tr.submit.companyFocusTypes[focus.focus as keyof typeof tr.submit.companyFocusTypes]}
                         </td>

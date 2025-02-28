@@ -20,18 +20,27 @@ interface ExperienceAnalyticsProps {
 }
 
 export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) {
-  const formatCurrency = (amount: number) => {
-    // Add random variance between -7% and +7%
+  // Function to add variance to salary
+  const addVarianceToSalary = (amount: number) => {
     const variance = 0.07 // 7%
     const randomFactor = 1 + (Math.random() * variance * 2 - variance)
     const variedAmount = amount * randomFactor
-    
+    return Math.round(variedAmount / 500) * 500
+  }
+
+  const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('tr-TR', {
       style: 'currency', 
       currency: 'TRY',
       maximumFractionDigits: 0
-    }).format(variedAmount)
+    }).format(amount)
   }
+
+  // Add variance to the data points
+  const dataWithVariance = data.map(point => ({
+    ...point,
+    displaySalary: addVarianceToSalary(point.salary)
+  }))
 
   if (data.length === 0) {
     return (
@@ -66,7 +75,7 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
           />
           <YAxis
             type="number"
-            dataKey="salary"
+            dataKey="displaySalary"
             name="Maaş"
             tickFormatter={(value) => `${(value / 1000)}k`}
             label={{
@@ -80,7 +89,7 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
           />
           <Tooltip
             formatter={(value: number, name: string) => {
-              if (name === 'salary') return [formatCurrency(value), 'Maaş']
+              if (name === 'displaySalary') return [formatCurrency(value), 'Maaş']
               if (name === 'experience') return [`${value} yıl`, 'Deneyim']
               return [value, name]
             }}
@@ -90,6 +99,12 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
               borderRadius: '0.375rem',
               color: 'var(--tooltip-text)',
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+            }}
+            itemStyle={{
+              color: 'var(--tooltip-text)'
+            }}
+            labelStyle={{
+              color: 'var(--tooltip-text)'
             }}
             cursor={{ strokeDasharray: '3 3' }}
             labelFormatter={(_, points) => {
@@ -101,7 +116,7 @@ export default function ExperienceAnalytics({ data }: ExperienceAnalyticsProps) 
           />
           <Scatter
             name="Maaş-Deneyim"
-            data={data}
+            data={dataWithVariance}
             fill="var(--scatter-fill)"
             stroke="var(--scatter-stroke)"
             fillOpacity={0.8}

@@ -270,6 +270,7 @@ export default function SubmitSalary() {
                   className={styles.select}
                   value={educationLevel}
                   onChange={(e) => setEducationLevel(e.target.value as EducationLevel)}
+                  required
                 >
                   <option value="">Seçiniz</option>
                   {Object.entries(tr.submit.educationLevels).map(([key, value]) => (
@@ -340,6 +341,7 @@ export default function SubmitSalary() {
                     maxLength={100}
                     placeholder={tr.submit.placeholders.company}
                     field="company"
+                    required={!hideCompany}
                   />
                 )}
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 italic">

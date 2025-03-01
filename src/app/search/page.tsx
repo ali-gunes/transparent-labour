@@ -36,6 +36,7 @@ type Salary = {
   educationLevel?: string
   workType: string
   isSameLocation: boolean
+  status: 'APPROVED' | 'ARCHIVED' | 'GENERATED' | 'DISAPPROVED' | 'INVESTIGATED'
   user: {
     totalVotes: number
     role: 'USER' | 'ADMIN'
@@ -176,13 +177,20 @@ export default function Search() {
                     {salary.location.split(' -> ')[0]}
                   </p>
                 </div>
-                <span className={styles.textSmall}>
-                  {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}
-                </span>
+                <div className="flex flex-col items-end gap-2">
+                  {salary.status === 'APPROVED' && (
+                    <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded dark:bg-green-900 dark:text-green-300">
+                      Onaylanmış Maaş
+                    </span>
+                  )}
+                  <span className={styles.textSmall}>
+                    {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
               </div>
               <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
               <p className={`text-lg font-medium ${styles.text} mb-2`}>

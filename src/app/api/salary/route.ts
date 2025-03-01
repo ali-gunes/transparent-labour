@@ -249,6 +249,7 @@ export async function GET(req: NextRequest) {
         endDate: true,
         isCurrent: true,
         workType: true,
+        status: true,
         user: {
           select: {
             totalVotes: true,

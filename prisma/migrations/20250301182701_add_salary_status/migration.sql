@@ -1,0 +1,5 @@
+-- CreateEnum
+CREATE TYPE "SalaryStatus" AS ENUM ('APPROVED', 'ARCHIVED', 'GENERATED', 'DISAPPROVED', 'INVESTIGATED');
+
+-- AlterTable
+ALTER TABLE "Salary" ADD COLUMN     "status" "SalaryStatus" NOT NULL DEFAULT 'INVESTIGATED';

@@ -54,6 +54,7 @@ model Salary {
   salarySatisfaction Int?
   educationLevel EducationLevel?
   gender     Gender    @default(UNSPECIFIED)
+  status     SalaryStatus @default(INVESTIGATED)
   user        User     @relation(fields: [userId], references: [id])
   votes       Vote[]
   startDate   DateTime?
@@ -163,4 +164,12 @@ enum Gender {
   MALE
   FEMALE
   UNSPECIFIED
+}
+
+enum SalaryStatus {
+  APPROVED
+  ARCHIVED
+  GENERATED
+  DISAPPROVED
+  INVESTIGATED
 }

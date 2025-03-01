@@ -49,6 +49,7 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
     educationLevel: 'all'
   })
   const [isCollapsed, setIsCollapsed] = useState(true)
+  const [localFilters, setLocalFilters] = useState(filters)
 
   // Create a debounced version of onFilterChange
   const debouncedFilterChange = useCallback(
@@ -57,21 +58,6 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
     }, 300),
     [onFilterChange]
   )
-
-  // Update URL with current filters
-  useEffect(() => {
-    const params = new URLSearchParams()
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value && value !== 'all' && value !== 'newest') {
-        if (value instanceof Date) {
-          params.set(key, value.toISOString())
-        } else {
-          params.set(key, value)
-        }
-      }
-    })
-    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`)
-  }, [filters])
 
   // Initialize filters from URL params
   useEffect(() => {
@@ -97,14 +83,33 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
 
     if (Object.keys(newFilters).length > 0) {
       setFilters(prev => ({ ...prev, ...newFilters }))
+      setLocalFilters(prev => ({ ...prev, ...newFilters }))
       onFilterChange({ ...filters, ...newFilters })
     }
   }, [])
 
-  function handleChange(key: keyof Filters, value: any) {
-    const newFilters = { ...filters, [key]: value }
-    setFilters(newFilters)
-    debouncedFilterChange(newFilters)
+  // Update URL with current filters
+  useEffect(() => {
+    const params = new URLSearchParams()
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value && value !== 'all' && value !== 'newest') {
+        if (value instanceof Date) {
+          params.set(key, value.toISOString())
+        } else {
+          params.set(key, value)
+        }
+      }
+    })
+    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`)
+  }, [filters])
+
+  function handleLocalChange(key: keyof Filters, value: any) {
+    setLocalFilters(prev => ({ ...prev, [key]: value }))
+  }
+
+  function handleApplyFilters() {
+    setFilters(localFilters)
+    onFilterChange(localFilters)
   }
 
   function handleClearFilters() {
@@ -123,6 +128,7 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
       educationLevel: 'all'
     }
     setFilters(defaultFilters)
+    setLocalFilters(defaultFilters)
     onFilterChange(defaultFilters)
   }
 
@@ -143,13 +149,15 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
             )}
           </button>
         </div>
-        <button
-          onClick={handleClearFilters}
-          className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-          disabled={isLoading}
-        >
-          {tr.search.clearFilters}
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={handleClearFilters}
+            className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            disabled={isLoading}
+          >
+            {tr.search.clearFilters}
+          </button>
+        </div>
       </div>
 
       <div className={`space-y-6 ${isCollapsed ? 'hidden md:block' : 'block'}`}>
@@ -160,8 +168,8 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
             type="text"
             placeholder={tr.search.searchPlaceholder}
             className={styles.input}
-            value={filters.search}
-            onChange={(e) => handleChange('search', e.target.value)}
+            value={localFilters.search}
+            onChange={(e) => handleLocalChange('search', e.target.value)}
             disabled={isLoading}
           />
         </div>
@@ -174,22 +182,20 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
               type="number"
               placeholder={tr.search.minSalary}
               className={styles.input}
-              value={filters.minSalary}
-              onChange={(e) => handleChange('minSalary', e.target.value)}
+              value={localFilters.minSalary}
+              onChange={(e) => handleLocalChange('minSalary', e.target.value)}
               disabled={isLoading}
             />
             <input
               type="number"
               placeholder={tr.search.maxSalary}
               className={styles.input}
-              value={filters.maxSalary}
-              onChange={(e) => handleChange('maxSalary', e.target.value)}
+              value={localFilters.maxSalary}
+              onChange={(e) => handleLocalChange('maxSalary', e.target.value)}
               disabled={isLoading}
             />
           </div>
         </div>
-
-
 
         {/* Experience Range */}
         <div>
@@ -199,16 +205,16 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
               type="number"
               placeholder={tr.search.minExperience}
               className={styles.input}
-              value={filters.minExperience}
-              onChange={(e) => handleChange('minExperience', e.target.value)}
+              value={localFilters.minExperience}
+              onChange={(e) => handleLocalChange('minExperience', e.target.value)}
               disabled={isLoading}
             />
             <input
               type="number"
               placeholder={tr.search.maxExperience}
               className={styles.input}
-              value={filters.maxExperience}
-              onChange={(e) => handleChange('maxExperience', e.target.value)}
+              value={localFilters.maxExperience}
+              onChange={(e) => handleLocalChange('maxExperience', e.target.value)}
               disabled={isLoading}
             />
           </div>
@@ -219,8 +225,8 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
           <label className={styles.label}>Tarih Aralığı</label>
           <div className="grid grid-cols-2 gap-2">
             <DatePicker
-              selected={filters.startDate}
-              onChange={(date) => handleChange('startDate', date)}
+              selected={localFilters.startDate}
+              onChange={(date) => handleLocalChange('startDate', date)}
               className={styles.input}
               placeholderText={tr.search.startDate}
               dateFormat="MM/yyyy"
@@ -228,8 +234,8 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
               disabled={isLoading}
             />
             <DatePicker
-              selected={filters.endDate}
-              onChange={(date) => handleChange('endDate', date)}
+              selected={localFilters.endDate}
+              onChange={(date) => handleLocalChange('endDate', date)}
               className={styles.input}
               placeholderText={tr.search.endDate}
               dateFormat="MM/yyyy"
@@ -248,8 +254,8 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
             <select
               id="companyFocus"
               className={styles.select}
-              value={filters.companyFocus}
-              onChange={(e) => handleChange('companyFocus', e.target.value)}
+              value={localFilters.companyFocus}
+              onChange={(e) => handleLocalChange('companyFocus', e.target.value)}
               disabled={isLoading}
             >
               <option value="">{tr.search.companyFocus.all}</option>
@@ -268,8 +274,8 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
             <select
               id="educationLevel"
               className={styles.select}
-              value={filters.educationLevel}
-              onChange={(e) => handleChange('educationLevel', e.target.value)}
+              value={localFilters.educationLevel}
+              onChange={(e) => handleLocalChange('educationLevel', e.target.value)}
               disabled={isLoading}
             >
               {Object.entries(tr.search.educationLevels).map(([value, label]) => (
@@ -279,9 +285,8 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
               ))}
             </select>
           </div>
-
-
         </div>
+
         {/* Salary Type and Sort */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -290,8 +295,8 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
             </label>
             <select
               className={styles.select}
-              value={filters.salaryType}
-              onChange={(e) => handleChange('salaryType', e.target.value as SalaryType)}
+              value={localFilters.salaryType}
+              onChange={(e) => handleLocalChange('salaryType', e.target.value as SalaryType)}
               disabled={isLoading}
             >
               <option value="all">{tr.search.salaryType.all}</option>
@@ -306,8 +311,8 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
             </label>
             <select
               className={styles.select}
-              value={filters.sortBy}
-              onChange={(e) => handleChange('sortBy', e.target.value as SortOption)}
+              value={localFilters.sortBy}
+              onChange={(e) => handleLocalChange('sortBy', e.target.value as SortOption)}
               disabled={isLoading}
             >
               <option value="newest">{tr.search.sort.newest}</option>
@@ -318,6 +323,17 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
               <option value="maxExperience">En Yüksek Deneyim</option>
             </select>
           </div>
+        </div>
+
+        {/* Apply Filters Button */}
+        <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
+          <button
+            onClick={handleApplyFilters}
+            disabled={isLoading}
+            className={`${styles.button} px-6 py-2`}
+          >
+            Filtreleri Uygula
+          </button>
         </div>
       </div>
     </div>

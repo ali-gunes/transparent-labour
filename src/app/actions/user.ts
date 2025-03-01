@@ -41,6 +41,7 @@ export async function getUserProfile() {
           companyFocus: true,
           educationLevel: true,
           workType: true,
+          status: true,
           votes: {
             where: { userId: session.user.id },
             select: { value: true }

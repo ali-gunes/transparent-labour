@@ -27,6 +27,7 @@ export type UserProfile = {
     endDate: Date | null
     isCurrent: boolean
     workType: string
+    status: 'APPROVED' | 'ARCHIVED' | 'GENERATED' | 'DISAPPROVED' | 'INVESTIGATED'
   }>
   totalVotes: number
 } 

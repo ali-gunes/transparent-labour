@@ -114,6 +114,7 @@ export const tr = {
       net: 'Net Maaş',
       gross: 'Brüt Maaş',
     },
+    genderNote: 'Not: Cinsiyet bilgisi, uygulamanın hiçbir yerinde hesabınızla ilişkilendirilmez, görünmez ya da görüntülenmez. Cinsiyet bilgisi yalnızca maaş dağılım analizlerinde anonim bir şekilde kullanılır.',
     educationLevel: 'Eğitim Seviyesi',
     educationLevels: {
       HIGH_SCHOOL: 'Lise',

@@ -8,7 +8,7 @@ import { tr } from '@/translations/tr'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import AutocompleteInput from '@/components/AutocompleteInput'
-import { CompanyFocus, EducationLevel } from '@prisma/client'
+import { CompanyFocus, EducationLevel, Gender } from '@prisma/client'
 import { turkishCities, popularCountries } from '@/data/locations'
 
 // Add helper function for text formatting
@@ -43,6 +43,8 @@ export default function SubmitSalary() {
   const [companyCountry, setCompanyCountry] = useState('Türkiye')
   const [workLocationType, setWorkLocationType] = useState('on-site')
   const [confirmedLowSalary, setConfirmedLowSalary] = useState(false)
+  const [gender, setGender] = useState<Gender>(Gender.UNSPECIFIED)
+  const [hideGender, setHideGender] = useState(false)
 
   // Redirect if not authenticated
   if (session === null) {
@@ -124,8 +126,9 @@ export default function SubmitSalary() {
         endDate: !isCurrent ? endDate : null,
         isCurrent,
         educationLevel: educationLevel || undefined,
-        workType: workLocationType === 'remote' ? 'REMOTE' : 'ONSITE',
+        workType: workLocationType === 'remote' ? 'REMOTE' : workLocationType === 'hybrid' ? 'HYBRID' : 'ONSITE',
         isSameLocation,
+        gender: hideGender ? Gender.UNSPECIFIED : gender,
         ...(source === 'SELF' && {
           workLifeBalance: Number(formData.get('workLifeBalance')),
           compensationSatisfaction: Number(formData.get('compensationSatisfaction')),
@@ -277,6 +280,47 @@ export default function SubmitSalary() {
                 </select>
               </div>
               <div>
+                <label className={`${styles.label} text-lg`}>
+                  Cinsiyet
+                </label>
+                <div className="space-y-4">
+                  <div className="flex flex-col gap-2">
+                    <select
+                      id="gender"
+                      name="gender"
+                      className={`${styles.select} h-12 text-lg ${hideGender ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
+                      value={gender}
+                      onChange={(e) => setGender(e.target.value as Gender)}
+                      disabled={hideGender}
+                    >
+                      <option value={Gender.MALE}>Erkek</option>
+                      <option value={Gender.FEMALE}>Kadın</option>
+                    </select>
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="hideGender"
+                        checked={hideGender}
+                        onChange={(e) => {
+                          setHideGender(e.target.checked)
+                          if (e.target.checked) {
+                            setGender(Gender.UNSPECIFIED)
+                          }
+                        }}
+                        className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                      />
+                      <label htmlFor="hideGender" className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                        Cinsiyet belirtmek istemiyorum
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 italic">
+                  {tr.submit.genderNote}
+                </p>
+              <div>
                 <AutocompleteInput
                   id="position"
                   name="position"
@@ -414,6 +458,7 @@ export default function SubmitSalary() {
                         {isSameLocation ? (
                           <>
                             <option value="on-site">Ofisten</option>
+                            <option value="hybrid">Hibrit</option>
                             <option value="remote">Remote</option>
                           </>
                         ) : (
@@ -497,7 +542,6 @@ export default function SubmitSalary() {
                 </select>
               </div>
               
-            </div>
 
             {source === 'OTHER' && (
               <div className="mt-6">

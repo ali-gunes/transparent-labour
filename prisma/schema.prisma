@@ -53,6 +53,7 @@ model Salary {
   compensationSatisfaction Int?
   salarySatisfaction Int?
   educationLevel EducationLevel?
+  gender     Gender    @default(UNSPECIFIED)
   user        User     @relation(fields: [userId], references: [id])
   votes       Vote[]
   startDate   DateTime?
@@ -156,4 +157,10 @@ enum EducationLevel {
   MASTERS
   PHD
   OTHER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  UNSPECIFIED
 }

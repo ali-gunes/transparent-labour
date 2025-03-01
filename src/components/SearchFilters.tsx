@@ -189,43 +189,7 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
           </div>
         </div>
 
-        {/* Salary Type and Sort */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="salaryType" className={styles.label}>
-              Maaş Türü
-            </label>
-            <select
-              className={styles.select}
-              value={filters.salaryType}
-              onChange={(e) => handleChange('salaryType', e.target.value as SalaryType)}
-              disabled={isLoading}
-            >
-              <option value="all">{tr.search.salaryType.all}</option>
-              <option value="net">{tr.search.salaryType.net}</option>
-              <option value="gross">{tr.search.salaryType.gross}</option>
-            </select>
-          </div>
 
-          <div>
-            <label htmlFor="sortBy" className={styles.label}>
-              Sıralama
-            </label>
-            <select
-              className={styles.select}
-              value={filters.sortBy}
-              onChange={(e) => handleChange('sortBy', e.target.value as SortOption)}
-              disabled={isLoading}
-            >
-              <option value="newest">{tr.search.sort.newest}</option>
-              <option value="maxSalary">{tr.search.sort.maxSalary}</option>
-              <option value="minSalary">{tr.search.sort.minSalary}</option>
-              <option value="mostVoted">{tr.search.sort.mostVoted}</option>
-              <option value="maxEducation">En Yüksek Eğitim</option>
-              <option value="maxExperience">En Yüksek Deneyim</option>
-            </select>
-          </div>
-        </div>
 
         {/* Experience Range */}
         <div>
@@ -313,6 +277,45 @@ export default function SearchFilters({ onFilterChange, isLoading }: SearchFilte
                   {label}
                 </option>
               ))}
+            </select>
+          </div>
+
+
+        </div>
+        {/* Salary Type and Sort */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="salaryType" className={styles.label}>
+              Maaş Türü
+            </label>
+            <select
+              className={styles.select}
+              value={filters.salaryType}
+              onChange={(e) => handleChange('salaryType', e.target.value as SalaryType)}
+              disabled={isLoading}
+            >
+              <option value="all">{tr.search.salaryType.all}</option>
+              <option value="net">{tr.search.salaryType.net}</option>
+              <option value="gross">{tr.search.salaryType.gross}</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="sortBy" className={styles.label}>
+              Sıralama
+            </label>
+            <select
+              className={styles.select}
+              value={filters.sortBy}
+              onChange={(e) => handleChange('sortBy', e.target.value as SortOption)}
+              disabled={isLoading}
+            >
+              <option value="newest">{tr.search.sort.newest}</option>
+              <option value="maxSalary">{tr.search.sort.maxSalary}</option>
+              <option value="minSalary">{tr.search.sort.minSalary}</option>
+              <option value="mostVoted">{tr.search.sort.mostVoted}</option>
+              <option value="maxEducation">En Yüksek Eğitim</option>
+              <option value="maxExperience">En Yüksek Deneyim</option>
             </select>
           </div>
         </div>

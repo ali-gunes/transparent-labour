@@ -90,14 +90,14 @@ export default function Search() {
     totalPages: 1,
     hasMore: false
   })
-  
+
   const educationLevels = {
-      HIGH_SCHOOL: 'Lise',
-      ASSOCIATE: 'Ön Lisans',
-      BACHELORS: 'Lisans',
-      MASTERS: 'Yüksek Lisans',
-      PHD: 'Doktora',
-      OTHER: 'Diğer',
+    HIGH_SCHOOL: 'Lise',
+    ASSOCIATE: 'Ön Lisans',
+    BACHELORS: 'Lisans',
+    MASTERS: 'Yüksek Lisans',
+    PHD: 'Doktora',
+    OTHER: 'Diğer',
   }
 
   useEffect(() => {
@@ -177,7 +177,7 @@ export default function Search() {
                   </p>
                 </div>
                 <span className={styles.textSmall}>
-                {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
+                  {new Date(salary.createdAt).toLocaleDateString("tr-TR", {
                     day: "2-digit",
                     month: "2-digit",
                     year: "numeric",
@@ -191,15 +191,15 @@ export default function Search() {
               </p>
               {/* Add duration info */}
               <p className={`text-base font-medium ${styles.text} mb-2`}>
-                    {new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}
-                    {' - '}
-                    {salary.isCurrent 
-                      ? 'Devam ediyor'
-                      : salary.endDate 
-                        ? new Date(salary.endDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })
-                        : ''
-                    }
-                  </p>
+                {new Date(salary.startDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}
+                {' - '}
+                {salary.isCurrent
+                  ? 'Devam ediyor'
+                  : salary.endDate
+                    ? new Date(salary.endDate).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })
+                    : ''
+                }
+              </p>
               <div className="relative">
                 <div className={styles.textSmall}>
                   <p className={`text-base font-medium ${styles.text} mb-2`}>{salary.experience} yıl deneyim</p>
@@ -207,19 +207,18 @@ export default function Search() {
                     {educationLevels[salary.educationLevel as keyof typeof educationLevels]} mezunu
                   </p>
                   <p className={`text-sm font-medium ${styles.text} mb-2`}>
-                    {salary.workType === 'REMOTE' 
+                    {salary.workType === 'REMOTE'
                       ? 'Remote çalışıyor'
-                      : `${salary.location.split(' -> ')[0]}${
-                          ['a', 'ı', 'o', 'u'].includes(salary.location.split(' -> ')[0].slice(-1).toLowerCase()) 
-                            ? '\'da' 
-                            : ['e', 'i', 'ö', 'ü'].includes(salary.location.split(' -> ')[0].slice(-1).toLowerCase())
-                              ? '\'de'
-                              : '\'de'
-                        } ofisten çalışıyor`
+                      : `${salary.location.split(' -> ')[0]}${['a', 'ı', 'o', 'u'].includes(salary.location.split(' -> ')[0].slice(-1).toLowerCase())
+                        ? '\'da'
+                        : ['e', 'i', 'ö', 'ü'].includes(salary.location.split(' -> ')[0].slice(-1).toLowerCase())
+                          ? '\'de'
+                          : '\'de'
+                      } ofisten çalışıyor`
                     }
                   </p>
-                  
-                  
+
+
 
                   {salary.source === 'SELF' && (
                     <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
@@ -258,7 +257,7 @@ export default function Search() {
                     </div>
                   )}
                   <div className="mt-4 border-t border-gray-200 dark:border-gray-700"></div>
-                  
+
                   <p className="mt-2">
                     {tr.profile.source}: {salary.source === 'SELF' ? tr.profile.sourceSelf : tr.profile.sourceOther}
                     {salary.sourceNote && (
@@ -267,10 +266,10 @@ export default function Search() {
                   </p>
                   <p className="mt-1 text-gray-500 dark:text-gray-400">
                     {tr.profile.submittedBy}: {salary.submittedBy}
-                    <UserBadge 
-                      voteCount={salary.user.totalVotes} 
+                    <UserBadge
+                      voteCount={salary.user.totalVotes}
                       role={salary.user.role}
-                      isEarlyAdapter={salary.user.isEarlyAdapter} 
+                      isEarlyAdapter={salary.user.isEarlyAdapter}
                     />
                   </p>
                 </div>

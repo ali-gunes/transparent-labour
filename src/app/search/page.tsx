@@ -112,7 +112,7 @@ export default function Search() {
       // Build query params
       const params = new URLSearchParams()
       params.append('page', pagination.page.toString())
-      params.append('limit', session ? '10' : '5') // Adjust limit based on auth status
+      params.append('limit', session ? '10' : '3') // Adjust limit based on auth status
 
       if (filters.search) params.append('search', filters.search)
       if (filters.minSalary) params.append('minSalary', filters.minSalary)

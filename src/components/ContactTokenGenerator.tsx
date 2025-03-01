@@ -158,7 +158,7 @@ export default function ContactTokenGenerator() {
         </div>
       ) : (
         <p className="text-gray-600 dark:text-gray-400">
-          Bizimle anonim olarak iletişime geçmek için iletişim kodu oluşturabilirsin.
+          Bizimle anonim olarak iletişime geçmek için aşağıdaki butonu kullanarak iletişim kodu oluşturabilirsin. Bu kod ile iletişim sayfasındaki "Üye İletişimi" formundaki alana yapıştırarak bizimle iletişime geçebilirsin.
         </p>
       )}
 
